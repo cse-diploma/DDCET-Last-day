@@ -1,0 +1,1534 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Computer Practice — Complete Exam Guide</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f0f2f5;--bg2:#e8eaee;--bg3:#ffffff;
+  --card:#ffffff;--card2:#f8f9fb;
+  --border:#d4d8e1;--border2:#b8bdc9;
+  --text:#1a1d26;--text2:#4a5068;--text3:#8890a8;
+  --blue:#1a6bff;--blue2:#e8f0ff;--blue3:#c5d8ff;
+  --green:#00b36b;--green2:#e6f8f2;
+  --amber:#e67c00;--amber2:#fff4e6;
+  --red:#e02424;--red2:#fde8e8;
+  --purple:#7c3aed;--purple2:#f0ebff;
+  --cyan:#0096a8;--cyan2:#e0f5f7;
+  --mono:'Space Mono',monospace;
+  --sans:'IBM Plex Sans',sans-serif;
+  --display:'Syne',sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:100vh;}
+
+/* SIDEBAR */
+.sidebar{position:fixed;left:0;top:0;height:100vh;width:255px;background:var(--text);display:flex;flex-direction:column;z-index:100;overflow:hidden;}
+.sidebar-logo{padding:1.4rem 1.25rem 1rem;border-bottom:1px solid rgba(255,255,255,0.1);}
+.logo-chip{display:inline-flex;align-items:center;gap:6px;background:var(--blue);padding:4px 10px;border-radius:4px;margin-bottom:0.6rem;}
+.logo-chip span{font-family:var(--mono);font-size:0.7rem;color:#fff;font-weight:700;letter-spacing:0.05em;}
+.sidebar-title{font-family:var(--display);font-size:1rem;font-weight:800;color:#fff;line-height:1.3;}
+.sidebar-sub{font-size:0.7rem;color:rgba(255,255,255,0.4);margin-top:0.2rem;font-family:var(--mono);}
+.search-wrap{padding:0.75rem 1rem;border-bottom:1px solid rgba(255,255,255,0.08);}
+.search-inp{width:100%;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.12);border-radius:6px;padding:0.4rem 0.7rem;color:#fff;font-size:0.75rem;font-family:var(--sans);outline:none;}
+.search-inp::placeholder{color:rgba(255,255,255,0.3);}
+.search-inp:focus{border-color:var(--blue);}
+.nav-list{flex:1;overflow-y:auto;padding:0.5rem 0;}
+.nav-list::-webkit-scrollbar{width:3px;}
+.nav-list::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.15);border-radius:4px;}
+.nav-item{display:flex;align-items:center;gap:0.6rem;padding:0.6rem 1.25rem;cursor:pointer;font-size:0.78rem;color:rgba(255,255,255,0.55);font-weight:500;border-left:3px solid transparent;transition:all 0.18s;font-family:var(--sans);}
+.nav-item:hover{background:rgba(255,255,255,0.06);color:rgba(255,255,255,0.9);border-left-color:rgba(255,255,255,0.2);}
+.nav-item.active{background:rgba(26,107,255,0.2);color:#fff;border-left-color:var(--blue);}
+.nav-icon{width:22px;height:22px;border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:0.7rem;flex-shrink:0;}
+.nav-item.active .nav-icon{opacity:1;}
+
+/* MAIN */
+.main{margin-left:255px;min-height:100vh;}
+
+/* HERO */
+.hero{background:var(--text);padding:2.5rem 3rem 2rem;position:relative;overflow:hidden;}
+.hero::after{content:'01010011';position:absolute;right:2rem;bottom:-1rem;font-family:var(--mono);font-size:4rem;font-weight:700;color:rgba(255,255,255,0.04);letter-spacing:0.1em;}
+.hero-badge{display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:0.65rem;color:var(--blue);background:rgba(26,107,255,0.15);border:1px solid rgba(26,107,255,0.3);padding:3px 10px;border-radius:3px;margin-bottom:0.8rem;letter-spacing:0.08em;}
+.hero h1{font-family:var(--display);font-size:2.4rem;font-weight:800;color:#fff;line-height:1.1;}
+.hero h1 em{color:var(--blue);font-style:normal;}
+.hero-desc{font-size:0.85rem;color:rgba(255,255,255,0.5);margin-top:0.6rem;max-width:560px;line-height:1.6;}
+.hero-pills{display:flex;gap:0.5rem;margin-top:1.2rem;flex-wrap:wrap;}
+.hero-pill{font-family:var(--mono);font-size:0.65rem;padding:3px 10px;border-radius:3px;font-weight:700;letter-spacing:0.05em;}
+.pill-blue{background:rgba(26,107,255,0.2);color:#7eaaff;}
+.pill-green{background:rgba(0,179,107,0.15);color:#34c985;}
+.pill-amber{background:rgba(230,124,0,0.15);color:#f0a040;}
+.pill-purple{background:rgba(124,58,237,0.15);color:#a78bfa;}
+
+/* CONTENT */
+.content{padding:2rem 2.5rem;}
+.topic-section{display:none;}
+.topic-section.active{display:block;animation:fadeUp 0.3s ease;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+
+/* TOPIC HEADER */
+.topic-header{display:flex;align-items:flex-start;gap:1rem;margin-bottom:1.5rem;padding:1.25rem 1.5rem;background:var(--card);border:1px solid var(--border);border-radius:12px;}
+.topic-icon-big{width:52px;height:52px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:0.8rem;font-weight:700;flex-shrink:0;}
+.topic-title{font-family:var(--display);font-size:1.45rem;font-weight:800;color:var(--text);}
+.topic-sub{font-size:0.78rem;color:var(--text3);margin-top:0.2rem;}
+
+/* TABS */
+.tabs{display:flex;gap:0.4rem;margin-bottom:1.25rem;flex-wrap:wrap;}
+.tab-btn{padding:5px 14px;border-radius:5px;font-size:0.75rem;font-weight:600;cursor:pointer;border:1.5px solid var(--border2);background:var(--card);color:var(--text2);transition:all 0.18s;font-family:var(--mono);letter-spacing:0.03em;}
+.tab-btn:hover{border-color:var(--blue);color:var(--blue);}
+.tab-btn.active{background:var(--blue);color:#fff;border-color:var(--blue);}
+.tab-content{display:none;}
+.tab-content.active{display:block;animation:fadeUp 0.2s ease;}
+
+/* SECTION HEADING */
+.sec-h{font-family:var(--mono);font-size:0.65rem;text-transform:uppercase;letter-spacing:0.12em;font-weight:700;color:var(--text3);margin:1.2rem 0 0.5rem;padding-left:0.5rem;border-left:3px solid var(--border2);}
+
+/* CARDS */
+.fcard{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:1rem 1.25rem;margin-bottom:0.75rem;}
+.fcard-title{font-family:var(--mono);font-size:0.68rem;text-transform:uppercase;letter-spacing:0.08em;font-weight:700;margin-bottom:0.6rem;padding-bottom:0.5rem;border-bottom:1px solid var(--border);}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;margin-bottom:0.75rem;}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:0.75rem;margin-bottom:0.75rem;}
+@media(max-width:1000px){.grid2,.grid3{grid-template-columns:1fr;}}
+
+/* CODE / FORMULA */
+.code{font-family:var(--mono);font-size:0.82rem;background:var(--bg);border:1px solid var(--border);border-radius:7px;padding:0.6rem 1rem;margin:0.35rem 0;color:var(--blue);line-height:1.7;overflow-x:auto;white-space:pre-wrap;}
+.code .k{color:var(--red);font-weight:700;}
+.code .v{color:var(--green);}
+.code .a{color:var(--amber);}
+.code .c{color:var(--text3);}
+.code-note{font-size:0.73rem;color:var(--text3);margin-top:0.25rem;line-height:1.5;}
+
+/* TABLE */
+table{width:100%;border-collapse:collapse;margin:0.4rem 0 0.8rem;font-size:0.79rem;}
+th{background:var(--bg2);color:var(--text2);font-weight:700;padding:0.45rem 0.75rem;text-align:left;border-bottom:2px solid var(--border);font-family:var(--mono);font-size:0.68rem;text-transform:uppercase;letter-spacing:0.05em;}
+td{padding:0.4rem 0.75rem;border-bottom:1px solid var(--border);color:var(--text);}
+tr:hover td{background:var(--bg2);}
+.mono{font-family:var(--mono);font-size:0.75rem;color:var(--blue);}
+.tag{display:inline-block;font-family:var(--mono);font-size:0.72rem;background:var(--blue2);color:var(--blue);padding:1px 6px;border-radius:3px;font-weight:700;}
+.shortcut{display:inline-block;font-family:var(--mono);font-size:0.7rem;background:var(--text);color:#fff;padding:2px 7px;border-radius:4px;font-weight:700;margin:1px;}
+.shortcut-plus{font-size:0.7rem;color:var(--text3);margin:0 2px;}
+
+/* TIP CARDS */
+.tip-card{border-radius:10px;padding:0.85rem 1.1rem;margin-bottom:0.65rem;border:1px solid;border-left-width:4px;}
+.tip-card.tip{background:var(--green2);border-color:var(--green);}
+.tip-card.trick{background:var(--amber2);border-color:var(--amber);}
+.tip-card.fast{background:var(--blue2);border-color:var(--blue);}
+.tip-card.warn{background:var(--red2);border-color:var(--red);}
+.tip-card.info{background:var(--purple2);border-color:var(--purple);}
+.tip-label{font-family:var(--mono);font-size:0.62rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.35rem;}
+.tip-card.tip .tip-label{color:var(--green);}
+.tip-card.trick .tip-label{color:var(--amber);}
+.tip-card.fast .tip-label{color:var(--blue);}
+.tip-card.warn .tip-label{color:var(--red);}
+.tip-card.info .tip-label{color:var(--purple);}
+.tip-text{font-size:0.82rem;color:var(--text);line-height:1.6;}
+.tip-text code{font-family:var(--mono);background:rgba(0,0,0,0.08);padding:1px 5px;border-radius:3px;font-size:0.78rem;color:var(--red);}
+
+/* OBJECTIVE */
+.obj-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:0.9rem 1.1rem;margin-bottom:0.6rem;transition:box-shadow 0.18s;}
+.obj-card:hover{box-shadow:0 2px 12px rgba(26,107,255,0.08);}
+.obj-q{font-size:0.84rem;color:var(--text);margin-bottom:0.45rem;font-weight:600;line-height:1.5;}
+.obj-btn{font-family:var(--mono);font-size:0.7rem;padding:3px 10px;border-radius:4px;background:var(--bg2);border:1px solid var(--border2);cursor:pointer;color:var(--text2);transition:all 0.18s;}
+.obj-btn:hover,.obj-btn.on{background:var(--green2);border-color:var(--green);color:var(--green);}
+.obj-ans{font-family:var(--mono);font-size:0.78rem;color:var(--blue);margin-top:0.4rem;background:var(--blue2);border-radius:5px;padding:0.4rem 0.7rem;display:none;line-height:1.5;}
+.obj-ans.show{display:block;}
+
+/* SHORTCUT GRID */
+.sc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:0.5rem;margin-bottom:0.75rem;}
+.sc-card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:0.65rem 0.9rem;display:flex;align-items:center;justify-content:space-between;gap:0.5rem;}
+.sc-label{font-size:0.78rem;color:var(--text2);}
+.sc-keys{display:flex;align-items:center;gap:2px;}
+
+/* TAG REFERENCE */
+.tag-table td:first-child{font-family:var(--mono);color:var(--red);font-size:0.78rem;font-weight:700;}
+.tag-table td:nth-child(2){color:var(--text3);font-size:0.75rem;}
+.tag-table td:nth-child(3){color:var(--blue);font-family:var(--mono);font-size:0.72rem;}
+
+/* MOBILE */
+.mob-toggle{display:none;position:fixed;top:0.8rem;left:0.8rem;z-index:200;background:var(--blue);border:none;color:#fff;border-radius:6px;padding:7px 11px;cursor:pointer;font-size:1rem;}
+@media(max-width:768px){
+  .sidebar{transform:translateX(-100%);transition:transform 0.3s;}
+  .sidebar.open{transform:translateX(0);}
+  .main{margin-left:0;}
+  .mob-toggle{display:block;}
+  .hero{padding:3.5rem 1.5rem 1.5rem;}
+  .hero h1{font-size:1.7rem;}
+  .content{padding:1.25rem;}
+}
+p{color:var(--text2);font-size:0.82rem;line-height:1.7;margin-bottom:0.5rem;}
+ul,ol{padding-left:1.2rem;}
+li{font-size:0.82rem;color:var(--text2);line-height:1.7;margin-bottom:0.15rem;}
+strong{color:var(--text);font-weight:600;}
+b{color:var(--blue);font-family:var(--mono);font-size:0.82rem;}
+</style>
+</head>
+<body>
+
+<button class="mob-toggle" onclick="document.querySelector('.sidebar').classList.toggle('open')">☰</button>
+
+<nav class="sidebar">
+  <div class="sidebar-logo">
+    <div class="logo-chip"><span>&#x1F4BB; EXAM PREP</span></div>
+    <div class="sidebar-title">Computer Practice<br>Complete Guide</div>
+    <div class="sidebar-sub">// all topics covered</div>
+  </div>
+  <div class="search-wrap">
+    <input class="search-inp" type="text" placeholder="Search topic..." id="searchInp" oninput="filterNav(this.value)">
+  </div>
+  <div class="nav-list" id="navList">
+    <div class="nav-item active" onclick="show('t1')" data-label="basics computer system hardware software">
+      <div class="nav-icon" style="background:rgba(26,107,255,0.2);color:#7eaaff;">💻</div>Basics of Computer
+    </div>
+    <div class="nav-item" onclick="show('t2')" data-label="internet introduction network browser email">
+      <div class="nav-icon" style="background:rgba(0,150,168,0.2);color:#00c5de;">🌐</div>Internet
+    </div>
+    <div class="nav-item" onclick="show('t3')" data-label="html tags elements attributes forms">
+      <div class="nav-icon" style="background:rgba(230,124,0,0.2);color:#f0a040;">&lt;/&gt;</div>HTML
+    </div>
+    <div class="nav-item" onclick="show('t4')" data-label="ms word microsoft word shortcuts formatting">
+      <div class="nav-icon" style="background:rgba(26,107,255,0.2);color:#7eaaff;">W</div>MS Word
+    </div>
+    <div class="nav-item" onclick="show('t5')" data-label="ms excel microsoft excel functions formulas spreadsheet">
+      <div class="nav-icon" style="background:rgba(0,179,107,0.2);color:#34c985;">X</div>MS Excel
+    </div>
+    <div class="nav-item" onclick="show('t6')" data-label="ms powerpoint microsoft powerpoint presentation slides">
+      <div class="nav-icon" style="background:rgba(230,124,0,0.2);color:#f0a040;">P</div>MS PowerPoint
+    </div>
+  </div>
+</nav>
+
+<main class="main">
+  <div class="hero">
+    <div class="hero-badge">◉ COMPUTER PRACTICE EXAM GUIDE</div>
+    <h1>Computer Practice<br><em>Complete Study File</em></h1>
+    <p class="hero-desc">HTML tags, MS Office shortcuts &amp; functions, internet basics, computer fundamentals — all in one place for your exam.</p>
+    <div class="hero-pills">
+      <span class="hero-pill pill-blue">Basics of Computer</span>
+      <span class="hero-pill pill-blue">Internet</span>
+      <span class="hero-pill pill-amber">HTML Tags</span>
+      <span class="hero-pill pill-green">MS Word</span>
+      <span class="hero-pill pill-green">MS Excel</span>
+      <span class="hero-pill pill-purple">MS PowerPoint</span>
+    </div>
+  </div>
+
+  <div class="content">
+
+<!-- ==================== T1: BASICS OF COMPUTER ==================== -->
+<section class="topic-section active" id="t1">
+  <div class="topic-header">
+    <div class="topic-icon-big" style="background:var(--blue2);color:var(--blue)">CPU</div>
+    <div>
+      <div class="topic-title">Basics of Computer System</div>
+      <div class="topic-sub">Hardware, Software, Memory, Input/Output, Number Systems, Storage Units</div>
+    </div>
+  </div>
+  <div class="tabs">
+    <button class="tab-btn active" onclick="switchTab(this,'t1f')">Key Concepts</button>
+    <button class="tab-btn" onclick="switchTab(this,'t1o')">Objective MCQs</button>
+    <button class="tab-btn" onclick="switchTab(this,'t1t')">Tips &amp; Tricks</button>
+  </div>
+
+  <div class="tab-content active" id="t1f">
+    <div class="sec-h">Definition &amp; Characteristics</div>
+    <div class="fcard">
+      <div class="fcard-title" style="color:var(--blue)">What is a Computer?</div>
+      <div class="code">A Computer is an electronic device that:
+ • Accepts INPUT (data)
+ • PROCESSES it (according to instructions/program)
+ • Gives OUTPUT (result/information)
+ • STORES data and instructions
+
+Full form: Commonly Operated Machine Particularly Used for
+           Technical, Educational and Research purposes</div>
+      <p class="code-note">Characteristics: Speed (nanoseconds), Accuracy (100%), Diligence, Versatility, Storage, Automation</p>
+    </div>
+
+    <div class="sec-h">Computer Generation Timeline</div>
+    <div class="fcard">
+      <table>
+        <tr><th>Gen</th><th>Period</th><th>Technology</th><th>Examples</th></tr>
+        <tr><td><b>1st</b></td><td>1940–1956</td><td>Vacuum Tubes</td><td>ENIAC, UNIVAC</td></tr>
+        <tr><td><b>2nd</b></td><td>1956–1963</td><td>Transistors</td><td>IBM 1401, UNIVAC 1107</td></tr>
+        <tr><td><b>3rd</b></td><td>1964–1971</td><td>IC (Integrated Circuit)</td><td>IBM 360, PDP-8</td></tr>
+        <tr><td><b>4th</b></td><td>1971–1980</td><td>Microprocessor (VLSI)</td><td>IBM PC, Apple II</td></tr>
+        <tr><td><b>5th</b></td><td>1980–Present</td><td>AI, Parallel Processing</td><td>Modern PCs, Laptops</td></tr>
+      </table>
+    </div>
+
+    <div class="sec-h">Hardware Components</div>
+    <div class="grid2">
+      <div class="fcard">
+        <div class="fcard-title" style="color:var(--blue)">CPU Parts</div>
+        <div class="code">ALU  — Arithmetic &amp; Logic Unit
+       (performs calculations &amp; comparisons)
+CU   — Control Unit
+       (manages &amp; coordinates all operations)
+MU   — Memory Unit / Registers
+       (temporary storage during processing)
+
+CPU = ALU + CU + MU (Brain of Computer)</div>
+      </div>
+      <div class="fcard">
+        <div class="fcard-title" style="color:var(--blue)">Input Devices</div>
+        <table>
+          <tr><td>Keyboard</td><td>Text input</td></tr>
+          <tr><td>Mouse</td><td>Pointing device</td></tr>
+          <tr><td>Scanner</td><td>Image/text scan</td></tr>
+          <tr><td>Joystick</td><td>Game control</td></tr>
+          <tr><td>Microphone</td><td>Audio input</td></tr>
+          <tr><td>Webcam</td><td>Video input</td></tr>
+          <tr><td>Barcode Reader</td><td>Scan barcodes</td></tr>
+          <tr><td>Touch Screen</td><td>Both input &amp; output</td></tr>
+          <tr><td>OMR</td><td>Optical Mark Reader</td></tr>
+          <tr><td>OCR</td><td>Optical Character Reader</td></tr>
+        </table>
+      </div>
+    </div>
+    <div class="fcard">
+      <div class="fcard-title" style="color:var(--blue)">Output Devices</div>
+      <table>
+        <tr><th>Device</th><th>Type</th><th>Use</th></tr>
+        <tr><td>Monitor / VDU</td><td>Soft copy</td><td>Display output (CRT / LCD / LED)</td></tr>
+        <tr><td>Printer</td><td>Hard copy</td><td>Impact (Dot-matrix), Non-impact (Inkjet, Laser)</td></tr>
+        <tr><td>Speaker</td><td>Audio</td><td>Sound output</td></tr>
+        <tr><td>Plotter</td><td>Hard copy</td><td>Large drawings/graphics</td></tr>
+        <tr><td>Projector</td><td>Soft copy</td><td>Large display</td></tr>
+      </table>
+    </div>
+
+    <div class="sec-h">Memory Types</div>
+    <div class="grid2">
+      <div class="fcard">
+        <div class="fcard-title" style="color:var(--purple)">Primary Memory (Internal)</div>
+        <div class="code">RAM  — Random Access Memory
+     Volatile (data lost on power off)
+     Readable &amp; Writable
+     Types: SRAM, DRAM, SDRAM
+
+ROM  — Read Only Memory
+     Non-volatile (permanent)
+     Read only
+     Types: PROM, EPROM, EEPROM
+
+Cache — Fastest memory, between CPU &amp; RAM</div>
+      </div>
+      <div class="fcard">
+        <div class="fcard-title" style="color:var(--purple)">Secondary / Auxiliary Memory</div>
+        <div class="code">Magnetic: HDD, Floppy Disk
+Optical:  CD (700 MB), DVD (4.7 GB),
+          Blu-ray (25 GB)
+Flash:    Pen Drive (USB), SD Card, SSD
+
+Characteristics:
+• Non-volatile (permanent storage)
+• Slower than RAM
+• Large capacity</div>
+      </div>
+    </div>
+
+    <div class="sec-h">Storage Units (Very Important for MCQ)</div>
+    <div class="fcard">
+      <table>
+        <tr><th>Unit</th><th>Abbreviation</th><th>Value</th></tr>
+        <tr><td>Bit</td><td>b</td><td>Smallest unit (0 or 1)</td></tr>
+        <tr><td>Nibble</td><td>—</td><td>4 bits</td></tr>
+        <tr><td>Byte</td><td>B</td><td>8 bits</td></tr>
+        <tr><td>Kilobyte</td><td>KB</td><td>1024 Bytes</td></tr>
+        <tr><td>Megabyte</td><td>MB</td><td>1024 KB</td></tr>
+        <tr><td>Gigabyte</td><td>GB</td><td>1024 MB</td></tr>
+        <tr><td>Terabyte</td><td>TB</td><td>1024 GB</td></tr>
+        <tr><td>Petabyte</td><td>PB</td><td>1024 TB</td></tr>
+        <tr><td>Exabyte</td><td>EB</td><td>1024 PB</td></tr>
+      </table>
+      <p class="code-note">★ Remember: 1 KB = 1024 Bytes (NOT 1000). This often tricks students!</p>
+    </div>
+
+    <div class="sec-h">Number Systems</div>
+    <div class="fcard">
+      <table>
+        <tr><th>System</th><th>Base</th><th>Digits Used</th><th>Prefix</th></tr>
+        <tr><td>Binary</td><td>2</td><td>0, 1</td><td>0b</td></tr>
+        <tr><td>Octal</td><td>8</td><td>0–7</td><td>0o</td></tr>
+        <tr><td>Decimal</td><td>10</td><td>0–9</td><td>—</td></tr>
+        <tr><td>Hexadecimal</td><td>16</td><td>0–9, A–F</td><td>0x</td></tr>
+      </table>
+      <div class="code">Decimal → Binary  : Divide by 2, note remainders (bottom to top)
+Binary → Decimal  : Multiply each bit by 2^position from right (start 0)
+
+Example: 13 (decimal) = 1101 (binary)
+  13 ÷ 2 = 6 r1
+   6 ÷ 2 = 3 r0
+   3 ÷ 2 = 1 r1
+   1 ÷ 2 = 0 r1   → Read remainders bottom up: 1101
+
+Verification: 1×2³ + 1×2² + 0×2¹ + 1×2⁰ = 8+4+0+1 = 13 ✓</div>
+    </div>
+
+    <div class="sec-h">Software Types</div>
+    <div class="grid2">
+      <div class="fcard">
+        <div class="fcard-title" style="color:var(--green)">System Software</div>
+        <div class="code">Operating System (OS):
+  Windows, Linux, macOS, Android, iOS
+  Controls hardware &amp; manages resources
+
+Utility Software:
+  Antivirus, Disk Defragmenter, 
+  File Manager, Backup tools
+
+Language Processors:
+  Compiler, Interpreter, Assembler</div>
+      </div>
+      <div class="fcard">
+        <div class="fcard-title" style="color:var(--green)">Application Software</div>
+        <div class="code">General Purpose:
+  MS Word, MS Excel, Tally, 
+  Photoshop, VLC Player
+
+Specific Purpose:
+  Banking software, School ERP,
+  Hospital Management
+
+Open Source: LibreOffice, Firefox, VLC
+Proprietary: MS Office, Adobe Suite</div>
+      </div>
+    </div>
+
+    <div class="sec-h">Operating System Functions</div>
+    <div class="fcard">
+      <div class="code">Key functions of OS:
+1. Process Management    — CPU scheduling
+2. Memory Management     — RAM allocation
+3. File Management       — File/folder organization
+4. I/O Management        — Device control
+5. Security              — User authentication
+6. Error Detection       — Handles errors
+
+Types: Single User (DOS), Multi-User (UNIX),
+       Multi-tasking (Windows), Real-Time (RTOS)</div>
+    </div>
+
+    <div class="sec-h">Important Computer Terms</div>
+    <div class="fcard">
+      <table>
+        <tr><th>Term</th><th>Full Form / Meaning</th></tr>
+        <tr><td class="mono">CPU</td><td>Central Processing Unit</td></tr>
+        <tr><td class="mono">ALU</td><td>Arithmetic Logic Unit</td></tr>
+        <tr><td class="mono">RAM</td><td>Random Access Memory</td></tr>
+        <tr><td class="mono">ROM</td><td>Read Only Memory</td></tr>
+        <tr><td class="mono">HDD</td><td>Hard Disk Drive</td></tr>
+        <tr><td class="mono">SSD</td><td>Solid State Drive</td></tr>
+        <tr><td class="mono">USB</td><td>Universal Serial Bus</td></tr>
+        <tr><td class="mono">BIOS</td><td>Basic Input Output System</td></tr>
+        <tr><td class="mono">GUI</td><td>Graphical User Interface</td></tr>
+        <tr><td class="mono">CUI</td><td>Character User Interface</td></tr>
+        <tr><td class="mono">UPS</td><td>Uninterruptible Power Supply</td></tr>
+        <tr><td class="mono">VDU</td><td>Visual Display Unit (Monitor)</td></tr>
+        <tr><td class="mono">LAN</td><td>Local Area Network</td></tr>
+        <tr><td class="mono">WAN</td><td>Wide Area Network</td></tr>
+        <tr><td class="mono">VIRUS</td><td>Vital Information Resources Under Siege</td></tr>
+        <tr><td class="mono">COMPUTER</td><td>Commonly Operated Machine Particularly Used for Technical, Educational &amp; Research</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="tab-content" id="t1o">
+    <div class="sec-h">Objective MCQ Points — Computer Basics</div>
+    <div class="obj-card"><div class="obj-q">1. The 'brain' of the computer is called?</div><button class="obj-btn" onclick="toggleAns(this)">Show Answer</button><div class="obj-ans">CPU (Central Processing Unit)</div></div>
+    <div class="obj-card"><div class="obj-q">2. Which memory is volatile?</div><button class="obj-btn" onclick="toggleAns(this)">Show Answer</button><div class="obj-ans">RAM — data is lost when power is turned off</div></div>
+    <div class="obj-card"><div class="obj-q">3. 1 Kilobyte = ?</div><button class="obj-btn" onclick="toggleAns(this)">Show Answer</button><div class="obj-ans">1024 Bytes (NOT 1000 Bytes)</div></div>
+    <div class="obj-card"><div class="obj-q">4. Which is NOT an input device?</div><button class="obj-btn" onclick="toggleAns(this)">Show Answer</button><div class="obj-ans">Monitor / Printer (these are output devices)</div></div>
+    <div class="obj-card"><div class="obj-q">5. First generation computers used?</div><button class="obj-btn" onclick="toggleAns(this)">Show Answer</button><div class="obj-ans">Vacuum Tubes (1940–1956)</div></div>
+    <div class="obj-card"><div class="obj-q">6. Full form of BIOS?</div><button class="obj-btn" onclick="toggleAns(this)">Show Answer</button><div class="obj-ans">Basic Input Output System</div></div>
+    <div class="obj-card"><div class="obj-q">7. Binary number system has base?</div><button class="obj-btn" onclick="toggleAns(this)">Show Answer</button><div class="obj-ans">Base 2 (uses only 0 and 1)</div></div>
+    <div class="obj-card"><div class="obj-q">8. Decimal 10 in binary = ?</div><button class="obj-btn" onclick="toggleAns(this)">Show Answer</button><div class="obj-ans">1010 (8+2=10 → 1×8 + 0×4 + 1×2 + 0×1)</div></div>
+    <div class="obj-card"><div class="obj-q">9. Which part of CPU performs calculations?</div><button class="obj-btn" onclick="toggleAns(this)">Show Answer</button><div class="obj-ans">ALU — Arithmetic Logic Unit</div></div>
+    <div class="obj-card"><div class="obj-q">10. ROM is?</div><button class="obj-btn" onclick="toggleAns(this)">Show Answer</button><div class="obj-ans">Non-volatile, Read Only Memory — data is permanent</div></div>
+    <div class="obj-card"><div class="obj-q">11. DVD storage capacity?</div><button class="obj-btn" onclick="toggleAns(this)">Show Answer</button><div class="obj-ans">4.7 GB (single-layer)</div></div>
+    <div class="obj-card"><div class="obj-q">12. Which is fastest memory?</div><button class="obj-btn" onclick="toggleAns(this)">Show Answer</button><div class="obj-ans">Cache Memory (fastest), then RAM, then Secondary storage</div></div>
+    <div class="obj-card"><div class="obj-q">13. GUI stands for?</div><button class="obj-btn" onclick="toggleAns(this)">Show Answer</button><div class="obj-ans">Graphical User Interface (e.g., Windows desktop)</div></div>
+    <div class="obj-card"><div class="obj-q">14. Which printer is impact type?</div><button class="obj-btn" onclick="toggleAns(this)">Show Answer</button><div class="obj-ans">Dot Matrix Printer (strikes ribbon against paper)</div></div>
+    <div class="obj-card"><div class="obj-q">15. Compiler vs Interpreter?</div><button class="obj-btn" onclick="toggleAns(this)">Show Answer</button><div class="obj-ans">Compiler: translates whole program at once. Interpreter: translates line by line</div></div>
+  </div>
+
+  <div class="tab-content" id="t1t">
+    <div class="tip-card tip"><div class="tip-label">★ Memory Trick — Storage Units</div><div class="tip-text">Remember: <strong>B N B K M G T P E</strong> → Bit, Nibble, Byte, Kilo, Mega, Giga, Tera, Peta, Exa. Each step × 1024.</div></div>
+    <div class="tip-card trick"><div class="tip-label">Trick — Binary Conversion Fast</div><div class="tip-text">Remember powers of 2: 1,2,4,8,16,32,64,128,256,512,1024. For any number, subtract the largest power of 2 that fits, place 1, continue. Example: 25 = 16+8+1 = <code>11001</code></div></div>
+    <div class="tip-card fast"><div class="tip-label">Fast MCQ Rule</div><div class="tip-text">RAM = Volatile = Temporary. ROM = Non-volatile = Permanent. If question says "data lost on power off" → RAM. "Stores BIOS" → ROM.</div></div>
+    <div class="tip-card warn"><div class="tip-label">Common Trap</div><div class="tip-text">1 KB = 1024 Bytes (NOT 1000). This is the most common trap in MCQs. Similarly 1 MB = 1024 KB, not 1000 KB.</div></div>
+    <div class="tip-card info"><div class="tip-label">Important — Generations</div><div class="tip-text">Exam love testing: "Which generation used transistors?" → 2nd Gen. "Which uses microprocessor?" → 4th Gen. "AI generation?" → 5th Gen.</div></div>
+    <div class="tip-card tip"><div class="tip-label">Input vs Output Shortcut</div><div class="tip-text">Input = gives data TO computer (keyboard, mouse, scanner). Output = computer gives data OUT (monitor, printer, speaker). Touch screen and modem = BOTH.</div></div>
+  </div>
+</section>
+
+<!-- ==================== T2: INTERNET ==================== -->
+<section class="topic-section" id="t2">
+  <div class="topic-header">
+    <div class="topic-icon-big" style="background:var(--cyan2);color:var(--cyan)">WWW</div>
+    <div>
+      <div class="topic-title">Introduction to Internet</div>
+      <div class="topic-sub">Networks, Protocols, Browsers, Email, Services, URLs</div>
+    </div>
+  </div>
+  <div class="tabs">
+    <button class="tab-btn active" onclick="switchTab(this,'t2f')">Key Concepts</button>
+    <button class="tab-btn" onclick="switchTab(this,'t2o')">Objective MCQs</button>
+    <button class="tab-btn" onclick="switchTab(this,'t2t')">Tips &amp; Tricks</button>
+  </div>
+
+  <div class="tab-content active" id="t2f">
+    <div class="sec-h">Internet Basics</div>
+    <div class="fcard">
+      <div class="code">Internet = Global network of computers (Network of Networks)
+         connected using TCP/IP protocol
+
+WWW      = World Wide Web (collection of web pages)
+           Invented by: Tim Berners-Lee (1989–1991)
+
+Website  = Collection of related web pages
+Web Page = Single document on the web
+Home Page= First/default page of a website
+
+Browser  = Software to access/view web pages
+           Examples: Chrome, Firefox, Edge, Safari, Opera</div>
+    </div>
+
+    <div class="sec-h">Types of Networks</div>
+    <div class="fcard">
+      <table>
+        <tr><th>Type</th><th>Full Form</th><th>Coverage</th><th>Example</th></tr>
+        <tr><td class="mono">PAN</td><td>Personal Area Network</td><td>~10 meters</td><td>Bluetooth</td></tr>
+        <tr><td class="mono">LAN</td><td>Local Area Network</td><td>Building/Campus</td><td>Office network</td></tr>
+        <tr><td class="mono">MAN</td><td>Metropolitan Area Network</td><td>City</td><td>Cable TV</td></tr>
+        <tr><td class="mono">WAN</td><td>Wide Area Network</td><td>Country/World</td><td>Internet</td></tr>
+      </table>
+    </div>
+
+    <div class="sec-h">Important Internet Terms &amp; Protocols</div>
+    <div class="fcard">
+      <table>
+        <tr><th>Term/Protocol</th><th>Meaning / Use</th></tr>
+        <tr><td class="mono">HTTP</td><td>HyperText Transfer Protocol — transfers web pages</td></tr>
+        <tr><td class="mono">HTTPS</td><td>HTTP Secure — encrypted web transfer</td></tr>
+        <tr><td class="mono">FTP</td><td>File Transfer Protocol — transfer files between computers</td></tr>
+        <tr><td class="mono">TCP/IP</td><td>Transmission Control Protocol/Internet Protocol — backbone of internet</td></tr>
+        <tr><td class="mono">DNS</td><td>Domain Name System — converts domain name to IP address</td></tr>
+        <tr><td class="mono">IP Address</td><td>Unique numerical address of device on network (e.g., 192.168.1.1)</td></tr>
+        <tr><td class="mono">URL</td><td>Uniform Resource Locator — address of a web page</td></tr>
+        <tr><td class="mono">HTML</td><td>HyperText Markup Language — language for creating web pages</td></tr>
+        <tr><td class="mono">ISP</td><td>Internet Service Provider — provides internet access (Jio, Airtel)</td></tr>
+        <tr><td class="mono">Bandwidth</td><td>Amount of data transferred per second (speed)</td></tr>
+        <tr><td class="mono">Modem</td><td>Modulator-Demodulator — connects computer to internet via phone line</td></tr>
+        <tr><td class="mono">Router</td><td>Distributes internet to multiple devices (Wi-Fi router)</td></tr>
+        <tr><td class="mono">Cookie</td><td>Small data stored by browser from websites</td></tr>
+        <tr><td class="mono">Cache</td><td>Temporary stored web data for faster loading</td></tr>
+        <tr><td class="mono">Firewall</td><td>Security system that monitors network traffic</td></tr>
+        <tr><td class="mono">VPN</td><td>Virtual Private Network — secure private connection</td></tr>
+      </table>
+    </div>
+
+    <div class="sec-h">URL Structure</div>
+    <div class="fcard">
+      <div class="code"><span class="k">https</span>://<span class="v">www.example.com</span>/<span class="a">page</span>?query=value
+
+Protocol: https (how to access)
+Domain:   www.example.com (website address)
+Path:     /page (specific page)
+Query:    ?query=value (additional info)</div>
+      <p class="code-note">Domain Extensions: .com (commercial), .edu (education), .gov (government), .org (organization), .in (India), .net (network)</p>
+    </div>
+
+    <div class="sec-h">Email Basics</div>
+    <div class="fcard">
+      <div class="code">Email Structure: <span class="v">username</span>@<span class="k">domain.com</span>
+Example: student@gmail.com
+
+Email Protocols:
+  SMTP — Simple Mail Transfer Protocol (Sending email)
+  POP3 — Post Office Protocol v3 (Receiving email, downloads)
+  IMAP — Internet Message Access Protocol (Receiving, stays on server)
+
+Email Terms:
+  CC  — Carbon Copy (visible to all recipients)
+  BCC — Blind Carbon Copy (hidden from other recipients)
+  To  — Primary recipient(s)
+  Subject — Brief title/topic of email
+  Attachment — Files sent with email</div>
+    </div>
+
+    <div class="sec-h">Internet Services</div>
+    <div class="fcard">
+      <table>
+        <tr><th>Service</th><th>Description</th></tr>
+        <tr><td>WWW</td><td>World Wide Web — accessing websites</td></tr>
+        <tr><td>Email</td><td>Electronic mail — sending/receiving messages</td></tr>
+        <tr><td>Chat / IM</td><td>Instant messaging (WhatsApp, Telegram)</td></tr>
+        <tr><td>Video Call</td><td>Real-time video communication (Zoom, Meet)</td></tr>
+        <tr><td>Social Media</td><td>Facebook, Instagram, Twitter/X, LinkedIn</td></tr>
+        <tr><td>E-commerce</td><td>Online shopping (Amazon, Flipkart)</td></tr>
+        <tr><td>Online Banking</td><td>Net banking, UPI (BHIM, GPay)</td></tr>
+        <tr><td>Cloud Storage</td><td>Google Drive, OneDrive, Dropbox</td></tr>
+        <tr><td>Streaming</td><td>YouTube, Netflix, Spotify</td></tr>
+        <tr><td>Search Engine</td><td>Google, Bing, DuckDuckGo, Yahoo</td></tr>
+      </table>
+    </div>
+
+    <div class="sec-h">Search Engines &amp; Browsers</div>
+    <div class="grid2">
+      <div class="fcard">
+        <div class="fcard-title" style="color:var(--cyan)">Popular Browsers</div>
+        <div class="code">Google Chrome   — Most used
+Mozilla Firefox — Open source
+Microsoft Edge  — Windows default
+Safari          — Apple default
+Opera           — Lightweight
+
+Shortcut: Ctrl+T = New Tab
+          Ctrl+W = Close Tab
+          Ctrl+L = Address bar
+          F5     = Refresh page</div>
+      </div>
+      <div class="fcard">
+        <div class="fcard-title" style="color:var(--cyan)">Search Engines</div>
+        <div class="code">Google  — www.google.com (most popular)
+Bing    — www.bing.com (Microsoft)
+Yahoo   — www.yahoo.com
+DuckDuckGo — Privacy focused
+
+Search Tips:
+"exact phrase" — search exact words
+site:domain.com — search within site
+filetype:pdf — find specific file type</div>
+      </div>
+    </div>
+
+    <div class="sec-h">Cyber Security Terms</div>
+    <div class="fcard">
+      <table>
+        <tr><th>Term</th><th>Meaning</th></tr>
+        <tr><td class="mono">Virus</td><td>Malicious program that replicates and damages files</td></tr>
+        <tr><td class="mono">Worm</td><td>Self-replicating virus that spreads through network</td></tr>
+        <tr><td class="mono">Trojan</td><td>Disguised harmful program (appears useful)</td></tr>
+        <tr><td class="mono">Spyware</td><td>Secretly monitors user activity</td></tr>
+        <tr><td class="mono">Phishing</td><td>Fraudulent attempt to steal credentials</td></tr>
+        <tr><td class="mono">Hacker</td><td>Person who breaks into systems (Black/White hat)</td></tr>
+        <tr><td class="mono">Firewall</td><td>Barrier between trusted/untrusted networks</td></tr>
+        <tr><td class="mono">Encryption</td><td>Converting data to unreadable form for security</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="tab-content" id="t2o">
+    <div class="obj-card"><div class="obj-q">1. WWW was invented by?</div><button class="obj-btn" onclick="toggleAns(this)">Show Answer</button><div class="obj-ans">Tim Berners-Lee (1989–1991)</div></div>
+    <div class="obj-card"><div class="obj-q">2. Full form of URL?</div><button class="obj-btn" onclick="toggleAns(this)">Show Answer</button><div class="obj-ans">Uniform Resource Locator (web page address)</div></div>
+    <div class="obj-card"><div class="obj-q">3. Protocol used to send emails?</div><button class="obj-btn" onclick="toggleAns(this)">Show Answer</button><div class="obj-ans">SMTP — Simple Mail Transfer Protocol</div></div>
+    <div class="obj-card"><div class="obj-q">4. Protocol used to receive emails?</div><button class="obj-btn" onclick="toggleAns(this)">Show Answer</button><div class="obj-ans">POP3 or IMAP</div></div>
+    <div class="obj-card"><div class="obj-q">5. Which covers a city-wide network?</div><button class="obj-btn" onclick="toggleAns(this)">Show Answer</button><div class="obj-ans">MAN — Metropolitan Area Network</div></div>
+    <div class="obj-card"><div class="obj-q">6. .gov domain is used by?</div><button class="obj-btn" onclick="toggleAns(this)">Show Answer</button><div class="obj-ans">Government organizations</div></div>
+    <div class="obj-card"><div class="obj-q">7. Which device connects different networks?</div><button class="obj-btn" onclick="toggleAns(this)">Show Answer</button><div class="obj-ans">Router</div></div>
+    <div class="obj-card"><div class="obj-q">8. Backbone protocol of the internet?</div><button class="obj-btn" onclick="toggleAns(this)">Show Answer</button><div class="obj-ans">TCP/IP (Transmission Control Protocol / Internet Protocol)</div></div>
+    <div class="obj-card"><div class="obj-q">9. In email, BCC means?</div><button class="obj-btn" onclick="toggleAns(this)">Show Answer</button><div class="obj-ans">Blind Carbon Copy — recipient hidden from others</div></div>
+    <div class="obj-card"><div class="obj-q">10. HTTPS uses which extra feature?</div><button class="obj-btn" onclick="toggleAns(this)">Show Answer</button><div class="obj-ans">SSL/TLS Encryption (Secure = encrypted data)</div></div>
+    <div class="obj-card"><div class="obj-q">11. ISP stands for?</div><button class="obj-btn" onclick="toggleAns(this)">Show Answer</button><div class="obj-ans">Internet Service Provider (e.g., Jio, Airtel, BSNL)</div></div>
+    <div class="obj-card"><div class="obj-q">12. Which is NOT a search engine?</div><button class="obj-btn" onclick="toggleAns(this)">Show Answer</button><div class="obj-ans">Chrome (it's a browser, not a search engine)</div></div>
+    <div class="obj-card"><div class="obj-q">13. Phishing is?</div><button class="obj-btn" onclick="toggleAns(this)">Show Answer</button><div class="obj-ans">Fraudulent attempt to steal user credentials/data</div></div>
+    <div class="obj-card"><div class="obj-q">14. DNS converts?</div><button class="obj-btn" onclick="toggleAns(this)">Show Answer</button><div class="obj-ans">Domain name (e.g., google.com) to IP address (e.g., 142.250.x.x)</div></div>
+  </div>
+
+  <div class="tab-content" id="t2t">
+    <div class="tip-card tip"><div class="tip-label">Network Coverage Order</div><div class="tip-text">Remember smallest to largest: <strong>PAN → LAN → MAN → WAN</strong>. Pocket → Local → Metro → World.</div></div>
+    <div class="tip-card trick"><div class="tip-label">Email Protocol Trick</div><div class="tip-text"><strong>SMTP = Send Mail To People</strong> (sending). POP3 = downloads to your device. IMAP = stays on server (accessible everywhere).</div></div>
+    <div class="tip-card warn"><div class="tip-label">Browser ≠ Search Engine</div><div class="tip-text">Chrome/Firefox/Edge = Browsers (software to navigate). Google/Bing/Yahoo = Search Engines (finds content). This MCQ trap appears very frequently!</div></div>
+    <div class="tip-card fast"><div class="tip-label">URL Protocol Trick</div><div class="tip-text">HTTP = normal. HTTPS = secure (has S for Secure). Always use HTTPS for banking/passwords. URL starts with protocol (http/ftp/mailto).</div></div>
+    <div class="tip-card info"><div class="tip-label">Virus Types to Remember</div><div class="tip-text">Virus=needs host. Worm=self-replicates via network. Trojan=disguised. Spyware=monitors. Ransomware=locks files for ransom. Adware=shows unwanted ads.</div></div>
+  </div>
+</section>
+
+<!-- ==================== T3: HTML ==================== -->
+<section class="topic-section" id="t3">
+  <div class="topic-header">
+    <div class="topic-icon-big" style="background:var(--amber2);color:var(--amber)">&lt;/&gt;</div>
+    <div>
+      <div class="topic-title">HTML — HyperText Markup Language</div>
+      <div class="topic-sub">All tags, attributes, structure, forms, tables, links, images</div>
+    </div>
+  </div>
+  <div class="tabs">
+    <button class="tab-btn active" onclick="switchTab(this,'t3f')">All Tags</button>
+    <button class="tab-btn" onclick="switchTab(this,'t3o')">Objective MCQs</button>
+    <button class="tab-btn" onclick="switchTab(this,'t3t')">Tips &amp; Tricks</button>
+  </div>
+
+  <div class="tab-content active" id="t3f">
+    <div class="sec-h">Basic HTML Document Structure</div>
+    <div class="fcard">
+      <div class="code"><span class="k">&lt;!DOCTYPE html&gt;</span>           <span class="c">&lt;!-- Declares HTML5 --&gt;</span>
+<span class="k">&lt;html&gt;</span>                       <span class="c">&lt;!-- Root element --&gt;</span>
+  <span class="k">&lt;head&gt;</span>                     <span class="c">&lt;!-- Meta info, not shown on page --&gt;</span>
+    <span class="k">&lt;title&gt;</span>Page Title<span class="k">&lt;/title&gt;</span>  <span class="c">&lt;!-- Browser tab title --&gt;</span>
+    <span class="k">&lt;meta</span> <span class="a">charset</span>=<span class="v">"UTF-8"</span><span class="k">&gt;</span>
+  <span class="k">&lt;/head&gt;</span>
+  <span class="k">&lt;body&gt;</span>                     <span class="c">&lt;!-- Visible content --&gt;</span>
+    <span class="c">&lt;!-- All visible content goes here --&gt;</span>
+  <span class="k">&lt;/body&gt;</span>
+<span class="k">&lt;/html&gt;</span></div>
+    </div>
+
+    <div class="sec-h">Text Formatting Tags</div>
+    <div class="fcard">
+      <table class="tag-table">
+        <tr><th>Tag</th><th>Description</th><th>Example</th></tr>
+        <tr><td>&lt;h1&gt; to &lt;h6&gt;</td><td>Headings (h1=largest, h6=smallest)</td><td>&lt;h1&gt;Title&lt;/h1&gt;</td></tr>
+        <tr><td>&lt;p&gt;</td><td>Paragraph</td><td>&lt;p&gt;Text&lt;/p&gt;</td></tr>
+        <tr><td>&lt;b&gt;</td><td>Bold text</td><td>&lt;b&gt;Bold&lt;/b&gt;</td></tr>
+        <tr><td>&lt;strong&gt;</td><td>Important/Bold text</td><td>&lt;strong&gt;Important&lt;/strong&gt;</td></tr>
+        <tr><td>&lt;i&gt;</td><td>Italic text</td><td>&lt;i&gt;Italic&lt;/i&gt;</td></tr>
+        <tr><td>&lt;em&gt;</td><td>Emphasized/Italic</td><td>&lt;em&gt;Stressed&lt;/em&gt;</td></tr>
+        <tr><td>&lt;u&gt;</td><td>Underline text</td><td>&lt;u&gt;Underlined&lt;/u&gt;</td></tr>
+        <tr><td>&lt;s&gt; / &lt;strike&gt;</td><td>Strikethrough text</td><td>&lt;s&gt;Old price&lt;/s&gt;</td></tr>
+        <tr><td>&lt;sup&gt;</td><td>Superscript (X²)</td><td>X&lt;sup&gt;2&lt;/sup&gt;</td></tr>
+        <tr><td>&lt;sub&gt;</td><td>Subscript (H₂O)</td><td>H&lt;sub&gt;2&lt;/sub&gt;O</td></tr>
+        <tr><td>&lt;br&gt;</td><td>Line break (no closing tag)</td><td>Line1&lt;br&gt;Line2</td></tr>
+        <tr><td>&lt;hr&gt;</td><td>Horizontal rule/line</td><td>&lt;hr&gt;</td></tr>
+        <tr><td>&lt;pre&gt;</td><td>Preformatted text (preserves spaces)</td><td>&lt;pre&gt;code&lt;/pre&gt;</td></tr>
+        <tr><td>&lt;blockquote&gt;</td><td>Indented quotation</td><td>&lt;blockquote&gt;...&lt;/blockquote&gt;</td></tr>
+        <tr><td>&lt;small&gt;</td><td>Smaller text</td><td>&lt;small&gt;small&lt;/small&gt;</td></tr>
+        <tr><td>&lt;big&gt;</td><td>Bigger text</td><td>&lt;big&gt;big&lt;/big&gt;</td></tr>
+        <tr><td>&lt;mark&gt;</td><td>Highlighted text</td><td>&lt;mark&gt;highlight&lt;/mark&gt;</td></tr>
+        <tr><td>&lt;code&gt;</td><td>Computer code</td><td>&lt;code&gt;print()&lt;/code&gt;</td></tr>
+        <tr><td>&lt;font&gt;</td><td>Font properties (HTML4)</td><td>&lt;font size="4" color="red"&gt;</td></tr>
+        <tr><td>&lt;center&gt;</td><td>Center align (HTML4)</td><td>&lt;center&gt;Text&lt;/center&gt;</td></tr>
+      </table>
+    </div>
+
+    <div class="sec-h">Link &amp; Image Tags</div>
+    <div class="fcard">
+      <div class="fcard-title" style="color:var(--amber)">Anchor Tag — Hyperlink</div>
+      <div class="code"><span class="k">&lt;a</span> <span class="a">href</span>=<span class="v">"https://www.google.com"</span> <span class="a">target</span>=<span class="v">"_blank"</span><span class="k">&gt;</span>Click Here<span class="k">&lt;/a&gt;</span>
+
+href    = URL / file path (destination)
+target  = _blank  (new tab)
+          _self   (same tab, default)
+          _parent (parent frame)
+          _top    (full window)
+
+Email link:   &lt;a href="mailto:abc@gmail.com"&gt;Email Us&lt;/a&gt;
+Phone link:   &lt;a href="tel:+911234567890"&gt;Call Us&lt;/a&gt;
+Anchor link:  &lt;a href="#section1"&gt;Go to Section&lt;/a&gt;</div>
+    </div>
+    <div class="fcard">
+      <div class="fcard-title" style="color:var(--amber)">Image Tag</div>
+      <div class="code"><span class="k">&lt;img</span> <span class="a">src</span>=<span class="v">"photo.jpg"</span> <span class="a">alt</span>=<span class="v">"Description"</span> <span class="a">width</span>=<span class="v">"300"</span> <span class="a">height</span>=<span class="v">"200"</span><span class="k">&gt;</span>
+
+src    = image file path or URL
+alt    = alternate text (if image fails to load)
+width  = image width in pixels
+height = image height in pixels
+Note: &lt;img&gt; is a SELF-CLOSING tag (no &lt;/img&gt;)</div>
+    </div>
+
+    <div class="sec-h">List Tags</div>
+    <div class="grid2">
+      <div class="fcard">
+        <div class="fcard-title" style="color:var(--amber)">Unordered List (Bullet)</div>
+        <div class="code"><span class="k">&lt;ul&gt;</span>               <span class="c">&lt;!-- bullet list --&gt;</span>
+  <span class="k">&lt;li&gt;</span>Item 1<span class="k">&lt;/li&gt;</span>
+  <span class="k">&lt;li&gt;</span>Item 2<span class="k">&lt;/li&gt;</span>
+<span class="k">&lt;/ul&gt;</span>
+type="disc"    (●, default)
+type="circle"  (○)
+type="square"  (■)</div>
+      </div>
+      <div class="fcard">
+        <div class="fcard-title" style="color:var(--amber)">Ordered List (Numbered)</div>
+        <div class="code"><span class="k">&lt;ol&gt;</span>               <span class="c">&lt;!-- numbered list --&gt;</span>
+  <span class="k">&lt;li&gt;</span>First<span class="k">&lt;/li&gt;</span>
+  <span class="k">&lt;li&gt;</span>Second<span class="k">&lt;/li&gt;</span>
+<span class="k">&lt;/ol&gt;</span>
+type="1"  (1,2,3 default)
+type="A"  (A,B,C)
+type="a"  (a,b,c)
+type="I"  (I,II,III)
+type="i"  (i,ii,iii)</div>
+      </div>
+    </div>
+
+    <div class="sec-h">Table Tags</div>
+    <div class="fcard">
+      <div class="code"><span class="k">&lt;table</span> <span class="a">border</span>=<span class="v">"1"</span> <span class="a">width</span>=<span class="v">"100%"</span> <span class="a">cellpadding</span>=<span class="v">"5"</span> <span class="a">cellspacing</span>=<span class="v">"0"</span><span class="k">&gt;</span>
+  <span class="k">&lt;caption&gt;</span>Table Title<span class="k">&lt;/caption&gt;</span>     <span class="c">&lt;!-- Table heading --&gt;</span>
+  <span class="k">&lt;tr&gt;</span>                                  <span class="c">&lt;!-- Table Row --&gt;</span>
+    <span class="k">&lt;th&gt;</span>Header 1<span class="k">&lt;/th&gt;</span>                  <span class="c">&lt;!-- Table Header cell (bold) --&gt;</span>
+    <span class="k">&lt;th&gt;</span>Header 2<span class="k">&lt;/th&gt;</span>
+  <span class="k">&lt;/tr&gt;</span>
+  <span class="k">&lt;tr&gt;</span>
+    <span class="k">&lt;td</span> <span class="a">colspan</span>=<span class="v">"2"</span><span class="k">&gt;</span>Merged Cell<span class="k">&lt;/td&gt;</span>  <span class="c">&lt;!-- spans 2 columns --&gt;</span>
+  <span class="k">&lt;/tr&gt;</span>
+  <span class="k">&lt;tr&gt;</span>
+    <span class="k">&lt;td</span> <span class="a">rowspan</span>=<span class="v">"2"</span><span class="k">&gt;</span>Tall Cell<span class="k">&lt;/td&gt;</span>    <span class="c">&lt;!-- spans 2 rows --&gt;</span>
+    <span class="k">&lt;td&gt;</span>Normal<span class="k">&lt;/td&gt;</span>
+  <span class="k">&lt;/tr&gt;</span>
+<span class="k">&lt;/table&gt;</span>
+
+Key attributes:
+  border     = border size
+  cellpadding = space inside cell
+  cellspacing = space between cells
+  colspan    = merge horizontally
+  rowspan    = merge vertically
+  align      = left/right/center
+  bgcolor    = background color</div>
+    </div>
+
+    <div class="sec-h">Form Tags</div>
+    <div class="fcard">
+      <div class="code"><span class="k">&lt;form</span> <span class="a">action</span>=<span class="v">"submit.php"</span> <span class="a">method</span>=<span class="v">"POST"</span><span class="k">&gt;</span>
+
+  <span class="c">&lt;!-- Text input --&gt;</span>
+  <span class="k">&lt;input</span> <span class="a">type</span>=<span class="v">"text"</span> <span class="a">name</span>=<span class="v">"username"</span> <span class="a">placeholder</span>=<span class="v">"Enter name"</span><span class="k">&gt;</span>
+
+  <span class="c">&lt;!-- Password --&gt;</span>
+  <span class="k">&lt;input</span> <span class="a">type</span>=<span class="v">"password"</span> <span class="a">name</span>=<span class="v">"pwd"</span><span class="k">&gt;</span>
+
+  <span class="c">&lt;!-- Email --&gt;</span>
+  <span class="k">&lt;input</span> <span class="a">type</span>=<span class="v">"email"</span> <span class="a">name</span>=<span class="v">"email"</span><span class="k">&gt;</span>
+
+  <span class="c">&lt;!-- Radio button --&gt;</span>
+  <span class="k">&lt;input</span> <span class="a">type</span>=<span class="v">"radio"</span> <span class="a">name</span>=<span class="v">"gender"</span> <span class="a">value</span>=<span class="v">"male"</span><span class="k">&gt;</span> Male
+  <span class="k">&lt;input</span> <span class="a">type</span>=<span class="v">"radio"</span> <span class="a">name</span>=<span class="v">"gender"</span> <span class="a">value</span>=<span class="v">"female"</span><span class="k">&gt;</span> Female
+
+  <span class="c">&lt;!-- Checkbox --&gt;</span>
+  <span class="k">&lt;input</span> <span class="a">type</span>=<span class="v">"checkbox"</span> <span class="a">name</span>=<span class="v">"agree"</span><span class="k">&gt;</span> I Agree
+
+  <span class="c">&lt;!-- Dropdown --&gt;</span>
+  <span class="k">&lt;select</span> <span class="a">name</span>=<span class="v">"city"</span><span class="k">&gt;</span>
+    <span class="k">&lt;option</span> <span class="a">value</span>=<span class="v">"ahm"</span><span class="k">&gt;</span>Ahmedabad<span class="k">&lt;/option&gt;</span>
+    <span class="k">&lt;option</span> <span class="a">value</span>=<span class="v">"mum"</span><span class="k">&gt;</span>Mumbai<span class="k">&lt;/option&gt;</span>
+  <span class="k">&lt;/select&gt;</span>
+
+  <span class="c">&lt;!-- Textarea --&gt;</span>
+  <span class="k">&lt;textarea</span> <span class="a">rows</span>=<span class="v">"4"</span> <span class="a">cols</span>=<span class="v">"30"</span><span class="k">&gt;&lt;/textarea&gt;</span>
+
+  <span class="c">&lt;!-- Submit button --&gt;</span>
+  <span class="k">&lt;input</span> <span class="a">type</span>=<span class="v">"submit"</span> <span class="a">value</span>=<span class="v">"Submit"</span><span class="k">&gt;</span>
+  <span class="k">&lt;input</span> <span class="a">type</span>=<span class="v">"reset"</span> <span class="a">value</span>=<span class="v">"Reset"</span><span class="k">&gt;</span>
+  <span class="k">&lt;input</span> <span class="a">type</span>=<span class="v">"button"</span> <span class="a">value</span>=<span class="v">"Click"</span><span class="k">&gt;</span>
+  <span class="k">&lt;input</span> <span class="a">type</span>=<span class="v">"file"</span><span class="k">&gt;</span>           <span class="c">&lt;!-- file upload --&gt;</span>
+  <span class="k">&lt;input</span> <span class="a">type</span>=<span class="v">"hidden"</span><span class="k">&gt;</span>         <span class="c">&lt;!-- hidden field --&gt;</span>
+  <span class="k">&lt;input</span> <span class="a">type</span>=<span class="v">"number"</span><span class="k">&gt;</span>         <span class="c">&lt;!-- number only --&gt;</span>
+  <span class="k">&lt;input</span> <span class="a">type</span>=<span class="v">"date"</span><span class="k">&gt;</span>           <span class="c">&lt;!-- date picker --&gt;</span>
+  <span class="k">&lt;input</span> <span class="a">type</span>=<span class="v">"color"</span><span class="k">&gt;</span>          <span class="c">&lt;!-- color picker --&gt;</span>
+<span class="k">&lt;/form&gt;</span>
+
+method="GET"  — data visible in URL (for search)
+method="POST" — data hidden (for login, forms)</div>
+    </div>
+
+    <div class="sec-h">Structural / Layout Tags</div>
+    <div class="fcard">
+      <table class="tag-table">
+        <tr><th>Tag</th><th>Description</th></tr>
+        <tr><td>&lt;div&gt;</td><td>Block-level container (division)</td></tr>
+        <tr><td>&lt;span&gt;</td><td>Inline container (for styling text)</td></tr>
+        <tr><td>&lt;header&gt;</td><td>Page/section header (HTML5)</td></tr>
+        <tr><td>&lt;footer&gt;</td><td>Page/section footer (HTML5)</td></tr>
+        <tr><td>&lt;nav&gt;</td><td>Navigation links section (HTML5)</td></tr>
+        <tr><td>&lt;main&gt;</td><td>Main content area (HTML5)</td></tr>
+        <tr><td>&lt;section&gt;</td><td>Standalone section (HTML5)</td></tr>
+        <tr><td>&lt;article&gt;</td><td>Independent article (HTML5)</td></tr>
+        <tr><td>&lt;aside&gt;</td><td>Sidebar content (HTML5)</td></tr>
+        <tr><td>&lt;iframe&gt;</td><td>Embed another webpage</td></tr>
+        <tr><td>&lt;script&gt;</td><td>JavaScript code</td></tr>
+        <tr><td>&lt;style&gt;</td><td>CSS styling</td></tr>
+        <tr><td>&lt;link&gt;</td><td>Link external CSS file</td></tr>
+        <tr><td>&lt;meta&gt;</td><td>Metadata (charset, viewport, description)</td></tr>
+      </table>
+    </div>
+
+    <div class="sec-h">Important HTML Attributes</div>
+    <div class="fcard">
+      <table>
+        <tr><th>Attribute</th><th>Used In</th><th>Purpose</th></tr>
+        <tr><td class="mono">id</td><td>Any tag</td><td>Unique identifier</td></tr>
+        <tr><td class="mono">class</td><td>Any tag</td><td>Group elements for CSS</td></tr>
+        <tr><td class="mono">style</td><td>Any tag</td><td>Inline CSS styling</td></tr>
+        <tr><td class="mono">href</td><td>&lt;a&gt;</td><td>Link destination</td></tr>
+        <tr><td class="mono">src</td><td>&lt;img&gt;,&lt;script&gt;</td><td>File source</td></tr>
+        <tr><td class="mono">alt</td><td>&lt;img&gt;</td><td>Alternative text</td></tr>
+        <tr><td class="mono">name</td><td>&lt;input&gt;</td><td>Field name for form data</td></tr>
+        <tr><td class="mono">value</td><td>&lt;input&gt;</td><td>Default/submitted value</td></tr>
+        <tr><td class="mono">action</td><td>&lt;form&gt;</td><td>Where to send form data</td></tr>
+        <tr><td class="mono">method</td><td>&lt;form&gt;</td><td>GET or POST</td></tr>
+        <tr><td class="mono">colspan</td><td>&lt;td&gt;/&lt;th&gt;</td><td>Merge columns</td></tr>
+        <tr><td class="mono">rowspan</td><td>&lt;td&gt;/&lt;th&gt;</td><td>Merge rows</td></tr>
+        <tr><td class="mono">target</td><td>&lt;a&gt;</td><td>Open in new tab (_blank)</td></tr>
+        <tr><td class="mono">type</td><td>&lt;input&gt;</td><td>Field type (text/radio/etc.)</td></tr>
+        <tr><td class="mono">placeholder</td><td>&lt;input&gt;</td><td>Hint text inside field</td></tr>
+        <tr><td class="mono">required</td><td>&lt;input&gt;</td><td>Makes field mandatory</td></tr>
+        <tr><td class="mono">disabled</td><td>&lt;input&gt;</td><td>Grays out / disables field</td></tr>
+        <tr><td class="mono">readonly</td><td>&lt;input&gt;</td><td>Cannot be edited by user</td></tr>
+        <tr><td class="mono">checked</td><td>radio/checkbox</td><td>Pre-selects the option</td></tr>
+        <tr><td class="mono">selected</td><td>&lt;option&gt;</td><td>Pre-selects dropdown option</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="tab-content" id="t3o">
+    <div class="obj-card"><div class="obj-q">1. HTML stands for?</div><button class="obj-btn" onclick="toggleAns(this)">Show Answer</button><div class="obj-ans">HyperText Markup Language</div></div>
+    <div class="obj-card"><div class="obj-q">2. Which tag makes text bold?</div><button class="obj-btn" onclick="toggleAns(this)">Show Answer</button><div class="obj-ans">&lt;b&gt; or &lt;strong&gt; — both make text bold</div></div>
+    <div class="obj-card"><div class="obj-q">3. Which is a self-closing (empty) tag?</div><button class="obj-btn" onclick="toggleAns(this)">Show Answer</button><div class="obj-ans">&lt;br&gt;, &lt;hr&gt;, &lt;img&gt;, &lt;input&gt;, &lt;meta&gt;, &lt;link&gt; — no closing tag needed</div></div>
+    <div class="obj-card"><div class="obj-q">4. Tag to create a hyperlink?</div><button class="obj-btn" onclick="toggleAns(this)">Show Answer</button><div class="obj-ans">&lt;a href="url"&gt;Link Text&lt;/a&gt;</div></div>
+    <div class="obj-card"><div class="obj-q">5. Which attribute opens link in new tab?</div><button class="obj-btn" onclick="toggleAns(this)">Show Answer</button><div class="obj-ans">target="_blank"</div></div>
+    <div class="obj-card"><div class="obj-q">6. colspan is used to?</div><button class="obj-btn" onclick="toggleAns(this)">Show Answer</button><div class="obj-ans">Merge table cells horizontally (across columns)</div></div>
+    <div class="obj-card"><div class="obj-q">7. &lt;ol type="A"&gt; shows list as?</div><button class="obj-btn" onclick="toggleAns(this)">Show Answer</button><div class="obj-ans">A, B, C, D... (uppercase letters)</div></div>
+    <div class="obj-card"><div class="obj-q">8. &lt;img&gt; tag requires which attribute?</div><button class="obj-btn" onclick="toggleAns(this)">Show Answer</button><div class="obj-ans">src (image path) and alt (alternate text) — both important</div></div>
+    <div class="obj-card"><div class="obj-q">9. Difference between GET and POST method?</div><button class="obj-btn" onclick="toggleAns(this)">Show Answer</button><div class="obj-ans">GET — data visible in URL. POST — data hidden (secure, for login forms)</div></div>
+    <div class="obj-card"><div class="obj-q">10. Tag for largest heading?</div><button class="obj-btn" onclick="toggleAns(this)">Show Answer</button><div class="obj-ans">&lt;h1&gt; (h1 is largest, h6 is smallest)</div></div>
+    <div class="obj-card"><div class="obj-q">11. Which tag is used for ordered/numbered list?</div><button class="obj-btn" onclick="toggleAns(this)">Show Answer</button><div class="obj-ans">&lt;ol&gt; (Ordered List) — with &lt;li&gt; for each item</div></div>
+    <div class="obj-card"><div class="obj-q">12. &lt;sup&gt; tag is used for?</div><button class="obj-btn" onclick="toggleAns(this)">Show Answer</button><div class="obj-ans">Superscript — e.g., X² (power/exponent)</div></div>
+    <div class="obj-card"><div class="obj-q">13. Which is NOT a form element type?</div><button class="obj-btn" onclick="toggleAns(this)">Show Answer</button><div class="obj-ans">"table" is not an input type. Valid: text, radio, checkbox, submit, reset, password, email</div></div>
+    <div class="obj-card"><div class="obj-q">14. &lt;span&gt; vs &lt;div&gt;?</div><button class="obj-btn" onclick="toggleAns(this)">Show Answer</button><div class="obj-ans">span = inline element (does not break line). div = block element (starts new line)</div></div>
+    <div class="obj-card"><div class="obj-q">15. Which attribute makes input field required?</div><button class="obj-btn" onclick="toggleAns(this)">Show Answer</button><div class="obj-ans">required (attribute) — &lt;input type="text" required&gt;</div></div>
+  </div>
+
+  <div class="tab-content" id="t3t">
+    <div class="tip-card tip"><div class="tip-label">HTML Document Order</div><div class="tip-text">Remember the nesting order: <strong>&lt;html&gt; → &lt;head&gt; → &lt;title&gt; and &lt;body&gt;</strong>. Body has all visible content. Head has metadata (not visible).</div></div>
+    <div class="tip-card trick"><div class="tip-label">Self-Closing Tags Memory Trick</div><div class="tip-text">Self-closing (void) tags: <strong>br hr img input meta link</strong>. Think "BHIIM L" — these don't need closing tags.</div></div>
+    <div class="tip-card fast"><div class="tip-label">Table Tags Order</div><div class="tip-text">Table structure: <code>&lt;table&gt;</code> → <code>&lt;tr&gt;</code> (row) → <code>&lt;th&gt;</code> (header) or <code>&lt;td&gt;</code> (data). Always table first, then row, then cell.</div></div>
+    <div class="tip-card warn"><div class="tip-label">Common Exam Trap</div><div class="tip-text">&lt;b&gt; vs &lt;strong&gt;: both look bold but &lt;strong&gt; has semantic importance for SEO/accessibility. Similarly &lt;i&gt; vs &lt;em&gt;. Exams love this distinction.</div></div>
+    <div class="tip-card info"><div class="tip-label">colspan vs rowspan</div><div class="tip-text"><strong>colspan</strong> = merge COLUMNS (horizontal). <strong>rowspan</strong> = merge ROWS (vertical). "col = across, row = down".</div></div>
+    <div class="tip-card trick"><div class="tip-label">Form Method Trick</div><div class="tip-text"><strong>GET</strong> = Get from server (search). Shows data in URL. <strong>POST</strong> = Post to server (login, register). Hides data. Use POST for sensitive info!</div></div>
+  </div>
+</section>
+
+<!-- ==================== T4: MS WORD ==================== -->
+<section class="topic-section" id="t4">
+  <div class="topic-header">
+    <div class="topic-icon-big" style="background:var(--blue2);color:var(--blue)">W</div>
+    <div>
+      <div class="topic-title">MS Word — Microsoft Word</div>
+      <div class="topic-sub">Shortcuts, features, ribbons, formatting, mail merge, tables</div>
+    </div>
+  </div>
+  <div class="tabs">
+    <button class="tab-btn active" onclick="switchTab(this,'t4f')">Features &amp; Info</button>
+    <button class="tab-btn" onclick="switchTab(this,'t4s')">Shortcuts</button>
+    <button class="tab-btn" onclick="switchTab(this,'t4o')">Objective MCQs</button>
+    <button class="tab-btn" onclick="switchTab(this,'t4t')">Tips &amp; Tricks</button>
+  </div>
+
+  <div class="tab-content active" id="t4f">
+    <div class="sec-h">MS Word Basics</div>
+    <div class="fcard">
+      <div class="code">MS Word — Microsoft Word
+Developer : Microsoft Corporation
+Part of   : Microsoft Office Suite
+File Ext  : .docx (Word 2007+), .doc (older)
+Default Extension: .docx
+
+Start MS Word: Start → All Programs → Microsoft Office → Microsoft Word
+OR type "winword" in Run dialog (Win+R)</div>
+    </div>
+
+    <div class="sec-h">Ribbon Tabs &amp; Their Functions</div>
+    <div class="fcard">
+      <table>
+        <tr><th>Tab</th><th>Key Features</th></tr>
+        <tr><td><strong>File</strong></td><td>New, Open, Save, Save As, Print, Export, Options, Close</td></tr>
+        <tr><td><strong>Home</strong></td><td>Clipboard, Font (Bold/Italic/Size/Color), Paragraph (Align/Bullets/Spacing), Styles, Find &amp; Replace</td></tr>
+        <tr><td><strong>Insert</strong></td><td>Pages (Cover/Blank), Tables, Pictures, Shapes, SmartArt, Charts, Header/Footer, Page Number, Text Box, WordArt, Hyperlink</td></tr>
+        <tr><td><strong>Design</strong></td><td>Document Themes, Colors, Fonts, Effects, Watermark, Page Color, Page Borders</td></tr>
+        <tr><td><strong>Layout</strong></td><td>Page Setup (Margins/Orientation/Size), Columns, Breaks, Indent, Spacing</td></tr>
+        <tr><td><strong>References</strong></td><td>Table of Contents, Footnote, Citation, Bibliography, Caption, Index</td></tr>
+        <tr><td><strong>Mailings</strong></td><td>Mail Merge (Envelopes, Labels, Start Mail Merge, Select Recipients)</td></tr>
+        <tr><td><strong>Review</strong></td><td>Spelling &amp; Grammar, Thesaurus, Word Count, Comments, Track Changes, Compare</td></tr>
+        <tr><td><strong>View</strong></td><td>Views (Print/Web/Read), Zoom, Ruler, Gridlines, Navigation Pane, Macros</td></tr>
+      </table>
+    </div>
+
+    <div class="sec-h">Page Setup Options</div>
+    <div class="fcard">
+      <div class="code">Location: Layout Tab → Page Setup Group
+
+Margins: Top, Bottom, Left, Right (default: 1 inch each)
+Orientation: Portrait (vertical) or Landscape (horizontal)
+Paper Size: A4 (default), Letter, Legal, A3, etc.
+Columns: One, Two, Three, Left, Right
+
+Page Breaks: Ctrl+Enter = Insert Page Break
+Section Break: Layout → Breaks → Section Breaks</div>
+    </div>
+
+    <div class="sec-h">Find &amp; Replace</div>
+    <div class="fcard">
+      <div class="code">Find:    Ctrl + F   → opens Navigation pane to search
+Replace: Ctrl + H   → finds and replaces text
+
+Go To:   Ctrl + G   → jumps to specific page/line/section</div>
+    </div>
+
+    <div class="sec-h">Paragraph Formatting</div>
+    <div class="fcard">
+      <table>
+        <tr><th>Feature</th><th>Shortcut / Location</th><th>Effect</th></tr>
+        <tr><td>Align Left</td><td>Ctrl+L</td><td>Text starts from left</td></tr>
+        <tr><td>Align Center</td><td>Ctrl+E</td><td>Text centered</td></tr>
+        <tr><td>Align Right</td><td>Ctrl+R</td><td>Text starts from right</td></tr>
+        <tr><td>Justify</td><td>Ctrl+J</td><td>Both sides aligned</td></tr>
+        <tr><td>Line Spacing</td><td>Home→Paragraph→↕</td><td>Space between lines</td></tr>
+        <tr><td>Indent</td><td>Tab / Ctrl+M</td><td>Push text right</td></tr>
+        <tr><td>Hanging Indent</td><td>Ctrl+T</td><td>First line at left, rest indented</td></tr>
+        <tr><td>Remove Indent</td><td>Ctrl+Shift+M</td><td>Move text left</td></tr>
+      </table>
+    </div>
+
+    <div class="sec-h">Mail Merge Steps</div>
+    <div class="fcard">
+      <div class="code">Mail Merge = Send same letter to multiple recipients with personalised details
+
+Steps (Mailings Tab):
+1. Start Mail Merge → Select document type (Letters)
+2. Select Recipients → Use existing list (Excel/Access file)
+3. Write/Insert Merge Fields → «FirstName», «Address», etc.
+4. Preview Results → Check how it looks
+5. Finish &amp; Merge → Print or Email
+
+Use: Invitation letters, Salary slips, Result cards</div>
+    </div>
+
+    <div class="sec-h">Track Changes &amp; Comments</div>
+    <div class="fcard">
+      <div class="code">Track Changes: Review → Track Changes (Ctrl+Shift+E)
+  → Records all edits made to the document
+  → Accept All: Accept all changes
+  → Reject All: Reject all changes
+
+Comments: Review → New Comment (Ctrl+Alt+M)
+  → Add notes without changing document text
+  → Reply to, Delete, Resolve comments</div>
+    </div>
+  </div>
+
+  <div class="tab-content" id="t4s">
+    <div class="sec-h">Essential MS Word Shortcuts</div>
+    <div class="sc-grid">
+      <div class="sc-card"><span class="sc-label">New Document</span><span class="sc-keys"><span class="shortcut">Ctrl</span><span class="shortcut-plus">+</span><span class="shortcut">N</span></span></div>
+      <div class="sc-card"><span class="sc-label">Open File</span><span class="sc-keys"><span class="shortcut">Ctrl</span><span class="shortcut-plus">+</span><span class="shortcut">O</span></span></div>
+      <div class="sc-card"><span class="sc-label">Save</span><span class="sc-keys"><span class="shortcut">Ctrl</span><span class="shortcut-plus">+</span><span class="shortcut">S</span></span></div>
+      <div class="sc-card"><span class="sc-label">Save As</span><span class="sc-keys"><span class="shortcut">F12</span></span></div>
+      <div class="sc-card"><span class="sc-label">Print</span><span class="sc-keys"><span class="shortcut">Ctrl</span><span class="shortcut-plus">+</span><span class="shortcut">P</span></span></div>
+      <div class="sc-card"><span class="sc-label">Close Document</span><span class="sc-keys"><span class="shortcut">Ctrl</span><span class="shortcut-plus">+</span><span class="shortcut">W</span></span></div>
+      <div class="sc-card"><span class="sc-label">Undo</span><span class="sc-keys"><span class="shortcut">Ctrl</span><span class="shortcut-plus">+</span><span class="shortcut">Z</span></span></div>
+      <div class="sc-card"><span class="sc-label">Redo</span><span class="sc-keys"><span class="shortcut">Ctrl</span><span class="shortcut-plus">+</span><span class="shortcut">Y</span></span></div>
+      <div class="sc-card"><span class="sc-label">Cut</span><span class="sc-keys"><span class="shortcut">Ctrl</span><span class="shortcut-plus">+</span><span class="shortcut">X</span></span></div>
+      <div class="sc-card"><span class="sc-label">Copy</span><span class="sc-keys"><span class="shortcut">Ctrl</span><span class="shortcut-plus">+</span><span class="shortcut">C</span></span></div>
+      <div class="sc-card"><span class="sc-label">Paste</span><span class="sc-keys"><span class="shortcut">Ctrl</span><span class="shortcut-plus">+</span><span class="shortcut">V</span></span></div>
+      <div class="sc-card"><span class="sc-label">Select All</span><span class="sc-keys"><span class="shortcut">Ctrl</span><span class="shortcut-plus">+</span><span class="shortcut">A</span></span></div>
+      <div class="sc-card"><span class="sc-label">Bold</span><span class="sc-keys"><span class="shortcut">Ctrl</span><span class="shortcut-plus">+</span><span class="shortcut">B</span></span></div>
+      <div class="sc-card"><span class="sc-label">Italic</span><span class="sc-keys"><span class="shortcut">Ctrl</span><span class="shortcut-plus">+</span><span class="shortcut">I</span></span></div>
+      <div class="sc-card"><span class="sc-label">Underline</span><span class="sc-keys"><span class="shortcut">Ctrl</span><span class="shortcut-plus">+</span><span class="shortcut">U</span></span></div>
+      <div class="sc-card"><span class="sc-label">Strikethrough</span><span class="sc-keys"><span class="shortcut">Alt</span><span class="shortcut-plus">+</span><span class="shortcut">H</span><span class="shortcut-plus">,</span><span class="shortcut">4</span></span></div>
+      <div class="sc-card"><span class="sc-label">Subscript</span><span class="sc-keys"><span class="shortcut">Ctrl</span><span class="shortcut-plus">+</span><span class="shortcut">=</span></span></div>
+      <div class="sc-card"><span class="sc-label">Superscript</span><span class="sc-keys"><span class="shortcut">Ctrl</span><span class="shortcut-plus">+</span><span class="shortcut">Shift</span><span class="shortcut-plus">+</span><span class="shortcut">+</span></span></div>
+      <div class="sc-card"><span class="sc-label">Align Left</span><span class="sc-keys"><span class="shortcut">Ctrl</span><span class="shortcut-plus">+</span><span class="shortcut">L</span></span></div>
+      <div class="sc-card"><span class="sc-label">Center</span><span class="sc-keys"><span class="shortcut">Ctrl</span><span class="shortcut-plus">+</span><span class="shortcut">E</span></span></div>
+      <div class="sc-card"><span class="sc-label">Align Right</span><span class="sc-keys"><span class="shortcut">Ctrl</span><span class="shortcut-plus">+</span><span class="shortcut">R</span></span></div>
+      <div class="sc-card"><span class="sc-label">Justify</span><span class="sc-keys"><span class="shortcut">Ctrl</span><span class="shortcut-plus">+</span><span class="shortcut">J</span></span></div>
+      <div class="sc-card"><span class="sc-label">Font Size Up</span><span class="sc-keys"><span class="shortcut">Ctrl</span><span class="shortcut-plus">+</span><span class="shortcut">]</span></span></div>
+      <div class="sc-card"><span class="sc-label">Font Size Down</span><span class="sc-keys"><span class="shortcut">Ctrl</span><span class="shortcut-plus">+</span><span class="shortcut">[</span></span></div>
+      <div class="sc-card"><span class="sc-label">Find</span><span class="sc-keys"><span class="shortcut">Ctrl</span><span class="shortcut-plus">+</span><span class="shortcut">F</span></span></div>
+      <div class="sc-card"><span class="sc-label">Replace</span><span class="sc-keys"><span class="shortcut">Ctrl</span><span class="shortcut-plus">+</span><span class="shortcut">H</span></span></div>
+      <div class="sc-card"><span class="sc-label">Spell Check</span><span class="sc-keys"><span class="shortcut">F7</span></span></div>
+      <div class="sc-card"><span class="sc-label">Word Count</span><span class="sc-keys"><span class="shortcut">Ctrl</span><span class="shortcut-plus">+</span><span class="shortcut">Shift</span><span class="shortcut-plus">+</span><span class="shortcut">G</span></span></div>
+      <div class="sc-card"><span class="sc-label">Page Break</span><span class="sc-keys"><span class="shortcut">Ctrl</span><span class="shortcut-plus">+</span><span class="shortcut">Enter</span></span></div>
+      <div class="sc-card"><span class="sc-label">Go To Page</span><span class="sc-keys"><span class="shortcut">Ctrl</span><span class="shortcut-plus">+</span><span class="shortcut">G</span></span></div>
+      <div class="sc-card"><span class="sc-label">Clear Formatting</span><span class="sc-keys"><span class="shortcut">Ctrl</span><span class="shortcut-plus">+</span><span class="shortcut">Space</span></span></div>
+      <div class="sc-card"><span class="sc-label">ALL CAPS Toggle</span><span class="sc-keys"><span class="shortcut">Ctrl</span><span class="shortcut-plus">+</span><span class="shortcut">Shift</span><span class="shortcut-plus">+</span><span class="shortcut">A</span></span></div>
+      <div class="sc-card"><span class="sc-label">Double Underline</span><span class="sc-keys"><span class="shortcut">Ctrl</span><span class="shortcut-plus">+</span><span class="shortcut">Shift</span><span class="shortcut-plus">+</span><span class="shortcut">D</span></span></div>
+      <div class="sc-card"><span class="sc-label">Heading 1 Style</span><span class="sc-keys"><span class="shortcut">Ctrl</span><span class="shortcut-plus">+</span><span class="shortcut">Alt</span><span class="shortcut-plus">+</span><span class="shortcut">1</span></span></div>
+      <div class="sc-card"><span class="sc-label">Heading 2 Style</span><span class="sc-keys"><span class="shortcut">Ctrl</span><span class="shortcut-plus">+</span><span class="shortcut">Alt</span><span class="shortcut-plus">+</span><span class="shortcut">2</span></span></div>
+      <div class="sc-card"><span class="sc-label">Toggle Track Changes</span><span class="sc-keys"><span class="shortcut">Ctrl</span><span class="shortcut-plus">+</span><span class="shortcut">Shift</span><span class="shortcut-plus">+</span><span class="shortcut">E</span></span></div>
+      <div class="sc-card"><span class="sc-label">Insert Comment</span><span class="sc-keys"><span class="shortcut">Ctrl</span><span class="shortcut-plus">+</span><span class="shortcut">Alt</span><span class="shortcut-plus">+</span><span class="shortcut">M</span></span></div>
+      <div class="sc-card"><span class="sc-label">Zoom</span><span class="sc-keys"><span class="shortcut">Alt</span><span class="shortcut-plus">+</span><span class="shortcut">W</span><span class="shortcut-plus">,</span><span class="shortcut">Q</span></span></div>
+      <div class="sc-card"><span class="sc-label">Non-printing chars</span><span class="sc-keys"><span class="shortcut">Ctrl</span><span class="shortcut-plus">+</span><span class="shortcut">Shift</span><span class="shortcut-plus">+</span><span class="shortcut">*</span></span></div>
+    </div>
+  </div>
+
+  <div class="tab-content" id="t4o">
+    <div class="obj-card"><div class="obj-q">1. Default file extension of MS Word 2019?</div><button class="obj-btn" onclick="toggleAns(this)">Show Answer</button><div class="obj-ans">.docx</div></div>
+    <div class="obj-card"><div class="obj-q">2. Shortcut to Save As in Word?</div><button class="obj-btn" onclick="toggleAns(this)">Show Answer</button><div class="obj-ans">F12</div></div>
+    <div class="obj-card"><div class="obj-q">3. Mail Merge is found in which tab?</div><button class="obj-btn" onclick="toggleAns(this)">Show Answer</button><div class="obj-ans">Mailings Tab</div></div>
+    <div class="obj-card"><div class="obj-q">4. Ctrl+E in MS Word does?</div><button class="obj-btn" onclick="toggleAns(this)">Show Answer</button><div class="obj-ans">Center alignment (E = cEntEr)</div></div>
+    <div class="obj-card"><div class="obj-q">5. Spelling and Grammar check shortcut?</div><button class="obj-btn" onclick="toggleAns(this)">Show Answer</button><div class="obj-ans">F7</div></div>
+    <div class="obj-card"><div class="obj-q">6. To insert a Page Break?</div><button class="obj-btn" onclick="toggleAns(this)">Show Answer</button><div class="obj-ans">Ctrl + Enter</div></div>
+    <div class="obj-card"><div class="obj-q">7. Header and Footer is in which tab?</div><button class="obj-btn" onclick="toggleAns(this)">Show Answer</button><div class="obj-ans">Insert Tab → Header &amp; Footer group</div></div>
+    <div class="obj-card"><div class="obj-q">8. Ctrl+H in Word?</div><button class="obj-btn" onclick="toggleAns(this)">Show Answer</button><div class="obj-ans">Find and Replace (H = replace)</div></div>
+    <div class="obj-card"><div class="obj-q">9. To change page orientation?</div><button class="obj-btn" onclick="toggleAns(this)">Show Answer</button><div class="obj-ans">Layout Tab → Orientation → Portrait or Landscape</div></div>
+    <div class="obj-card"><div class="obj-q">10. Word Count shortcut?</div><button class="obj-btn" onclick="toggleAns(this)">Show Answer</button><div class="obj-ans">Ctrl + Shift + G (or Review Tab → Word Count)</div></div>
+    <div class="obj-card"><div class="obj-q">11. Track Changes is in which tab?</div><button class="obj-btn" onclick="toggleAns(this)">Show Answer</button><div class="obj-ans">Review Tab</div></div>
+    <div class="obj-card"><div class="obj-q">12. Table of Contents is in?</div><button class="obj-btn" onclick="toggleAns(this)">Show Answer</button><div class="obj-ans">References Tab → Table of Contents</div></div>
+    <div class="obj-card"><div class="obj-q">13. Ctrl+J alignment in Word?</div><button class="obj-btn" onclick="toggleAns(this)">Show Answer</button><div class="obj-ans">Justify — aligns text to both left and right margins</div></div>
+    <div class="obj-card"><div class="obj-q">14. Watermark is added from?</div><button class="obj-btn" onclick="toggleAns(this)">Show Answer</button><div class="obj-ans">Design Tab → Watermark</div></div>
+  </div>
+
+  <div class="tab-content" id="t4t">
+    <div class="tip-card tip"><div class="tip-label">Alignment Shortcuts Memory</div><div class="tip-text"><strong>L=Left, E=cEntEr, R=Right, J=Justify</strong>. Ctrl+L/E/R/J. Center uses E because C is already taken by Copy.</div></div>
+    <div class="tip-card trick"><div class="tip-label">Tab Locations Trick</div><div class="tip-text">Think: <strong>File→Home→Insert→Design→Layout→References→Mailings→Review→View</strong>. "For Helping In Document Layout, References, Mail, Review Visually."</div></div>
+    <div class="tip-card fast"><div class="tip-label">Save Shortcuts</div><div class="tip-text">Ctrl+S = Save (same file). F12 = Save As (new name/location). Always remember: F12 for Save As!</div></div>
+    <div class="tip-card warn"><div class="tip-label">Portrait vs Landscape</div><div class="tip-text">Portrait = tall (vertical, like a portrait painting). Landscape = wide (horizontal, like a landscape photo). Default = Portrait.</div></div>
+    <div class="tip-card info"><div class="tip-label">Mail Merge Data Source</div><div class="tip-text">Mail Merge can use data from MS Excel, MS Access, or Word table. The data file with recipient info is called the "Data Source."</div></div>
+  </div>
+</section>
+
+<!-- ==================== T5: MS EXCEL ==================== -->
+<section class="topic-section" id="t5">
+  <div class="topic-header">
+    <div class="topic-icon-big" style="background:var(--green2);color:var(--green)">X</div>
+    <div>
+      <div class="topic-title">MS Excel — Microsoft Excel</div>
+      <div class="topic-sub">Formulas, Functions, Shortcuts, Charts, Cell References</div>
+    </div>
+  </div>
+  <div class="tabs">
+    <button class="tab-btn active" onclick="switchTab(this,'t5f')">Formulas &amp; Functions</button>
+    <button class="tab-btn" onclick="switchTab(this,'t5s')">Shortcuts</button>
+    <button class="tab-btn" onclick="switchTab(this,'t5o')">Objective MCQs</button>
+    <button class="tab-btn" onclick="switchTab(this,'t5t')">Tips &amp; Tricks</button>
+  </div>
+
+  <div class="tab-content active" id="t5f">
+    <div class="sec-h">Excel Basics</div>
+    <div class="fcard">
+      <div class="code">MS Excel — Spreadsheet Application
+File Extension: .xlsx (Excel 2007+), .xls (older)
+
+Workbook  = The Excel file (contains sheets)
+Worksheet = Individual sheet/tab (Sheet1, Sheet2...)
+Cell      = Intersection of row &amp; column (e.g., A1, B3)
+Row       = Horizontal (numbered 1,2,3...)
+Column    = Vertical (lettered A,B,C...)
+
+Max Columns: 16,384 (XFD)
+Max Rows:    1,048,576
+Max Sheets:  255 (per workbook)
+Name Box    = Shows current cell address (top-left)
+Formula Bar = Shows formula/content of selected cell</div>
+    </div>
+
+    <div class="sec-h">Cell Reference Types</div>
+    <div class="fcard">
+      <table>
+        <tr><th>Type</th><th>Example</th><th>Behavior when copied</th></tr>
+        <tr><td>Relative</td><td class="mono">A1</td><td>Changes row &amp; column (default)</td></tr>
+        <tr><td>Absolute</td><td class="mono">$A$1</td><td>Stays fixed (use F4)</td></tr>
+        <tr><td>Mixed (col fixed)</td><td class="mono">$A1</td><td>Column fixed, row changes</td></tr>
+        <tr><td>Mixed (row fixed)</td><td class="mono">A$1</td><td>Row fixed, column changes</td></tr>
+      </table>
+      <p class="code-note">Press F4 to cycle through reference types: A1 → $A$1 → A$1 → $A1 → A1</p>
+    </div>
+
+    <div class="sec-h">All Excel Formulas &amp; Functions (Critical for Exam)</div>
+    <div class="fcard">
+      <div class="fcard-title" style="color:var(--green)">Math Functions</div>
+      <div class="code">=SUM(A1:A10)           Sum of range A1 to A10
+=SUM(A1,B1,C1)         Sum of specific cells
+=SUMIF(range,criteria) Sum cells matching condition
+=SUMIFS(...)           Sum with multiple conditions
+=PRODUCT(A1:A5)        Multiply all values
+=MOD(10,3)             Remainder = 1
+=POWER(2,10)           2^10 = 1024
+=SQRT(144)             Square root = 12
+=ABS(-5)               Absolute value = 5
+=ROUND(3.567,2)        Round to 2 decimal = 3.57
+=ROUNDUP(3.1,0)        Always round up = 4
+=ROUNDDOWN(3.9,0)      Always round down = 3
+=INT(3.9)              Integer part = 3
+=CEILING(4.1,1)        Round up to multiple = 5
+=FLOOR(4.9,1)          Round down to multiple = 4
+=RAND()                Random 0–1
+=RANDBETWEEN(1,100)    Random between 1–100
+=PI()                  Value of π = 3.14159...</div>
+    </div>
+    <div class="fcard">
+      <div class="fcard-title" style="color:var(--green)">Statistical Functions</div>
+      <div class="code">=AVERAGE(A1:A10)       Arithmetic mean
+=AVERAGEIF(range,crit) Average if condition met
+=COUNT(A1:A10)         Count numeric cells only
+=COUNTA(A1:A10)        Count non-empty cells
+=COUNTBLANK(A1:A10)    Count empty cells
+=COUNTIF(A1:A10,"&gt;50") Count cells &gt; 50
+=COUNTIFS(...)         Count with multiple conditions
+=MAX(A1:A10)           Maximum value
+=MIN(A1:A10)           Minimum value
+=LARGE(A1:A10,2)       2nd largest value
+=SMALL(A1:A10,2)       2nd smallest value
+=MEDIAN(A1:A10)        Middle value
+=MODE(A1:A10)          Most frequent value
+=STDEV(A1:A10)         Standard deviation
+=VAR(A1:A10)           Variance
+=RANK(A1,A1:A10,0)     Rank (0=desc, 1=asc)</div>
+    </div>
+    <div class="fcard">
+      <div class="fcard-title" style="color:var(--green)">Text Functions</div>
+      <div class="code">=LEN("Hello")           Length = 5
+=UPPER("hello")        HELLO
+=LOWER("HELLO")        hello
+=PROPER("hello world") Hello World
+=LEFT("Excel",3)       Exc (left 3 chars)
+=RIGHT("Excel",3)      cel (right 3 chars)
+=MID("Excel",2,3)      xce (3 chars from pos 2)
+=TRIM("  hello  ")     "hello" (removes spaces)
+=CONCATENATE(A1," ",B1) Join text
+=A1&amp;" "&amp;B1            Join text (shorter)
+=TEXT(1234,"₹#,##0")   Format as currency
+=FIND("l","Hello")     Position of 'l' = 3
+=SUBSTITUTE("Hi","H","B") Bi
+=REPLACE("Hello",1,2,"X") Xllo
+=REPT("*",5)           ***** (repeat)</div>
+    </div>
+    <div class="fcard">
+      <div class="fcard-title" style="color:var(--green)">Logical Functions</div>
+      <div class="code">=IF(A1&gt;50,"Pass","Fail")    Basic IF
+=IF(A1&gt;90,"A",IF(A1&gt;75,"B","C"))  Nested IF
+=AND(A1&gt;0,A1&lt;100)     TRUE if both conditions true
+=OR(A1=1,A1=2)         TRUE if any condition true
+=NOT(A1&gt;50)            Reverses TRUE/FALSE
+=IFERROR(A1/B1,0)      If error occurs, show 0
+=IFNA(VLOOKUP(...),"Not Found")  Handle #N/A error
+=IFS(A1&gt;90,"A",A1&gt;75,"B",TRUE,"C")  Multiple conditions</div>
+    </div>
+    <div class="fcard">
+      <div class="fcard-title" style="color:var(--green)">Lookup &amp; Reference Functions</div>
+      <div class="code">=VLOOKUP(value,table,col,0)   Vertical lookup
+  value  = what to search
+  table  = range to search in
+  col    = column number to return
+  0/FALSE = exact match, 1/TRUE = approximate
+
+=HLOOKUP(value,table,row,0)   Horizontal lookup
+=XLOOKUP(value,range,return)  Modern lookup (Excel 365)
+=INDEX(A1:D10,2,3)    Value at row 2, col 3
+=MATCH(50,A1:A10,0)   Position of 50 in range
+=OFFSET(A1,2,3)       Cell 2 rows down, 3 cols right
+=CHOOSE(2,"Jan","Feb","Mar")  Returns "Feb"</div>
+    </div>
+    <div class="fcard">
+      <div class="fcard-title" style="color:var(--green)">Date &amp; Time Functions</div>
+      <div class="code">=TODAY()               Today's date
+=NOW()                 Current date &amp; time
+=DATE(2024,12,31)      Create date from parts
+=DAY(A1)               Day number (1–31)
+=MONTH(A1)             Month number (1–12)
+=YEAR(A1)              Year (2024)
+=HOUR(A1)              Hour (0–23)
+=MINUTE(A1)            Minutes (0–59)
+=DATEDIF(A1,B1,"D")    Days between dates ("M"=months,"Y"=years)
+=WEEKDAY(A1,2)         Day of week (1=Mon, 7=Sun)
+=NETWORKDAYS(A1,B1)    Working days between dates
+=EOMONTH(A1,0)         Last day of month</div>
+    </div>
+    <div class="fcard">
+      <div class="fcard-title" style="color:var(--green)">Important Excel Operators</div>
+      <div class="code">Arithmetic: + - * / ^ (power) % (percent)
+Comparison: = &lt; &gt; &lt;= &gt;= &lt;&gt; (not equal)
+Text:       &amp; (concatenate: ="Hello"&amp;"World")
+Range:      : (A1:B10), , (A1,B1), (space = intersection)
+
+All formulas start with = (equal sign)
+Example: =A1+B1, =SUM(A1:A5), =IF(A1&gt;5,"Yes","No")</div>
+    </div>
+  </div>
+
+  <div class="tab-content" id="t5s">
+    <div class="sec-h">MS Excel Keyboard Shortcuts</div>
+    <div class="sc-grid">
+      <div class="sc-card"><span class="sc-label">New Workbook</span><span class="sc-keys"><span class="shortcut">Ctrl</span><span class="shortcut-plus">+</span><span class="shortcut">N</span></span></div>
+      <div class="sc-card"><span class="sc-label">Save</span><span class="sc-keys"><span class="shortcut">Ctrl</span><span class="shortcut-plus">+</span><span class="shortcut">S</span></span></div>
+      <div class="sc-card"><span class="sc-label">Save As</span><span class="sc-keys"><span class="shortcut">F12</span></span></div>
+      <div class="sc-card"><span class="sc-label">Undo</span><span class="sc-keys"><span class="shortcut">Ctrl</span><span class="shortcut-plus">+</span><span class="shortcut">Z</span></span></div>
+      <div class="sc-card"><span class="sc-label">Redo</span><span class="sc-keys"><span class="shortcut">Ctrl</span><span class="shortcut-plus">+</span><span class="shortcut">Y</span></span></div>
+      <div class="sc-card"><span class="sc-label">Select Entire Row</span><span class="sc-keys"><span class="shortcut">Shift</span><span class="shortcut-plus">+</span><span class="shortcut">Space</span></span></div>
+      <div class="sc-card"><span class="sc-label">Select Entire Column</span><span class="sc-keys"><span class="shortcut">Ctrl</span><span class="shortcut-plus">+</span><span class="shortcut">Space</span></span></div>
+      <div class="sc-card"><span class="sc-label">Select All</span><span class="sc-keys"><span class="shortcut">Ctrl</span><span class="shortcut-plus">+</span><span class="shortcut">A</span></span></div>
+      <div class="sc-card"><span class="sc-label">Insert Row/Col</span><span class="sc-keys"><span class="shortcut">Ctrl</span><span class="shortcut-plus">+</span><span class="shortcut">+</span></span></div>
+      <div class="sc-card"><span class="sc-label">Delete Row/Col</span><span class="sc-keys"><span class="shortcut">Ctrl</span><span class="shortcut-plus">+</span><span class="shortcut">−</span></span></div>
+      <div class="sc-card"><span class="sc-label">Auto Sum</span><span class="sc-keys"><span class="shortcut">Alt</span><span class="shortcut-plus">+</span><span class="shortcut">=</span></span></div>
+      <div class="sc-card"><span class="sc-label">Find</span><span class="sc-keys"><span class="shortcut">Ctrl</span><span class="shortcut-plus">+</span><span class="shortcut">F</span></span></div>
+      <div class="sc-card"><span class="sc-label">Replace</span><span class="sc-keys"><span class="shortcut">Ctrl</span><span class="shortcut-plus">+</span><span class="shortcut">H</span></span></div>
+      <div class="sc-card"><span class="sc-label">Go To cell</span><span class="sc-keys"><span class="shortcut">Ctrl</span><span class="shortcut-plus">+</span><span class="shortcut">G</span></span></div>
+      <div class="sc-card"><span class="sc-label">Today's Date</span><span class="sc-keys"><span class="shortcut">Ctrl</span><span class="shortcut-plus">+</span><span class="shortcut">;</span></span></div>
+      <div class="sc-card"><span class="sc-label">Current Time</span><span class="sc-keys"><span class="shortcut">Ctrl</span><span class="shortcut-plus">+</span><span class="shortcut">Shift</span><span class="shortcut-plus">+</span><span class="shortcut">;</span></span></div>
+      <div class="sc-card"><span class="sc-label">Bold</span><span class="sc-keys"><span class="shortcut">Ctrl</span><span class="shortcut-plus">+</span><span class="shortcut">B</span></span></div>
+      <div class="sc-card"><span class="sc-label">Italic</span><span class="sc-keys"><span class="shortcut">Ctrl</span><span class="shortcut-plus">+</span><span class="shortcut">I</span></span></div>
+      <div class="sc-card"><span class="sc-label">Format Cells</span><span class="sc-keys"><span class="shortcut">Ctrl</span><span class="shortcut-plus">+</span><span class="shortcut">1</span></span></div>
+      <div class="sc-card"><span class="sc-label">Toggle Absolute Ref</span><span class="sc-keys"><span class="shortcut">F4</span></span></div>
+      <div class="sc-card"><span class="sc-label">Jump to Last Cell</span><span class="sc-keys"><span class="shortcut">Ctrl</span><span class="shortcut-plus">+</span><span class="shortcut">End</span></span></div>
+      <div class="sc-card"><span class="sc-label">Jump to First Cell</span><span class="sc-keys"><span class="shortcut">Ctrl</span><span class="shortcut-plus">+</span><span class="shortcut">Home</span></span></div>
+      <div class="sc-card"><span class="sc-label">New Sheet</span><span class="sc-keys"><span class="shortcut">Shift</span><span class="shortcut-plus">+</span><span class="shortcut">F11</span></span></div>
+      <div class="sc-card"><span class="sc-label">Print Preview &amp; Print</span><span class="sc-keys"><span class="shortcut">Ctrl</span><span class="shortcut-plus">+</span><span class="shortcut">P</span></span></div>
+      <div class="sc-card"><span class="sc-label">Zoom In/Out</span><span class="sc-keys"><span class="shortcut">Ctrl</span><span class="shortcut-plus">+</span><span class="shortcut">Scroll</span></span></div>
+      <div class="sc-card"><span class="sc-label">Show Formulas</span><span class="sc-keys"><span class="shortcut">Ctrl</span><span class="shortcut-plus">+</span><span class="shortcut">`</span></span></div>
+      <div class="sc-card"><span class="sc-label">Fill Down</span><span class="sc-keys"><span class="shortcut">Ctrl</span><span class="shortcut-plus">+</span><span class="shortcut">D</span></span></div>
+      <div class="sc-card"><span class="sc-label">Fill Right</span><span class="sc-keys"><span class="shortcut">Ctrl</span><span class="shortcut-plus">+</span><span class="shortcut">R</span></span></div>
+    </div>
+  </div>
+
+  <div class="tab-content" id="t5o">
+    <div class="obj-card"><div class="obj-q">1. Which function counts only numeric cells?</div><button class="obj-btn" onclick="toggleAns(this)">Show Answer</button><div class="obj-ans">COUNT (COUNTA counts all non-empty cells including text)</div></div>
+    <div class="obj-card"><div class="obj-q">2. Excel formula to find maximum value in A1:A10?</div><button class="obj-btn" onclick="toggleAns(this)">Show Answer</button><div class="obj-ans">=MAX(A1:A10)</div></div>
+    <div class="obj-card"><div class="obj-q">3. $A$1 is which type of cell reference?</div><button class="obj-btn" onclick="toggleAns(this)">Show Answer</button><div class="obj-ans">Absolute Reference — does not change when formula is copied</div></div>
+    <div class="obj-card"><div class="obj-q">4. All Excel formulas must start with?</div><button class="obj-btn" onclick="toggleAns(this)">Show Answer</button><div class="obj-ans">= (Equal sign)</div></div>
+    <div class="obj-card"><div class="obj-q">5. VLOOKUP's last argument 0/FALSE means?</div><button class="obj-btn" onclick="toggleAns(this)">Show Answer</button><div class="obj-ans">Exact Match (1/TRUE = Approximate Match)</div></div>
+    <div class="obj-card"><div class="obj-q">6. Shortcut for AutoSum?</div><button class="obj-btn" onclick="toggleAns(this)">Show Answer</button><div class="obj-ans">Alt + = (Alt and Equal sign)</div></div>
+    <div class="obj-card"><div class="obj-q">7. Which function joins text strings?</div><button class="obj-btn" onclick="toggleAns(this)">Show Answer</button><div class="obj-ans">CONCATENATE or use &amp; operator</div></div>
+    <div class="obj-card"><div class="obj-q">8. Maximum rows in Excel 2016?</div><button class="obj-btn" onclick="toggleAns(this)">Show Answer</button><div class="obj-ans">1,048,576 rows</div></div>
+    <div class="obj-card"><div class="obj-q">9. IFERROR function is used for?</div><button class="obj-btn" onclick="toggleAns(this)">Show Answer</button><div class="obj-ans">Handle/display custom message when formula gives an error</div></div>
+    <div class="obj-card"><div class="obj-q">10. Which function returns today's date?</div><button class="obj-btn" onclick="toggleAns(this)">Show Answer</button><div class="obj-ans">=TODAY() (date only) or =NOW() (date and time)</div></div>
+    <div class="obj-card"><div class="obj-q">11. F4 key in Excel?</div><button class="obj-btn" onclick="toggleAns(this)">Show Answer</button><div class="obj-ans">Toggles cell reference type: A1 → $A$1 → A$1 → $A1 → A1</div></div>
+    <div class="obj-card"><div class="obj-q">12. =MOD(17,5) = ?</div><button class="obj-btn" onclick="toggleAns(this)">Show Answer</button><div class="obj-ans">= 2 (17 ÷ 5 = 3 remainder 2)</div></div>
+    <div class="obj-card"><div class="obj-q">13. Pivot Table is used for?</div><button class="obj-btn" onclick="toggleAns(this)">Show Answer</button><div class="obj-ans">Summarizing and analyzing large datasets interactively</div></div>
+    <div class="obj-card"><div class="obj-q">14. Which chart shows parts of a whole?</div><button class="obj-btn" onclick="toggleAns(this)">Show Answer</button><div class="obj-ans">Pie Chart</div></div>
+  </div>
+
+  <div class="tab-content" id="t5t">
+    <div class="tip-card tip"><div class="tip-label">COUNT vs COUNTA</div><div class="tip-text"><strong>COUNT</strong> = only numbers. <strong>COUNTA</strong> = all non-empty (text + numbers). <strong>COUNTBLANK</strong> = empty cells. Remember: COUNT is strict about numbers!</div></div>
+    <div class="tip-card trick"><div class="tip-label">IF Formula Structure</div><div class="tip-text">=IF(condition, value_if_TRUE, value_if_FALSE). Think: "IF this is true, do this, ELSE do that." Example: =IF(A1&gt;=50,"Pass","Fail")</div></div>
+    <div class="tip-card fast"><div class="tip-label">VLOOKUP Fast Memory</div><div class="tip-text">VLOOKUP = <strong>V</strong>ertical (looks down a column). Arguments: (What to find, Where to look, Which column to return, Exact or Approximate). Last argument: 0=Exact, 1=Approximate.</div></div>
+    <div class="tip-card warn"><div class="tip-label">Absolute Reference Trap</div><div class="tip-text">Forget $ signs and your formula shifts when copied. For tax rates, constants, fixed values — always use $A$1. Press F4 to add $ signs automatically!</div></div>
+    <div class="tip-card info"><div class="tip-label">Chart Types to Remember</div><div class="tip-text">Bar/Column = compare values. Line = trends over time. Pie = parts of whole. Scatter = relationship between two variables. Area = cumulative values over time.</div></div>
+    <div class="tip-card trick"><div class="tip-label">Error Types Quick Reference</div><div class="tip-text">#DIV/0! = divide by zero. #VALUE! = wrong data type. #REF! = invalid cell reference. #NAME? = wrong function name. #N/A = value not found (VLOOKUP). #NULL! = wrong range operator.</div></div>
+  </div>
+</section>
+
+<!-- ==================== T6: MS POWERPOINT ==================== -->
+<section class="topic-section" id="t6">
+  <div class="topic-header">
+    <div class="topic-icon-big" style="background:var(--amber2);color:var(--amber)">PPT</div>
+    <div>
+      <div class="topic-title">MS PowerPoint — Microsoft PowerPoint</div>
+      <div class="topic-sub">Slides, Animations, Transitions, Views, Shortcuts, Presentation Tips</div>
+    </div>
+  </div>
+  <div class="tabs">
+    <button class="tab-btn active" onclick="switchTab(this,'t6f')">Features &amp; Info</button>
+    <button class="tab-btn" onclick="switchTab(this,'t6s')">Shortcuts</button>
+    <button class="tab-btn" onclick="switchTab(this,'t6o')">Objective MCQs</button>
+    <button class="tab-btn" onclick="switchTab(this,'t6t')">Tips &amp; Tricks</button>
+  </div>
+
+  <div class="tab-content active" id="t6f">
+    <div class="sec-h">PowerPoint Basics</div>
+    <div class="fcard">
+      <div class="code">MS PowerPoint — Presentation Application
+File Extension: .pptx (2007+), .ppt (older)
+Also saves as: .pdf, .ppsx (slideshow), .odp
+
+Presentation = The PowerPoint file
+Slide         = Individual page of the presentation
+Slide Layout  = Predefined arrangement of placeholders
+Theme         = Design, colors, fonts, effects package
+Template      = Pre-designed reusable presentation</div>
+    </div>
+
+    <div class="sec-h">Ribbon Tabs &amp; Functions</div>
+    <div class="fcard">
+      <table>
+        <tr><th>Tab</th><th>Key Features</th></tr>
+        <tr><td><strong>File</strong></td><td>New, Open, Save, Save As, Print, Export, Share</td></tr>
+        <tr><td><strong>Home</strong></td><td>Clipboard, Slides (New/Layout/Reset), Font, Paragraph, Drawing, Find</td></tr>
+        <tr><td><strong>Insert</strong></td><td>Table, Images, Shapes, SmartArt, Chart, Video, Audio, Header/Footer, Text Box, WordArt, Hyperlink</td></tr>
+        <tr><td><strong>Design</strong></td><td>Themes, Variants, Slide Size (Standard/Widescreen), Format Background</td></tr>
+        <tr><td><strong>Transitions</strong></td><td>Transition effects (Fade, Wipe, Zoom...), Timing, Apply to All</td></tr>
+        <tr><td><strong>Animations</strong></td><td>Animation effects, Add Animation, Animation Pane, Timing</td></tr>
+        <tr><td><strong>Slide Show</strong></td><td>From Beginning (F5), From Current Slide (Shift+F5), Set Up Show, Record</td></tr>
+        <tr><td><strong>Review</strong></td><td>Spelling, Thesaurus, Comments, Compare</td></tr>
+        <tr><td><strong>View</strong></td><td>Normal, Outline, Slide Sorter, Notes Page, Reading View, Slide Master</td></tr>
+      </table>
+    </div>
+
+    <div class="sec-h">Slide Views</div>
+    <div class="fcard">
+      <table>
+        <tr><th>View</th><th>Purpose</th></tr>
+        <tr><td><strong>Normal View</strong></td><td>Default editing view — slide + notes panel + thumbnail pane</td></tr>
+        <tr><td><strong>Outline View</strong></td><td>Shows only text content in outline format</td></tr>
+        <tr><td><strong>Slide Sorter</strong></td><td>Shows all slides as thumbnails — easy to reorder</td></tr>
+        <tr><td><strong>Notes Page</strong></td><td>Shows slide with speaker notes below</td></tr>
+        <tr><td><strong>Reading View</strong></td><td>Preview in window (not full screen)</td></tr>
+        <tr><td><strong>Slide Show</strong></td><td>Full-screen presentation mode (F5)</td></tr>
+        <tr><td><strong>Slide Master</strong></td><td>Edit design applied to all slides at once</td></tr>
+        <tr><td><strong>Presenter View</strong></td><td>Speaker sees notes, next slide; audience sees only current slide</td></tr>
+      </table>
+    </div>
+
+    <div class="sec-h">Animations vs Transitions</div>
+    <div class="grid2">
+      <div class="fcard">
+        <div class="fcard-title" style="color:var(--amber)">Animations</div>
+        <div class="code">Applied to: OBJECTS on a slide
+(text boxes, images, shapes)
+
+Types:
+  Entrance  — objects appear (Fade, Fly In)
+  Emphasis  — objects highlight (Spin, Grow)
+  Exit      — objects disappear (Fade Out)
+  Motion Path — objects move along a path
+
+Tab: Animations → Add Animation
+Animation Pane: Ctrl+Shift+A (or View Pane)
+Trigger: On Click / With Previous / After Previous</div>
+      </div>
+      <div class="fcard">
+        <div class="fcard-title" style="color:var(--amber)">Transitions</div>
+        <div class="code">Applied to: Slides (how one slide changes to next)
+
+Examples:
+  Subtle:  Cut, Fade, Push, Wipe, Split
+  Exciting: Dissolve, Zoom, Cube, Flip
+  Dynamic: Pan, Ferris Wheel, Gallery
+
+Options:
+  Duration  — speed of transition
+  Sound     — add sound effect
+  Advance Slide — On Mouse Click or After X seconds
+  Apply to All — apply same to all slides</div>
+      </div>
+    </div>
+
+    <div class="sec-h">Slide Layouts (Home → Layout)</div>
+    <div class="fcard">
+      <div class="code">Title Slide         — Large title + subtitle (for first slide)
+Title and Content   — Title + content area (most common)
+Two Content         — Title + 2 side-by-side content areas
+Comparison          — For comparing two items
+Title Only          — Just the title placeholder
+Blank               — No placeholders
+Content with Caption — For images with captions
+Picture with Caption — Full-picture + caption</div>
+    </div>
+
+    <div class="sec-h">Slide Size Options</div>
+    <div class="fcard">
+      <div class="code">Standard (4:3)    — Older projectors (10×7.5 inches)
+Widescreen (16:9) — Modern screens (default since 2013)
+Custom Slide Size — Set custom dimensions
+
+Location: Design Tab → Slide Size</div>
+    </div>
+
+    <div class="sec-h">Multimedia in PowerPoint</div>
+    <div class="fcard">
+      <div class="code">Insert → Pictures  — From file, Stock Images, Online
+Insert → Video     — From file or YouTube link
+Insert → Audio     — From file or Record Audio
+Insert → Screen Recording — Record computer screen
+
+Supported formats:
+  Images: JPG, PNG, GIF, BMP, SVG, WMF
+  Video:  MP4, AVI, WMV, MOV
+  Audio:  MP3, WAV, WMA, M4A</div>
+    </div>
+  </div>
+
+  <div class="tab-content" id="t6s">
+    <div class="sec-h">MS PowerPoint Shortcuts</div>
+    <div class="sc-grid">
+      <div class="sc-card"><span class="sc-label">Start Slideshow (Beginning)</span><span class="sc-keys"><span class="shortcut">F5</span></span></div>
+      <div class="sc-card"><span class="sc-label">Start from Current Slide</span><span class="sc-keys"><span class="shortcut">Shift</span><span class="shortcut-plus">+</span><span class="shortcut">F5</span></span></div>
+      <div class="sc-card"><span class="sc-label">End Slideshow</span><span class="sc-keys"><span class="shortcut">Esc</span></span></div>
+      <div class="sc-card"><span class="sc-label">New Slide</span><span class="sc-keys"><span class="shortcut">Ctrl</span><span class="shortcut-plus">+</span><span class="shortcut">M</span></span></div>
+      <div class="sc-card"><span class="sc-label">Duplicate Slide</span><span class="sc-keys"><span class="shortcut">Ctrl</span><span class="shortcut-plus">+</span><span class="shortcut">D</span></span></div>
+      <div class="sc-card"><span class="sc-label">Delete Slide</span><span class="sc-keys"><span class="shortcut">Delete</span></span></div>
+      <div class="sc-card"><span class="sc-label">Save</span><span class="sc-keys"><span class="shortcut">Ctrl</span><span class="shortcut-plus">+</span><span class="shortcut">S</span></span></div>
+      <div class="sc-card"><span class="sc-label">Save As</span><span class="sc-keys"><span class="shortcut">F12</span></span></div>
+      <div class="sc-card"><span class="sc-label">Undo</span><span class="sc-keys"><span class="shortcut">Ctrl</span><span class="shortcut-plus">+</span><span class="shortcut">Z</span></span></div>
+      <div class="sc-card"><span class="sc-label">Bold</span><span class="sc-keys"><span class="shortcut">Ctrl</span><span class="shortcut-plus">+</span><span class="shortcut">B</span></span></div>
+      <div class="sc-card"><span class="sc-label">Italic</span><span class="sc-keys"><span class="shortcut">Ctrl</span><span class="shortcut-plus">+</span><span class="shortcut">I</span></span></div>
+      <div class="sc-card"><span class="sc-label">Underline</span><span class="sc-keys"><span class="shortcut">Ctrl</span><span class="shortcut-plus">+</span><span class="shortcut">U</span></span></div>
+      <div class="sc-card"><span class="sc-label">Copy</span><span class="sc-keys"><span class="shortcut">Ctrl</span><span class="shortcut-plus">+</span><span class="shortcut">C</span></span></div>
+      <div class="sc-card"><span class="sc-label">Cut</span><span class="sc-keys"><span class="shortcut">Ctrl</span><span class="shortcut-plus">+</span><span class="shortcut">X</span></span></div>
+      <div class="sc-card"><span class="sc-label">Paste</span><span class="sc-keys"><span class="shortcut">Ctrl</span><span class="shortcut-plus">+</span><span class="shortcut">V</span></span></div>
+      <div class="sc-card"><span class="sc-label">Select All</span><span class="sc-keys"><span class="shortcut">Ctrl</span><span class="shortcut-plus">+</span><span class="shortcut">A</span></span></div>
+      <div class="sc-card"><span class="sc-label">Find</span><span class="sc-keys"><span class="shortcut">Ctrl</span><span class="shortcut-plus">+</span><span class="shortcut">F</span></span></div>
+      <div class="sc-card"><span class="sc-label">Replace</span><span class="sc-keys"><span class="shortcut">Ctrl</span><span class="shortcut-plus">+</span><span class="shortcut">H</span></span></div>
+      <div class="sc-card"><span class="sc-label">Next Slide (during show)</span><span class="sc-keys"><span class="shortcut">N</span> or <span class="shortcut">→</span></span></div>
+      <div class="sc-card"><span class="sc-label">Previous Slide</span><span class="sc-keys"><span class="shortcut">P</span> or <span class="shortcut">←</span></span></div>
+      <div class="sc-card"><span class="sc-label">Black Screen (during show)</span><span class="sc-keys"><span class="shortcut">B</span></span></div>
+      <div class="sc-card"><span class="sc-label">White Screen (during show)</span><span class="sc-keys"><span class="shortcut">W</span></span></div>
+      <div class="sc-card"><span class="sc-label">Zoom In</span><span class="sc-keys"><span class="shortcut">Ctrl</span><span class="shortcut-plus">+</span><span class="shortcut">+</span></span></div>
+      <div class="sc-card"><span class="sc-label">Group Objects</span><span class="sc-keys"><span class="shortcut">Ctrl</span><span class="shortcut-plus">+</span><span class="shortcut">G</span></span></div>
+      <div class="sc-card"><span class="sc-label">Ungroup Objects</span><span class="sc-keys"><span class="shortcut">Ctrl</span><span class="shortcut-plus">+</span><span class="shortcut">Shift</span><span class="shortcut-plus">+</span><span class="shortcut">G</span></span></div>
+      <div class="sc-card"><span class="sc-label">Slide Sorter View</span><span class="sc-keys"><span class="shortcut">Ctrl</span><span class="shortcut-plus">+</span><span class="shortcut">Shift</span><span class="shortcut-plus">+</span><span class="shortcut">Tab</span></span></div>
+      <div class="sc-card"><span class="sc-label">Insert Hyperlink</span><span class="sc-keys"><span class="shortcut">Ctrl</span><span class="shortcut-plus">+</span><span class="shortcut">K</span></span></div>
+      <div class="sc-card"><span class="sc-label">Print</span><span class="sc-keys"><span class="shortcut">Ctrl</span><span class="shortcut-plus">+</span><span class="shortcut">P</span></span></div>
+      <div class="sc-card"><span class="sc-label">Spell Check</span><span class="sc-keys"><span class="shortcut">F7</span></span></div>
+    </div>
+  </div>
+
+  <div class="tab-content" id="t6o">
+    <div class="obj-card"><div class="obj-q">1. Default file extension for PowerPoint 2019?</div><button class="obj-btn" onclick="toggleAns(this)">Show Answer</button><div class="obj-ans">.pptx</div></div>
+    <div class="obj-card"><div class="obj-q">2. Shortcut to start slideshow from beginning?</div><button class="obj-btn" onclick="toggleAns(this)">Show Answer</button><div class="obj-ans">F5</div></div>
+    <div class="obj-card"><div class="obj-q">3. Difference between Animation and Transition?</div><button class="obj-btn" onclick="toggleAns(this)">Show Answer</button><div class="obj-ans">Animation = effects on objects WITHIN a slide. Transition = effect BETWEEN slides.</div></div>
+    <div class="obj-card"><div class="obj-q">4. Slide Sorter view is used for?</div><button class="obj-btn" onclick="toggleAns(this)">Show Answer</button><div class="obj-ans">Viewing all slides as thumbnails to easily reorder them</div></div>
+    <div class="obj-card"><div class="obj-q">5. Which tab has Transitions?</div><button class="obj-btn" onclick="toggleAns(this)">Show Answer</button><div class="obj-ans">Transitions Tab (separate tab in ribbon)</div></div>
+    <div class="obj-card"><div class="obj-q">6. Ctrl+M in PowerPoint?</div><button class="obj-btn" onclick="toggleAns(this)">Show Answer</button><div class="obj-ans">Insert New Slide</div></div>
+    <div class="obj-card"><div class="obj-q">7. Slide Master is used for?</div><button class="obj-btn" onclick="toggleAns(this)">Show Answer</button><div class="obj-ans">Editing the design/layout applied to ALL slides at once</div></div>
+    <div class="obj-card"><div class="obj-q">8. During slideshow, pressing B does?</div><button class="obj-btn" onclick="toggleAns(this)">Show Answer</button><div class="obj-ans">Shows Black screen (pause presentation)</div></div>
+    <div class="obj-card"><div class="obj-q">9. To show presentation from current slide?</div><button class="obj-btn" onclick="toggleAns(this)">Show Answer</button><div class="obj-ans">Shift + F5</div></div>
+    <div class="obj-card"><div class="obj-q">10. Widescreen ratio in PowerPoint?</div><button class="obj-btn" onclick="toggleAns(this)">Show Answer</button><div class="obj-ans">16:9 (widescreen), Standard is 4:3</div></div>
+    <div class="obj-card"><div class="obj-q">11. Presenter View allows?</div><button class="obj-btn" onclick="toggleAns(this)">Show Answer</button><div class="obj-ans">Speaker to see notes and next slide; audience sees only current slide</div></div>
+    <div class="obj-card"><div class="obj-q">12. SmartArt is used for?</div><button class="obj-btn" onclick="toggleAns(this)">Show Answer</button><div class="obj-ans">Creating visual diagrams (org charts, process flows, lists, cycles)</div></div>
+    <div class="obj-card"><div class="obj-q">13. Animation types are?</div><button class="obj-btn" onclick="toggleAns(this)">Show Answer</button><div class="obj-ans">Entrance, Emphasis, Exit, Motion Path — four types</div></div>
+    <div class="obj-card"><div class="obj-q">14. Notes in PowerPoint are visible to?</div><button class="obj-btn" onclick="toggleAns(this)">Show Answer</button><div class="obj-ans">Only the presenter (in Presenter View) — not visible to audience</div></div>
+  </div>
+
+  <div class="tab-content" id="t6t">
+    <div class="tip-card tip"><div class="tip-label">Animation vs Transition — Never Confuse</div><div class="tip-text"><strong>Animation</strong> = objects on a slide move/appear. <strong>Transition</strong> = slides change. Think: "Objects Animate, Slides Transition."</div></div>
+    <div class="tip-card trick"><div class="tip-label">F5 vs Shift+F5</div><div class="tip-text"><strong>F5</strong> = Start from slide 1 (beginning). <strong>Shift+F5</strong> = Start from current slide. If you're on slide 3, Shift+F5 starts from slide 3.</div></div>
+    <div class="tip-card fast"><div class="tip-label">Slideshow Keyboard Controls</div><div class="tip-text">During presentation: <strong>N or → = Next</strong>, <strong>P or ← = Previous</strong>, <strong>B = Black screen</strong>, <strong>W = White screen</strong>, <strong>Esc = End show</strong>. These are frequently tested!</div></div>
+    <div class="tip-card warn"><div class="tip-label">Slide Layout vs Slide Master</div><div class="tip-text"><strong>Layout</strong> = arrangement of placeholders for ONE slide. <strong>Slide Master</strong> = design/format applied to ALL slides. Master is global, Layout is individual.</div></div>
+    <div class="tip-card info"><div class="tip-label">Animation Trigger Types</div><div class="tip-text"><strong>On Click</strong> = plays when you click. <strong>With Previous</strong> = plays simultaneously with previous animation. <strong>After Previous</strong> = plays after previous finishes automatically.</div></div>
+    <div class="tip-card trick"><div class="tip-label">File Extensions Memory</div><div class="tip-text">Word = .doc<strong>x</strong>, Excel = .xls<strong>x</strong>, PowerPoint = .ppt<strong>x</strong>. All modern MS Office files end in 'x' (for XML). Older versions: .doc, .xls, .ppt.</div></div>
+  </div>
+</section>
+
+  </div><!-- end content -->
+</main>
+
+<script>
+function show(id){
+  document.querySelectorAll('.topic-section').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  const ids=['t1','t2','t3','t4','t5','t6'];
+  document.getElementById(id).classList.add('active');
+  document.querySelectorAll('.nav-item')[ids.indexOf(id)].classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+  if(window.innerWidth<=768) document.querySelector('.sidebar').classList.remove('open');
+}
+
+function switchTab(btn,contentId){
+  const section=btn.closest('.topic-section');
+  section.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  section.querySelectorAll('.tab-content').forEach(c=>c.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById(contentId).classList.add('active');
+}
+
+function toggleAns(btn){
+  const ans=btn.nextElementSibling;
+  ans.classList.toggle('show');
+  btn.textContent=ans.classList.contains('show')?'Hide Answer':'Show Answer';
+  btn.classList.toggle('on',ans.classList.contains('show'));
+}
+
+function filterNav(val){
+  const v=val.toLowerCase();
+  document.querySelectorAll('.nav-item').forEach(item=>{
+    item.style.display=item.getAttribute('data-label').toLowerCase().includes(v)?'flex':'none';
+  });
+}
+</script>
+</body>
+</html>
