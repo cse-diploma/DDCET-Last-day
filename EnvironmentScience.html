@@ -1,0 +1,861 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Environmental Science – Exam Notes</title>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&family=Newsreader:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+:root{
+  --bg:#0d1117;
+  --surface:#161b22;
+  --surface2:#1c2230;
+  --border:#2a3344;
+  --text:#e6edf3;
+  --muted:#7d8fa9;
+  --green:#3fb950;
+  --green-dim:#1a3d24;
+  --blue:#58a6ff;
+  --blue-dim:#0d2846;
+  --yellow:#e3b341;
+  --yellow-dim:#3d2f0a;
+  --red:#ff7b72;
+  --red-dim:#3d1510;
+  --purple:#bc8cff;
+  --purple-dim:#2d1f50;
+  --teal:#39d0c8;
+  --teal-dim:#0d3330;
+  --orange:#ffa657;
+  --orange-dim:#3d2510;
+}
+
+body{
+  font-family:'Sora',sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  line-height:1.6;
+  font-size:14px;
+}
+
+/* ── TOP BAR ── */
+.topbar{
+  background:var(--surface);
+  border-bottom:1px solid var(--border);
+  padding:14px 28px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  position:sticky;
+  top:0;
+  z-index:100;
+}
+.topbar-title{
+  font-family:'JetBrains Mono',monospace;
+  font-size:12px;
+  color:var(--muted);
+  letter-spacing:1px;
+}
+.topbar-title span{color:var(--green);}
+.chapter-nav{
+  display:flex;
+  gap:6px;
+  flex-wrap:wrap;
+}
+.chapter-nav a{
+  font-family:'JetBrains Mono',monospace;
+  font-size:10px;
+  letter-spacing:1px;
+  padding:4px 12px;
+  border-radius:20px;
+  border:1px solid var(--border);
+  color:var(--muted);
+  text-decoration:none;
+  transition:all 0.2s;
+}
+.chapter-nav a:hover{color:var(--text);border-color:var(--green);}
+
+/* ── LAYOUT ── */
+.page{max-width:860px;margin:0 auto;padding:40px 24px 80px;}
+
+/* ── CHAPTER HEADER ── */
+.chapter{margin-bottom:48px;}
+.chapter-tag{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  font-family:'JetBrains Mono',monospace;
+  font-size:10px;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  padding:4px 14px;
+  border-radius:20px;
+  margin-bottom:14px;
+}
+.chapter-title{
+  font-family:'Newsreader',serif;
+  font-size:clamp(1.5rem,4vw,2.2rem);
+  font-weight:600;
+  line-height:1.15;
+  margin-bottom:8px;
+}
+.chapter-def{
+  font-size:13.5px;
+  color:#a0b0c8;
+  max-width:680px;
+  padding:14px 18px;
+  border-left:3px solid;
+  border-radius:0 8px 8px 0;
+  background:var(--surface2);
+  margin-bottom:22px;
+  font-style:italic;
+}
+
+/* ── SECTION ── */
+.section{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:12px;
+  overflow:hidden;
+  margin-bottom:14px;
+}
+.section-head{
+  padding:14px 20px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  border-bottom:1px solid var(--border);
+  cursor:pointer;
+  user-select:none;
+}
+.section-head:hover{background:var(--surface2);}
+.section-icon{font-size:1.1rem;flex-shrink:0;}
+.section-label{
+  font-weight:600;
+  font-size:13.5px;
+  flex:1;
+}
+.section-badge{
+  font-family:'JetBrains Mono',monospace;
+  font-size:10px;
+  padding:2px 10px;
+  border-radius:20px;
+  background:var(--surface2);
+  color:var(--muted);
+}
+.section-body{padding:18px 22px;}
+
+/* ── POINT LIST ── */
+.points{list-style:none;display:flex;flex-direction:column;gap:0;}
+.points li{
+  padding:9px 0 9px 0;
+  border-bottom:1px solid rgba(255,255,255,0.04);
+  font-size:13.5px;
+  color:#c9d5e4;
+  display:flex;
+  gap:12px;
+  align-items:flex-start;
+  line-height:1.6;
+}
+.points li:last-child{border-bottom:none;}
+.point-num{
+  font-family:'JetBrains Mono',monospace;
+  font-size:10px;
+  color:var(--muted);
+  flex-shrink:0;
+  padding-top:3px;
+  min-width:22px;
+}
+.points li strong{color:var(--text);font-weight:600;}
+.points li em{color:var(--yellow);font-style:normal;font-weight:500;}
+
+/* ── SUB GRID ── */
+.sub-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+  margin-top:4px;
+}
+@media(max-width:560px){.sub-grid{grid-template-columns:1fr;}.topbar{flex-direction:column;gap:10px;align-items:flex-start;}}
+.sub-box{
+  background:var(--surface2);
+  border:1px solid var(--border);
+  border-radius:8px;
+  padding:14px 16px;
+}
+.sub-box h5{
+  font-family:'JetBrains Mono',monospace;
+  font-size:10px;
+  letter-spacing:1.5px;
+  text-transform:uppercase;
+  margin-bottom:10px;
+}
+.sub-box ul{list-style:none;display:flex;flex-direction:column;gap:6px;}
+.sub-box ul li{
+  font-size:12.5px;
+  color:#a0b0c8;
+  padding-left:14px;
+  position:relative;
+  line-height:1.55;
+}
+.sub-box ul li::before{content:'·';position:absolute;left:0;color:var(--muted);}
+
+/* ── ENERGY TABLE ── */
+.energy-table{width:100%;border-collapse:collapse;font-size:13px;}
+.energy-table th{
+  font-family:'JetBrains Mono',monospace;
+  font-size:10px;
+  letter-spacing:1.5px;
+  text-transform:uppercase;
+  color:var(--muted);
+  text-align:left;
+  padding:10px 14px;
+  border-bottom:1px solid var(--border);
+  background:var(--surface2);
+}
+.energy-table td{
+  padding:12px 14px;
+  border-bottom:1px solid rgba(255,255,255,0.04);
+  vertical-align:top;
+  color:#c9d5e4;
+  line-height:1.55;
+}
+.energy-table tr:last-child td{border-bottom:none;}
+.energy-table tr:hover td{background:rgba(255,255,255,0.02);}
+.energy-name{font-weight:600;color:var(--text);white-space:nowrap;}
+.energy-icon2{font-size:1.2rem;display:block;margin-bottom:2px;}
+
+/* ── HIGHLIGHT BOX ── */
+.highlight-box{
+  border-radius:8px;
+  padding:14px 18px;
+  margin-top:14px;
+  font-size:13px;
+}
+.highlight-box strong{display:block;margin-bottom:6px;font-size:12px;font-family:'JetBrains Mono',monospace;letter-spacing:1px;text-transform:uppercase;}
+.highlight-box ul{list-style:none;display:flex;flex-direction:column;gap:5px;}
+.highlight-box ul li{padding-left:16px;position:relative;color:#b0c0d8;line-height:1.55;}
+.highlight-box ul li::before{content:'→';position:absolute;left:0;font-size:10px;top:3px;}
+
+/* ── EXAM TIP ── */
+.exam-tip{
+  background:var(--yellow-dim);
+  border:1px solid var(--yellow);
+  border-radius:8px;
+  padding:12px 16px;
+  font-size:12.5px;
+  color:var(--yellow);
+  margin-top:14px;
+  display:flex;
+  gap:10px;
+  align-items:flex-start;
+}
+.exam-tip-icon{font-size:1rem;flex-shrink:0;}
+
+/* ── POLLUTION TABLE ── */
+.poll-table{width:100%;border-collapse:collapse;font-size:12.5px;}
+.poll-table th{
+  font-family:'JetBrains Mono',monospace;
+  font-size:10px;
+  letter-spacing:1.5px;
+  text-transform:uppercase;
+  color:var(--muted);
+  padding:9px 12px;
+  border-bottom:1px solid var(--border);
+  background:var(--surface2);
+  text-align:left;
+}
+.poll-table td{
+  padding:10px 12px;
+  border-bottom:1px solid rgba(255,255,255,0.04);
+  vertical-align:top;
+  color:#c9d5e4;
+  line-height:1.55;
+}
+.poll-table tr:last-child td{border-bottom:none;}
+.poll-type{font-weight:600;color:var(--text);}
+
+/* ── DIVIDER ── */
+.chapter-divider{height:1px;background:var(--border);margin:52px 0;}
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="topbar">
+  <div class="topbar-title">📗 <span>Environmental Science</span> · Exam Notes</div>
+  <div class="chapter-nav">
+    <a href="#ecosystem">Ecosystem</a>
+    <a href="#pollution">Pollution</a>
+    <a href="#climate">Climate Change</a>
+    <a href="#energy">Renewable Energy</a>
+  </div>
+</div>
+
+<div class="page">
+
+<!-- ═══════════════════════════════════════
+     CHAPTER 1 — ECOSYSTEM
+═══════════════════════════════════════ -->
+<div class="chapter" id="ecosystem">
+  <div class="chapter-tag" style="background:var(--green-dim);color:var(--green);border:1px solid var(--green);">Chapter 01 · Ecosystem</div>
+  <div class="chapter-title">Ecosystem</div>
+  <div class="chapter-def" style="border-color:var(--green);">
+    An ecosystem is a functional unit of nature where living organisms (biotic) interact with each other and with their non-living environment (abiotic) and exchange of matter and energy takes place between them.
+  </div>
+
+  <!-- Definition & Components -->
+  <div class="section">
+    <div class="section-head">
+      <span class="section-icon">🌿</span>
+      <span class="section-label">Components of Ecosystem</span>
+      <span class="section-badge">2 types</span>
+    </div>
+    <div class="section-body">
+      <div class="sub-grid">
+        <div class="sub-box">
+          <h5 style="color:var(--green);">Biotic Components (Living)</h5>
+          <ul>
+            <li><strong>Producers (Autotrophs):</strong> Plants, algae — make their own food via photosynthesis</li>
+            <li><strong>Consumers (Heterotrophs):</strong> Animals that eat other organisms<br>
+              — Primary (herbivores), Secondary (carnivores), Tertiary
+            </li>
+            <li><strong>Decomposers:</strong> Fungi, bacteria — break down dead organic matter and return nutrients to soil</li>
+          </ul>
+        </div>
+        <div class="sub-box">
+          <h5 style="color:var(--blue);">Abiotic Components (Non-living)</h5>
+          <ul>
+            <li>Sunlight — primary energy source</li>
+            <li>Water — essential for all life processes</li>
+            <li>Soil — provides minerals and nutrients</li>
+            <li>Temperature — affects metabolic rates</li>
+            <li>Air (CO₂, O₂, N₂)</li>
+            <li>pH, salinity, pressure</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Energy Flow -->
+  <div class="section">
+    <div class="section-head">
+      <span class="section-icon">⚡</span>
+      <span class="section-label">Energy Flow in Ecosystem</span>
+      <span class="section-badge">Unidirectional</span>
+    </div>
+    <div class="section-body">
+      <ul class="points">
+        <li><span class="point-num">01</span><div><strong>Source:</strong> Sun is the ultimate source of energy for all ecosystems on Earth.</div></li>
+        <li><span class="point-num">02</span><div><strong>Food Chain:</strong> Energy flows linearly — Producers → Primary Consumer → Secondary Consumer → Tertiary Consumer → Decomposers.</div></li>
+        <li><span class="point-num">03</span><div><strong>10% Law (Lindeman, 1942):</strong> Only <em>10%</em> of energy is transferred from one trophic level to the next. Remaining 90% is lost as heat.</div></li>
+        <li><span class="point-num">04</span><div><strong>Food Web:</strong> Interconnected network of multiple food chains in an ecosystem — more realistic representation of energy flow.</div></li>
+        <li><span class="point-num">05</span><div><strong>Unidirectional:</strong> Energy flows only in one direction (Sun → Producers → Consumers). It cannot be recycled like nutrients.</div></li>
+        <li><span class="point-num">06</span><div><strong>Ecological Pyramids:</strong> Graphical representation of trophic levels.
+          <br>— <strong>Pyramid of Number</strong> (no. of organisms)
+          <br>— <strong>Pyramid of Biomass</strong> (total mass at each level)
+          <br>— <strong>Pyramid of Energy</strong> (always upright, never inverted)
+        </div></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Nutrient Cycles -->
+  <div class="section">
+    <div class="section-head">
+      <span class="section-icon">🔄</span>
+      <span class="section-label">Nutrient (Biogeochemical) Cycles</span>
+      <span class="section-badge">Cyclic</span>
+    </div>
+    <div class="section-body">
+      <ul class="points">
+        <li><span class="point-num">01</span><div><strong>Definition:</strong> Cyclic flow of nutrients between biotic and abiotic components of an ecosystem.</div></li>
+        <li><span class="point-num">02</span><div><strong>Carbon Cycle:</strong> CO₂ absorbed by plants (photosynthesis) → released by respiration, decomposition, burning of fossil fuels.</div></li>
+        <li><span class="point-num">03</span><div><strong>Nitrogen Cycle:</strong> N₂ fixed by bacteria → nitrates absorbed by plants → consumed by animals → decomposition returns nitrogen to soil.</div></li>
+        <li><span class="point-num">04</span><div><strong>Water (Hydrological) Cycle:</strong> Evaporation → Condensation → Precipitation → Surface runoff/Groundwater → back to evaporation.</div></li>
+        <li><span class="point-num">05</span><div><strong>Phosphorus Cycle:</strong> No atmospheric phase — moves from rocks to soil to organisms to water and back.</div></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Types -->
+  <div class="section">
+    <div class="section-head">
+      <span class="section-icon">🌐</span>
+      <span class="section-label">Types of Ecosystems</span>
+    </div>
+    <div class="section-body">
+      <div class="sub-grid">
+        <div class="sub-box">
+          <h5 style="color:var(--green);">Natural Ecosystems</h5>
+          <ul>
+            <li><strong>Terrestrial:</strong> Forest, Grassland, Desert, Tundra</li>
+            <li><strong>Aquatic – Freshwater:</strong> Pond, River, Lake, Wetland</li>
+            <li><strong>Aquatic – Marine:</strong> Ocean, Sea, Coral reef, Estuary</li>
+          </ul>
+        </div>
+        <div class="sub-box">
+          <h5 style="color:var(--orange);">Artificial (Man-made) Ecosystems</h5>
+          <ul>
+            <li>Croplands / Agricultural fields</li>
+            <li>Aquarium</li>
+            <li>Garden / Parks</li>
+            <li>Reservoirs / Dams</li>
+          </ul>
+        </div>
+      </div>
+      <div class="exam-tip">
+        <span class="exam-tip-icon">💡</span>
+        <span><strong>Exam Tip:</strong> Largest ecosystem = <em>Ocean (Marine)</em>. Largest terrestrial ecosystem = <em>Tropical Rainforest</em>. Most productive ecosystem = <em>Estuaries and Coral reefs</em>.</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="chapter-divider"></div>
+
+<!-- ═══════════════════════════════════════
+     CHAPTER 2 — POLLUTION
+═══════════════════════════════════════ -->
+<div class="chapter" id="pollution">
+  <div class="chapter-tag" style="background:var(--red-dim);color:var(--red);border:1px solid var(--red);">Chapter 02 · Pollution</div>
+  <div class="chapter-title">Pollution & Its Types</div>
+  <div class="chapter-def" style="border-color:var(--red);">
+    Pollution is the introduction of harmful substances or energy into the natural environment, causing adverse effects on living organisms, human health, and physical environment.
+  </div>
+
+  <!-- Key Definitions -->
+  <div class="section">
+    <div class="section-head">
+      <span class="section-icon">📖</span>
+      <span class="section-label">Key Terms to Know</span>
+    </div>
+    <div class="section-body">
+      <ul class="points">
+        <li><span class="point-num">01</span><div><strong>Pollutant:</strong> Any substance or energy that causes pollution. Can be natural (volcanic ash) or man-made (vehicle emissions).</div></li>
+        <li><span class="point-num">02</span><div><strong>Biodegradable Pollutants:</strong> Broken down by microorganisms — e.g., sewage, food waste.</div></li>
+        <li><span class="point-num">03</span><div><strong>Non-biodegradable Pollutants:</strong> Cannot be broken down — e.g., plastic, DDT, heavy metals. Cause <em>biomagnification</em>.</div></li>
+        <li><span class="point-num">04</span><div><strong>Biomagnification:</strong> Increase in concentration of pollutants (e.g., DDT) as they move up the food chain.</div></li>
+        <li><span class="point-num">05</span><div><strong>Eutrophication:</strong> Excessive nutrient (N, P) in water causes algal bloom → depletes oxygen → kills aquatic life.</div></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- All Types -->
+  <div class="section">
+    <div class="section-head">
+      <span class="section-icon">⚠️</span>
+      <span class="section-label">Types of Pollution — Complete Reference</span>
+      <span class="section-badge">6 types</span>
+    </div>
+    <div class="section-body">
+      <table class="poll-table">
+        <thead>
+          <tr>
+            <th>Type</th>
+            <th>Major Causes / Sources</th>
+            <th>Key Effects</th>
+            <th>Control Measures</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="poll-type">🌫️ Air</span></td>
+            <td>Vehicles, industries, burning fossil fuels, agricultural burning, power plants</td>
+            <td>Smog, acid rain, respiratory diseases, ozone depletion, global warming</td>
+            <td>CNG vehicles, scrubbers, afforestation, renewable energy</td>
+          </tr>
+          <tr>
+            <td><span class="poll-type">💧 Water</span></td>
+            <td>Industrial effluents, sewage, agricultural runoff (pesticides, fertilizers), oil spills, plastic</td>
+            <td>Waterborne diseases (cholera, typhoid), eutrophication, aquatic biodiversity loss, dead zones</td>
+            <td>Sewage treatment plants (STP), banning single-use plastic, organic farming</td>
+          </tr>
+          <tr>
+            <td><span class="poll-type">🌱 Soil / Land</span></td>
+            <td>Pesticides, chemical fertilizers, solid waste, mining, industrial waste, landfills</td>
+            <td>Loss of fertility, groundwater contamination, food chain toxicity, reduced microbial activity</td>
+            <td>Organic farming, proper waste disposal, bioremediation, crop rotation</td>
+          </tr>
+          <tr>
+            <td><span class="poll-type">🔊 Noise</span></td>
+            <td>Vehicles, aircraft, construction, industries, loudspeakers, blasting</td>
+            <td>Hearing loss, stress, hypertension, sleep disturbance, wildlife behavioral disruption</td>
+            <td>Soundproofing, noise barriers, laws on decibel limits, green belts</td>
+          </tr>
+          <tr>
+            <td><span class="poll-type">☢️ Radioactive</span></td>
+            <td>Nuclear power plants, weapons testing, uranium mining, medical/industrial radioactive waste</td>
+            <td>Cancer, genetic mutations, radiation sickness, long-term land contamination</td>
+            <td>Shielding, safe storage of nuclear waste, strict regulations</td>
+          </tr>
+          <tr>
+            <td><span class="poll-type">🌡️ Thermal</span></td>
+            <td>Discharge of heated water from power plants and industries into rivers and lakes</td>
+            <td>Reduced dissolved oxygen, fish kills, algal bloom, disrupts aquatic ecosystems</td>
+            <td>Cooling towers, recycling heated water, heat recovery systems</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="exam-tip" style="margin-top:16px;">
+        <span class="exam-tip-icon">💡</span>
+        <span><strong>Exam Tips:</strong> Minamata disease = Mercury poisoning (water). Itai-itai = Cadmium poisoning. Black lung disease = Coal dust (air). Noise above <em>85 dB</em> is harmful. SPM = Suspended Particulate Matter in air. BOD = Biological Oxygen Demand (measures water pollution).</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Acid Rain -->
+  <div class="section">
+    <div class="section-head">
+      <span class="section-icon">🌧️</span>
+      <span class="section-label">Acid Rain — Important Topic</span>
+    </div>
+    <div class="section-body">
+      <ul class="points">
+        <li><span class="point-num">01</span><div><strong>Cause:</strong> SO₂ and NO₂ released by industries and vehicles react with water vapour in atmosphere.</div></li>
+        <li><span class="point-num">02</span><div><strong>Chemistry:</strong> SO₂ + H₂O → H₂SO₃ (Sulphurous acid); NO₂ + H₂O → HNO₃ (Nitric acid).</div></li>
+        <li><span class="point-num">03</span><div><strong>pH:</strong> Normal rain pH = 5.6. Acid rain pH < 5.6.</div></li>
+        <li><span class="point-num">04</span><div><strong>Effects:</strong> Damages forests, corrodes buildings (marble cancer), acidifies lakes, kills fish, damages crops.</div></li>
+        <li><span class="point-num">05</span><div><strong>Marble Cancer:</strong> Acid rain dissolves CaCO₃ in marble monuments — e.g., Taj Mahal damage.</div></li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="chapter-divider"></div>
+
+<!-- ═══════════════════════════════════════
+     CHAPTER 3 — CLIMATE CHANGE
+═══════════════════════════════════════ -->
+<div class="chapter" id="climate">
+  <div class="chapter-tag" style="background:var(--blue-dim);color:var(--blue);border:1px solid var(--blue);">Chapter 03 · Climate Change</div>
+  <div class="chapter-title">Climate Change</div>
+  <div class="chapter-def" style="border-color:var(--blue);">
+    Climate change refers to long-term shifts in global temperatures and weather patterns, primarily caused by human activities since the Industrial Revolution (mid-18th century).
+  </div>
+
+  <!-- Greenhouse Effect -->
+  <div class="section">
+    <div class="section-head">
+      <span class="section-icon">🌍</span>
+      <span class="section-label">Greenhouse Effect & Global Warming</span>
+    </div>
+    <div class="section-body">
+      <ul class="points">
+        <li><span class="point-num">01</span><div><strong>Natural Greenhouse Effect:</strong> Certain atmospheric gases trap solar radiation, keeping Earth ~33°C warmer than it would otherwise be. <em>Essential for life.</em></div></li>
+        <li><span class="point-num">02</span><div><strong>Enhanced Greenhouse Effect:</strong> Human activities increase GHG concentrations → more heat trapped → global warming.</div></li>
+        <li><span class="point-num">03</span><div><strong>Key Greenhouse Gases (GHGs):</strong>
+          <br>— <em>CO₂</em> (Carbon dioxide) — from burning fossil fuels. Most significant GHG.
+          <br>— <em>CH₄</em> (Methane) — from livestock, rice paddies, landfills. 25× more potent than CO₂.
+          <br>— <em>N₂O</em> (Nitrous oxide) — from fertilizers. 298× more potent than CO₂.
+          <br>— <em>CFCs</em> — from refrigerants, aerosols. Also destroys ozone layer.
+          <br>— Water vapour — natural amplifier of warming.
+        </div></li>
+        <li><span class="point-num">04</span><div><strong>Global Warming Potential (GWP):</strong> Measure of how much heat a GHG traps compared to CO₂ over 100 years.</div></li>
+        <li><span class="point-num">05</span><div><strong>Current Status:</strong> Earth's average temperature has risen by <em>~1.1°C</em> above pre-industrial levels. Paris Agreement (2015) aims to limit it to <em>1.5°C</em>.</div></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Causes -->
+  <div class="section">
+    <div class="section-head">
+      <span class="section-icon">🔥</span>
+      <span class="section-label">Causes of Climate Change</span>
+    </div>
+    <div class="section-body">
+      <ul class="points">
+        <li><span class="point-num">01</span><div><strong>Burning of Fossil Fuels:</strong> Coal, oil, natural gas release CO₂ and SO₂ — biggest contributor to GHG emissions.</div></li>
+        <li><span class="point-num">02</span><div><strong>Deforestation:</strong> Trees absorb CO₂; cutting them reduces carbon sinks and releases stored carbon.</div></li>
+        <li><span class="point-num">03</span><div><strong>Agriculture:</strong> Livestock (enteric fermentation) → CH₄; paddy fields → CH₄; fertilizers → N₂O.</div></li>
+        <li><span class="point-num">04</span><div><strong>Industrialization:</strong> Factories emit CO₂, CH₄, and fluorinated gases during manufacturing.</div></li>
+        <li><span class="point-num">05</span><div><strong>Transportation:</strong> Cars, trucks, aircraft, ships burn fossil fuels → CO₂ + NO₂ emissions.</div></li>
+        <li><span class="point-num">06</span><div><strong>Waste & Landfills:</strong> Decomposing organic waste in landfills produces large amounts of CH₄.</div></li>
+        <li><span class="point-num">07</span><div><strong>Urbanization:</strong> Urban Heat Islands (UHI) — cities are warmer than surrounding areas due to concrete, vehicles, and reduced vegetation.</div></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Effects -->
+  <div class="section">
+    <div class="section-head">
+      <span class="section-icon">🌊</span>
+      <span class="section-label">Effects of Climate Change</span>
+    </div>
+    <div class="section-body">
+      <ul class="points">
+        <li><span class="point-num">01</span><div><strong>Rising Sea Levels:</strong> Melting glaciers and thermal expansion of water → flooding of coastal cities and islands.</div></li>
+        <li><span class="point-num">02</span><div><strong>Melting Ice Caps:</strong> Arctic and Antarctic ice shrinking → loss of habitat for polar bears, penguins.</div></li>
+        <li><span class="point-num">03</span><div><strong>Extreme Weather Events:</strong> More intense and frequent hurricanes, floods, droughts, heatwaves, and wildfires.</div></li>
+        <li><span class="point-num">04</span><div><strong>Ocean Acidification:</strong> CO₂ dissolves in ocean → forms carbonic acid → harms coral reefs and marine life.</div></li>
+        <li><span class="point-num">05</span><div><strong>Loss of Biodiversity:</strong> Species unable to adapt go extinct; coral bleaching; migration of species to cooler areas.</div></li>
+        <li><span class="point-num">06</span><div><strong>Food & Water Insecurity:</strong> Changed rainfall patterns and droughts affect agriculture and freshwater availability.</div></li>
+        <li><span class="point-num">07</span><div><strong>Human Health:</strong> Spread of vector-borne diseases (malaria, dengue), heat strokes, malnutrition.</div></li>
+        <li><span class="point-num">08</span><div><strong>Ozone Layer Depletion:</strong> CFCs destroy stratospheric ozone → increased UV radiation → skin cancer, cataracts.</div></li>
+      </ul>
+
+      <div class="exam-tip">
+        <span class="exam-tip-icon">💡</span>
+        <span><strong>Exam Tip:</strong> Ozone layer is in the <em>stratosphere</em> (15–35 km). Its depletion is detected via "ozone hole" over Antarctica. Montreal Protocol (1987) bans CFCs. IPCC = Intergovernmental Panel on Climate Change.</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Solutions -->
+  <div class="section">
+    <div class="section-head">
+      <span class="section-icon">🛡️</span>
+      <span class="section-label">Mitigation & Adaptation</span>
+    </div>
+    <div class="section-body">
+      <div class="sub-grid">
+        <div class="sub-box">
+          <h5 style="color:var(--green);">Mitigation (Reduce the Cause)</h5>
+          <ul>
+            <li>Switch to renewable energy (solar, wind)</li>
+            <li>Improve energy efficiency (LED, insulation)</li>
+            <li>Carbon capture and storage (CCS)</li>
+            <li>Afforestation and reforestation</li>
+            <li>Reduce, Reuse, Recycle</li>
+            <li>Electric vehicles (EVs), public transport</li>
+            <li>International agreements (Paris, Kyoto)</li>
+          </ul>
+        </div>
+        <div class="sub-box">
+          <h5 style="color:var(--blue);">Adaptation (Deal with the Effect)</h5>
+          <ul>
+            <li>Build flood defences and sea walls</li>
+            <li>Develop drought-resistant crops</li>
+            <li>Improve disaster early-warning systems</li>
+            <li>Urban green spaces to reduce heat islands</li>
+            <li>Diversify water sources (rainwater harvesting)</li>
+            <li>Climate-resilient infrastructure</li>
+            <li>Protect and restore mangroves and wetlands</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="chapter-divider"></div>
+
+<!-- ═══════════════════════════════════════
+     CHAPTER 4 — RENEWABLE ENERGY
+═══════════════════════════════════════ -->
+<div class="chapter" id="energy">
+  <div class="chapter-tag" style="background:var(--yellow-dim);color:var(--yellow);border:1px solid var(--yellow);">Chapter 04 · Renewable Energy</div>
+  <div class="chapter-title">Renewable Sources of Energy</div>
+  <div class="chapter-def" style="border-color:var(--yellow);">
+    Renewable energy is energy from sources that are naturally replenished on a human timescale — such as sunlight, wind, rain, tides, waves, and geothermal heat. They are inexhaustible and produce little to no GHG emissions.
+  </div>
+
+  <!-- Hydro -->
+  <div class="section">
+    <div class="section-head">
+      <span class="section-icon">💧</span>
+      <span class="section-label">1. Hydropower (Hydro Energy)</span>
+      <span class="section-badge" style="background:var(--blue-dim);color:var(--blue);">Flowing Water</span>
+    </div>
+    <div class="section-body">
+      <ul class="points">
+        <li><span class="point-num">01</span><div><strong>Principle:</strong> Kinetic and potential energy of flowing or falling water is used to rotate turbines, generating electricity.</div></li>
+        <li><span class="point-num">02</span><div><strong>Types:</strong> Large dams (e.g., Bhakra Nangal), Run-of-river plants, Pumped storage hydropower, Small/micro hydro.</div></li>
+        <li><span class="point-num">03</span><div><strong>Availability:</strong> Requires rivers with sufficient flow and elevation difference. Abundant in hilly/mountainous regions.</div></li>
+        <li><span class="point-num">04</span><div><em>✅ Advantages:</em> Large-scale generation, no fuel cost, long lifespan (50–100 years), can quickly respond to demand, provides flood control and irrigation.</div></li>
+        <li><span class="point-num">05</span><div><em>❌ Limitations:</em> Displaces communities, floods large areas, disrupts aquatic ecosystems, dam failure risk, dependent on rainfall (drought-sensitive), high construction cost, sedimentation reduces capacity over time.</div></li>
+        <li><span class="point-num">06</span><div><strong>Examples:</strong> Three Gorges Dam (China) — world's largest. Bhakra Nangal (India). Hoover Dam (USA).</div></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Solar -->
+  <div class="section">
+    <div class="section-head">
+      <span class="section-icon">☀️</span>
+      <span class="section-label">2. Solar Energy</span>
+      <span class="section-badge" style="background:var(--yellow-dim);color:var(--yellow);">Sunlight</span>
+    </div>
+    <div class="section-body">
+      <ul class="points">
+        <li><span class="point-num">01</span><div><strong>Principle:</strong> Solar energy is captured using photovoltaic (PV) cells or solar thermal systems.
+          <br>— <em>PV cells:</em> Convert sunlight directly into electricity (photoelectric effect).
+          <br>— <em>Solar thermal:</em> Use sunlight to heat water/steam to drive turbines.
+        </div></li>
+        <li><span class="point-num">02</span><div><strong>Applications:</strong> Solar panels (homes/commercial), solar water heaters, solar cookers, solar lanterns, concentrated solar power (CSP) plants.</div></li>
+        <li><span class="point-num">03</span><div><strong>Availability:</strong> Globally available; best in tropical and desert regions (India has ~300 sunny days/year). India's solar target: 500 GW by 2030.</div></li>
+        <li><span class="point-num">04</span><div><em>✅ Advantages:</em> Infinite source, zero emissions during operation, low maintenance, scalable (from rooftop to utility), rapidly falling costs (cheapest electricity source now in many regions).</div></li>
+        <li><span class="point-num">05</span><div><em>❌ Limitations:</em> Intermittent (no output at night or during heavy cloud cover), needs large land area for utility-scale plants, requires battery storage, PV manufacturing involves toxic chemicals.</div></li>
+        <li><span class="point-num">06</span><div><strong>India:</strong> Bhadla Solar Park (Rajasthan) — world's largest solar park.</div></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Wind -->
+  <div class="section">
+    <div class="section-head">
+      <span class="section-icon">🌬️</span>
+      <span class="section-label">3. Wind Energy</span>
+      <span class="section-badge" style="background:var(--teal-dim);color:var(--teal);">Wind Turbines</span>
+    </div>
+    <div class="section-body">
+      <ul class="points">
+        <li><span class="point-num">01</span><div><strong>Principle:</strong> Kinetic energy of wind rotates turbine blades → shaft rotates → generator produces electricity.</div></li>
+        <li><span class="point-num">02</span><div><strong>Types:</strong>
+          <br>— <em>Onshore:</em> Turbines on land; more common and cheaper.
+          <br>— <em>Offshore:</em> Turbines in sea; stronger/consistent winds, less visual impact, but more expensive.
+        </div></li>
+        <li><span class="point-num">03</span><div><strong>Availability:</strong> Best in coastal areas, plains, mountain passes. Wind speed > 6 m/s is generally needed for viability.</div></li>
+        <li><span class="point-num">04</span><div><em>✅ Advantages:</em> No fuel cost, no water use, minimal land footprint (farming can continue around turbines), low emissions, fast deployment.</div></li>
+        <li><span class="point-num">05</span><div><em>❌ Limitations:</em> Intermittent and variable (wind-dependent), noise and visual pollution, bird and bat mortality, not suitable for all regions, high initial cost for offshore.</div></li>
+        <li><span class="point-num">06</span><div><strong>India:</strong> Tamil Nadu, Rajasthan, Gujarat are top wind energy states. India = 4th largest wind energy producer globally.</div></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Biomass -->
+  <div class="section">
+    <div class="section-head">
+      <span class="section-icon">🌾</span>
+      <span class="section-label">4. Biomass Energy</span>
+      <span class="section-badge" style="background:var(--green-dim);color:var(--green);">Organic Matter</span>
+    </div>
+    <div class="section-body">
+      <ul class="points">
+        <li><span class="point-num">01</span><div><strong>Definition:</strong> Energy derived from organic materials — plant matter, agricultural residue, animal waste, food waste, and wood.</div></li>
+        <li><span class="point-num">02</span><div><strong>Forms of Biomass Energy:</strong>
+          <br>— <em>Direct burning:</em> Wood, crop residue for heat/electricity.
+          <br>— <em>Biogas:</em> CH₄ produced from decomposition of organic waste in biogas plants (anaerobic digestion).
+          <br>— <em>Biofuels:</em> Ethanol (from sugarcane/corn) and biodiesel (from vegetable oils) for vehicles.
+          <br>— <em>Biochar:</em> Carbon-rich charcoal that improves soil and stores carbon.
+        </div></li>
+        <li><span class="point-num">03</span><div><strong>Availability:</strong> Widely available worldwide, especially in agricultural economies. India has high biomass potential from agricultural waste.</div></li>
+        <li><span class="point-num">04</span><div><em>✅ Advantages:</em> Utilizes waste material, carbon-neutral cycle (CO₂ released = CO₂ absorbed during growth), can produce electricity + heat + liquid fuel, reduces waste in landfills.</div></li>
+        <li><span class="point-num">05</span><div><em>❌ Limitations:</em> Burning can release air pollutants (CO, particulates), risk of deforestation if biomass is not sustainably sourced, competes with food crops (biofuels vs food), lower energy efficiency than fossil fuels.</div></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Tidal -->
+  <div class="section">
+    <div class="section-head">
+      <span class="section-icon">🌊</span>
+      <span class="section-label">5. Tidal Energy</span>
+      <span class="section-badge" style="background:var(--blue-dim);color:var(--blue);">Ocean Tides</span>
+    </div>
+    <div class="section-body">
+      <ul class="points">
+        <li><span class="point-num">01</span><div><strong>Principle:</strong> Tidal energy harnesses the kinetic and potential energy from the rise and fall of ocean tides, caused by gravitational pull of the Moon and Sun.</div></li>
+        <li><span class="point-num">02</span><div><strong>Technologies:</strong>
+          <br>— <em>Tidal Barrages:</em> Dam-like structure across tidal estuary; water flows through turbines as tide rises/falls.
+          <br>— <em>Tidal Stream Generators:</em> Underwater turbines in fast tidal currents (like underwater wind turbines).
+          <br>— <em>Tidal Lagoons:</em> Enclosed areas of sea with turbines in walls.
+        </div></li>
+        <li><span class="point-num">03</span><div><strong>Availability:</strong> Limited to coastal areas with large tidal range (>5 m). Best sites: English Channel, Bay of Fundy (Canada), Gulf of Kutch (India).</div></li>
+        <li><span class="point-num">04</span><div><em>✅ Advantages:</em> Highly predictable (astronomically determined), no fuel cost, long lifespan, zero GHG emissions during operation, reliable twice-daily output.</div></li>
+        <li><span class="point-num">05</span><div><em>❌ Limitations:</em> Very limited suitable locations globally, high construction and maintenance costs, disrupts marine ecosystems and fish migration, output not continuous (only during tidal movement), still largely an emerging technology.</div></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Geothermal -->
+  <div class="section">
+    <div class="section-head">
+      <span class="section-icon">🌋</span>
+      <span class="section-label">6. Geothermal Energy</span>
+      <span class="section-badge" style="background:var(--red-dim);color:var(--red);">Earth's Heat</span>
+    </div>
+    <div class="section-body">
+      <ul class="points">
+        <li><span class="point-num">01</span><div><strong>Principle:</strong> Heat from Earth's interior (from radioactive decay of elements and residual heat from Earth's formation) is tapped to produce electricity or direct heating.</div></li>
+        <li><span class="point-num">02</span><div><strong>How it works:</strong> Wells are drilled into geothermal reservoirs → steam/hot water rises to surface → drives turbines → generates electricity. Spent steam is condensed and returned.</div></li>
+        <li><span class="point-num">03</span><div><strong>Availability:</strong> Geographically limited to tectonically active regions — volcanoes, geysers, plate boundaries. Best: Iceland, USA (The Geysers), Philippines, Kenya, Italy. India: Puga Valley (Ladakh), Tattapani.</div></li>
+        <li><span class="point-num">04</span><div><em>✅ Advantages:</em> Continuous 24/7 output (not intermittent), small land footprint, low GHG emissions, low operating costs once drilled, can be used for both electricity and direct heating (buildings, greenhouses).</div></li>
+        <li><span class="point-num">05</span><div><em>❌ Limitations:</em> Geographically restricted, very high drilling costs, risk of releasing H₂S (toxic gas), can trigger minor earthquakes (enhanced geothermal systems), may deplete if heat extracted faster than replenished.</div></li>
+        <li><span class="point-num">06</span><div><strong>Iceland:</strong> Gets ~90% of heating and ~30% of electricity from geothermal — best example in the world.</div></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Quick Comparison -->
+  <div class="section">
+    <div class="section-head">
+      <span class="section-icon">📊</span>
+      <span class="section-label">Quick Comparison Table — Exam Ready</span>
+    </div>
+    <div class="section-body">
+      <table class="energy-table">
+        <thead>
+          <tr>
+            <th>Source</th>
+            <th>Reliability</th>
+            <th>Geographic Constraint</th>
+            <th>Main Limitation</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="energy-icon2">💧</span><span class="energy-name">Hydro</span></td>
+            <td>High (controlled)</td>
+            <td>Rivers / hilly terrain</td>
+            <td>Ecosystem disruption, displacement</td>
+          </tr>
+          <tr>
+            <td><span class="energy-icon2">☀️</span><span class="energy-name">Solar</span></td>
+            <td>Medium (day only)</td>
+            <td>High solar irradiance regions</td>
+            <td>Intermittent; needs storage</td>
+          </tr>
+          <tr>
+            <td><span class="energy-icon2">🌬️</span><span class="energy-name">Wind</span></td>
+            <td>Medium (variable)</td>
+            <td>Coastal / open plains</td>
+            <td>Wind-dependent; bird mortality</td>
+          </tr>
+          <tr>
+            <td><span class="energy-icon2">🌾</span><span class="energy-name">Biomass</span></td>
+            <td>High (on demand)</td>
+            <td>Widely available</td>
+            <td>Air pollution; deforestation risk</td>
+          </tr>
+          <tr>
+            <td><span class="energy-icon2">🌊</span><span class="energy-name">Tidal</span></td>
+            <td>Very High (predictable)</td>
+            <td>High tidal range coasts only</td>
+            <td>Very few viable locations</td>
+          </tr>
+          <tr>
+            <td><span class="energy-icon2">🌋</span><span class="energy-name">Geothermal</span></td>
+            <td>Very High (24/7)</td>
+            <td>Tectonically active zones</td>
+            <td>Geographic limitation; high drilling cost</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="exam-tip" style="margin-top:16px;">
+        <span class="exam-tip-icon">💡</span>
+        <span><strong>Key Exam Points:</strong> Most reliable = Geothermal & Tidal. Fastest growing = Solar & Wind. Most versatile = Biomass. Most widely used globally = Hydro (~16% of world electricity). India's largest renewable source = Hydro. Cheapest to generate now = Solar (utility scale).</span>
+      </div>
+    </div>
+  </div>
+
+</div><!-- end chapter 4 -->
+
+</div><!-- end page -->
+
+<script>
+  // Smooth scroll for nav links
+  document.querySelectorAll('.chapter-nav a').forEach(a => {
+    a.addEventListener('click', e => {
+      e.preventDefault();
+      const id = a.getAttribute('href').slice(1);
+      document.getElementById(id).scrollIntoView({behavior:'smooth', block:'start'});
+    });
+  });
+</script>
+</body>
+</html>

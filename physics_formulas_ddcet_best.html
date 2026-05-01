@@ -1,0 +1,1188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Physics Formula Reference — DDCET</title>
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0c14;
+    --surface: #111422;
+    --surface2: #181c2e;
+    --border: #1e2440;
+    --accent1: #00d4ff;
+    --accent2: #ff6b35;
+    --accent3: #a8ff78;
+    --accent4: #f7971e;
+    --accent5: #c471ed;
+    --text: #e8eaf6;
+    --text-dim: #7986cb;
+    --text-muted: #3d4572;
+    --formula-bg: #0d1117;
+    --glow1: rgba(0,212,255,0.15);
+    --glow2: rgba(255,107,53,0.15);
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'IBM Plex Sans', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* Starfield bg */
+  body::before {
+    content:'';
+    position:fixed;
+    inset:0;
+    background-image:
+      radial-gradient(1px 1px at 20% 30%, rgba(255,255,255,0.15) 0%, transparent 100%),
+      radial-gradient(1px 1px at 80% 10%, rgba(255,255,255,0.1) 0%, transparent 100%),
+      radial-gradient(1px 1px at 50% 60%, rgba(255,255,255,0.08) 0%, transparent 100%),
+      radial-gradient(1px 1px at 10% 80%, rgba(255,255,255,0.1) 0%, transparent 100%),
+      radial-gradient(1px 1px at 90% 70%, rgba(255,255,255,0.12) 0%, transparent 100%);
+    pointer-events:none;
+    z-index:0;
+  }
+
+  header {
+    position: relative;
+    text-align: center;
+    padding: 3rem 2rem 2rem;
+    border-bottom: 1px solid var(--border);
+    background: linear-gradient(180deg, rgba(0,212,255,0.05) 0%, transparent 100%);
+    z-index:1;
+  }
+
+  .header-badge {
+    display: inline-block;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    color: var(--accent1);
+    border: 1px solid rgba(0,212,255,0.3);
+    padding: 0.25rem 0.75rem;
+    border-radius: 2px;
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+  }
+
+  header h1 {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    background: linear-gradient(135deg, #fff 0%, var(--accent1) 50%, var(--accent5) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1.1;
+  }
+
+  header p {
+    color: var(--text-dim);
+    font-size: 0.9rem;
+    margin-top: 0.5rem;
+    font-family: 'IBM Plex Mono', monospace;
+  }
+
+  /* NAV TABS */
+  .nav-wrapper {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(10,12,20,0.95);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 1rem;
+    overflow-x: auto;
+  }
+
+  .nav-tabs {
+    display: flex;
+    gap: 0;
+    min-width: max-content;
+    margin: 0 auto;
+    max-width: 1100px;
+  }
+
+  .tab-btn {
+    background: none;
+    border: none;
+    color: var(--text-dim);
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 1rem 1.2rem;
+    cursor: pointer;
+    position: relative;
+    transition: color 0.2s;
+    white-space: nowrap;
+  }
+
+  .tab-btn::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 2px;
+    background: var(--accent1);
+    transform: scaleX(0);
+    transition: transform 0.2s;
+  }
+
+  .tab-btn.active { color: #fff; }
+  .tab-btn.active::after { transform: scaleX(1); }
+  .tab-btn:hover { color: var(--text); }
+
+  .tab-btn[data-topic="1"]::after { background: var(--accent1); }
+  .tab-btn[data-topic="2"]::after { background: var(--accent2); }
+  .tab-btn[data-topic="3"]::after { background: var(--accent3); }
+  .tab-btn[data-topic="4"]::after { background: var(--accent4); }
+  .tab-btn[data-topic="5"]::after { background: var(--accent5); }
+
+  /* MAIN CONTENT */
+  main {
+    position: relative;
+    z-index: 1;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem 4rem;
+  }
+
+  .topic-section { display: none; }
+  .topic-section.active { display: block; animation: fadeIn 0.3s ease; }
+
+  @keyframes fadeIn { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:none; } }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .section-number {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 2.5rem;
+    font-weight: 500;
+    opacity: 0.15;
+    line-height: 1;
+  }
+
+  .section-title {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 1.8rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .t1 .section-title { color: var(--accent1); }
+  .t2 .section-title { color: var(--accent2); }
+  .t3 .section-title { color: var(--accent3); }
+  .t4 .section-title { color: var(--accent4); }
+  .t5 .section-title { color: var(--accent5); }
+
+  /* FORMULA CARDS GRID */
+  .formula-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .formula-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 1.1rem 1.2rem;
+    transition: border-color 0.2s, transform 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .formula-card::before {
+    content:'';
+    position: absolute;
+    top: 0; left: 0;
+    width: 3px; height: 100%;
+    background: var(--card-accent, var(--accent1));
+  }
+
+  .formula-card:hover {
+    border-color: rgba(255,255,255,0.15);
+    transform: translateY(-2px);
+  }
+
+  .t1 .formula-card { --card-accent: var(--accent1); }
+  .t2 .formula-card { --card-accent: var(--accent2); }
+  .t3 .formula-card { --card-accent: var(--accent3); }
+  .t4 .formula-card { --card-accent: var(--accent4); }
+  .t5 .formula-card { --card-accent: var(--accent5); }
+
+  .formula-name {
+    font-size: 0.7rem;
+    font-family: 'IBM Plex Mono', monospace;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-bottom: 0.5rem;
+  }
+
+  .formula-expr {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 1.05rem;
+    color: #fff;
+    background: var(--formula-bg);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 0.5rem 0.75rem;
+    margin: 0.4rem 0;
+    display: inline-block;
+    width: 100%;
+    word-break: break-word;
+  }
+
+  .formula-unit {
+    font-size: 0.75rem;
+    color: var(--text-dim);
+    font-family: 'IBM Plex Mono', monospace;
+  }
+
+  .formula-unit span {
+    color: var(--card-accent, var(--accent1));
+    font-weight: 500;
+  }
+
+  .formula-note {
+    font-size: 0.78rem;
+    color: var(--text-dim);
+    margin-top: 0.4rem;
+    line-height: 1.5;
+    border-top: 1px solid var(--border);
+    padding-top: 0.4rem;
+  }
+
+  /* SUBTOPIC HEADERS */
+  .subtopic-label {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--text-dim);
+    margin: 2rem 0 0.8rem;
+    padding-bottom: 0.4rem;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .subtopic-label::before {
+    content: '▸';
+    color: var(--card-accent, var(--accent1));
+  }
+
+  /* UNITS TABLE */
+  .units-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.82rem;
+    font-family: 'IBM Plex Mono', monospace;
+    margin: 1rem 0 2rem;
+  }
+
+  .units-table th {
+    background: var(--surface2);
+    color: var(--text-dim);
+    text-align: left;
+    padding: 0.6rem 0.8rem;
+    border: 1px solid var(--border);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-size: 0.7rem;
+  }
+
+  .units-table td {
+    padding: 0.5rem 0.8rem;
+    border: 1px solid var(--border);
+    color: var(--text);
+    vertical-align: middle;
+  }
+
+  .units-table tr:nth-child(even) td { background: rgba(255,255,255,0.02); }
+  .units-table tr:hover td { background: rgba(255,255,255,0.04); }
+
+  .unit-val {
+    color: var(--card-accent, var(--accent1));
+    font-weight: 500;
+  }
+
+  /* SEARCH */
+  .search-bar {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 0.5rem 1rem;
+    margin-bottom: 1.5rem;
+    max-width: 400px;
+  }
+
+  .search-bar input {
+    background: none;
+    border: none;
+    outline: none;
+    color: var(--text);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.85rem;
+    width: 100%;
+  }
+
+  .search-bar input::placeholder { color: var(--text-muted); }
+  .search-icon { color: var(--text-muted); font-size: 0.9rem; }
+
+  /* Quick ref pill */
+  .quick-ref {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .qr-pill {
+    font-size: 0.7rem;
+    font-family: 'IBM Plex Mono', monospace;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    padding: 0.2rem 0.5rem;
+    color: var(--text-dim);
+  }
+
+  .highlight { background: rgba(0,212,255,0.2); border-radius: 2px; }
+
+  @media (max-width: 600px) {
+    .formula-grid { grid-template-columns: 1fr; }
+    .section-title { font-size: 1.3rem; }
+    header h1 { font-size: 1.8rem; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-badge">DDCET Physics Reference</div>
+  <h1>Complete Formula<br>Compendium</h1>
+  <p>5 Topics · All Formulas · SI & CGS Units</p>
+</header>
+
+<div class="nav-wrapper">
+  <div class="nav-tabs">
+    <button class="tab-btn active" data-topic="1" onclick="switchTab(1)">① Units &amp; Measurement</button>
+    <button class="tab-btn" data-topic="2" onclick="switchTab(2)">② Classical Mechanics</button>
+    <button class="tab-btn" data-topic="3" onclick="switchTab(3)">③ Electric Current</button>
+    <button class="tab-btn" data-topic="4" onclick="switchTab(4)">④ Heat &amp; Thermometry</button>
+    <button class="tab-btn" data-topic="5" onclick="switchTab(5)">⑤ Wave, Optics &amp; Acoustics</button>
+  </div>
+</div>
+
+<main>
+
+<!-- ══════════ TOPIC 1 ══════════ -->
+<section class="topic-section t1 active" id="topic-1">
+  <div class="section-header">
+    <div class="section-number">01</div>
+    <div>
+      <div class="section-title">Units &amp; Measurement</div>
+    </div>
+  </div>
+
+  <div class="subtopic-label">Fundamental SI Base Units</div>
+  <table class="units-table">
+    <tr><th>Quantity</th><th>SI Unit</th><th>Symbol</th><th>CGS Unit</th></tr>
+    <tr><td>Length</td><td class="unit-val">metre</td><td>m</td><td>centimetre (cm)</td></tr>
+    <tr><td>Mass</td><td class="unit-val">kilogram</td><td>kg</td><td>gram (g)</td></tr>
+    <tr><td>Time</td><td class="unit-val">second</td><td>s</td><td>second (s)</td></tr>
+    <tr><td>Temperature</td><td class="unit-val">kelvin</td><td>K</td><td>—</td></tr>
+    <tr><td>Electric Current</td><td class="unit-val">ampere</td><td>A</td><td>—</td></tr>
+    <tr><td>Luminous Intensity</td><td class="unit-val">candela</td><td>cd</td><td>—</td></tr>
+    <tr><td>Amount of Substance</td><td class="unit-val">mole</td><td>mol</td><td>—</td></tr>
+  </table>
+
+  <div class="subtopic-label">Common Derived Units</div>
+  <table class="units-table">
+    <tr><th>Quantity</th><th>SI Unit</th><th>Symbol</th><th>In Base Units</th></tr>
+    <tr><td>Force</td><td class="unit-val">Newton</td><td>N</td><td>kg·m/s²</td></tr>
+    <tr><td>Energy / Work</td><td class="unit-val">Joule</td><td>J</td><td>kg·m²/s²</td></tr>
+    <tr><td>Power</td><td class="unit-val">Watt</td><td>W</td><td>J/s = kg·m²/s³</td></tr>
+    <tr><td>Pressure</td><td class="unit-val">Pascal</td><td>Pa</td><td>N/m²</td></tr>
+    <tr><td>Electric Charge</td><td class="unit-val">Coulomb</td><td>C</td><td>A·s</td></tr>
+    <tr><td>Electric Potential</td><td class="unit-val">Volt</td><td>V</td><td>J/C</td></tr>
+    <tr><td>Resistance</td><td class="unit-val">Ohm</td><td>Ω</td><td>V/A</td></tr>
+    <tr><td>Capacitance</td><td class="unit-val">Farad</td><td>F</td><td>C/V</td></tr>
+    <tr><td>Frequency</td><td class="unit-val">Hertz</td><td>Hz</td><td>1/s</td></tr>
+  </table>
+
+  <div class="subtopic-label">Unit Conversions (MKS ↔ CGS)</div>
+  <div class="formula-grid">
+    <div class="formula-card">
+      <div class="formula-name">Length</div>
+      <div class="formula-expr">1 m = 100 cm = 10² cm</div>
+      <div class="formula-expr">1 km = 10³ m = 10⁵ cm</div>
+    </div>
+    <div class="formula-card">
+      <div class="formula-name">Mass</div>
+      <div class="formula-expr">1 kg = 1000 g = 10³ g</div>
+    </div>
+    <div class="formula-card">
+      <div class="formula-name">Force</div>
+      <div class="formula-expr">1 N = 10⁵ dyne</div>
+      <div class="formula-expr">1 dyne = 10⁻⁵ N</div>
+    </div>
+    <div class="formula-card">
+      <div class="formula-name">Energy / Work</div>
+      <div class="formula-expr">1 J = 10⁷ erg</div>
+      <div class="formula-expr">1 erg = 10⁻⁷ J</div>
+    </div>
+    <div class="formula-card">
+      <div class="formula-name">Pressure</div>
+      <div class="formula-expr">1 Pa = 10 dyne/cm²</div>
+    </div>
+    <div class="formula-card">
+      <div class="formula-name">Power</div>
+      <div class="formula-expr">1 W = 10⁷ erg/s</div>
+    </div>
+  </div>
+
+  <div class="subtopic-label">Error Analysis Formulas</div>
+  <div class="formula-grid">
+    <div class="formula-card">
+      <div class="formula-name">Absolute Error (each reading)</div>
+      <div class="formula-expr">Δaᵢ = |aₘₑₐₙ - aᵢ|</div>
+      <div class="formula-note">aₘₑₐₙ = (a₁+a₂+...+aₙ)/n</div>
+    </div>
+    <div class="formula-card">
+      <div class="formula-name">Mean Absolute Error</div>
+      <div class="formula-expr">Δā = (Δa₁+Δa₂+...+Δaₙ)/n</div>
+    </div>
+    <div class="formula-card">
+      <div class="formula-name">Relative Error (Fractional Error)</div>
+      <div class="formula-expr">Relative Error = Δā / aₘₑₐₙ</div>
+    </div>
+    <div class="formula-card">
+      <div class="formula-name">Percentage Error</div>
+      <div class="formula-expr">% Error = (Δā / aₘₑₐₙ) × 100%</div>
+    </div>
+    <div class="formula-card">
+      <div class="formula-name">Error in Sum / Difference</div>
+      <div class="formula-expr">Z = A ± B → ΔZ = ΔA + ΔB</div>
+      <div class="formula-note">Absolute errors always ADD</div>
+    </div>
+    <div class="formula-card">
+      <div class="formula-name">Error in Product / Quotient</div>
+      <div class="formula-expr">Z = A·B or A/B</div>
+      <div class="formula-expr">ΔZ/Z = ΔA/A + ΔB/B</div>
+      <div class="formula-note">Relative errors add</div>
+    </div>
+    <div class="formula-card">
+      <div class="formula-name">Error in Power (Z = Aᵐ·Bⁿ / Cᵖ)</div>
+      <div class="formula-expr">ΔZ/Z = m(ΔA/A) + n(ΔB/B) + p(ΔC/C)</div>
+    </div>
+    <div class="formula-card">
+      <div class="formula-name">Sphere Density % Error</div>
+      <div class="formula-expr">ρ = m/V = 3m/(4πr³)</div>
+      <div class="formula-expr">Δρ/ρ = Δm/m + 3(Δr/r)</div>
+    </div>
+  </div>
+
+  <div class="subtopic-label">Measuring Instruments</div>
+  <div class="formula-grid">
+    <div class="formula-card">
+      <div class="formula-name">Vernier Caliper — Least Count</div>
+      <div class="formula-expr">LC = 1 MSD − 1 VSD</div>
+      <div class="formula-expr">LC = S / N</div>
+      <div class="formula-note">S = value of 1 MSD; N = number of VSD divisions. Typically 0.1 mm or 0.02 mm.</div>
+    </div>
+    <div class="formula-card">
+      <div class="formula-name">Vernier Caliper — Reading</div>
+      <div class="formula-expr">Reading = MSR + (VSR × LC)</div>
+      <div class="formula-note">MSR = Main Scale Reading; VSR = Vernier Scale Reading (coinciding division)</div>
+    </div>
+    <div class="formula-card">
+      <div class="formula-name">Micrometer Screw Gauge — Least Count</div>
+      <div class="formula-expr">LC = Pitch / No. of divisions</div>
+      <div class="formula-expr">LC = p / n</div>
+      <div class="formula-note">Typical: pitch=0.5mm, n=50 → LC=0.01mm</div>
+    </div>
+    <div class="formula-card">
+      <div class="formula-name">Micrometer — Reading</div>
+      <div class="formula-expr">Reading = PSR + (HSR × LC) ± ZE</div>
+      <div class="formula-note">PSR = Pitch Scale; HSR = Head Scale; ZE = Zero Error</div>
+    </div>
+    <div class="formula-card">
+      <div class="formula-name">Significant Figures — Rules</div>
+      <div class="formula-expr">Non-zero digits: always significant</div>
+      <div class="formula-expr">Zeros between non-zero: significant</div>
+      <div class="formula-expr">Leading zeros: NOT significant</div>
+      <div class="formula-expr">Trailing zeros (decimal): significant</div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ TOPIC 2 ══════════ -->
+<section class="topic-section t2" id="topic-2">
+  <div class="section-header">
+    <div class="section-number">02</div>
+    <div><div class="section-title">Classical Mechanics</div></div>
+  </div>
+
+  <div class="subtopic-label">Linear Motion — Equations of Motion</div>
+  <div class="formula-grid">
+    <div class="formula-card">
+      <div class="formula-name">1st Equation (velocity-time)</div>
+      <div class="formula-expr">v = u + at</div>
+      <div class="formula-unit">v,u → m/s &nbsp;|&nbsp; a → m/s² &nbsp;|&nbsp; t → s</div>
+    </div>
+    <div class="formula-card">
+      <div class="formula-name">2nd Equation (position-time)</div>
+      <div class="formula-expr">s = ut + ½at²</div>
+      <div class="formula-unit">s → <span>m</span></div>
+    </div>
+    <div class="formula-card">
+      <div class="formula-name">3rd Equation (velocity-position)</div>
+      <div class="formula-expr">v² = u² + 2as</div>
+    </div>
+    <div class="formula-card">
+      <div class="formula-name">Average Velocity</div>
+      <div class="formula-expr">v_avg = (u + v) / 2</div>
+      <div class="formula-expr">v_avg = total displacement / time</div>
+    </div>
+    <div class="formula-card">
+      <div class="formula-name">Distance in nth second</div>
+      <div class="formula-expr">sₙ = u + a(2n − 1)/2</div>
+    </div>
+  </div>
+
+  <div class="subtopic-label">Newton's Laws of Motion</div>
+  <div class="formula-grid">
+    <div class="formula-card">
+      <div class="formula-name">Newton's 1st Law (Inertia)</div>
+      <div class="formula-expr">F_net = 0 → a = 0 (body at rest or uniform motion)</div>
+    </div>
+    <div class="formula-card">
+      <div class="formula-name">Newton's 2nd Law</div>
+      <div class="formula-expr">F = ma</div>
+      <div class="formula-expr">F = dp/dt</div>
+      <div class="formula-unit">F → <span>N (newton)</span> &nbsp;|&nbsp; m → kg &nbsp;|&nbsp; a → m/s²</div>
+    </div>
+    <div class="formula-card">
+      <div class="formula-name">Newton's 3rd Law</div>
+      <div class="formula-expr">F_AB = −F_BA</div>
+      <div class="formula-note">Action and reaction are equal &amp; opposite</div>
+    </div>
+    <div class="formula-card">
+      <div class="formula-name">Weight</div>
+      <div class="formula-expr">W = mg</div>
+      <div class="formula-unit">W → <span>N</span> &nbsp;|&nbsp; g = 9.8 m/s²</div>
+    </div>
+    <div class="formula-card">
+      <div class="formula-name">Friction Force</div>
+      <div class="formula-expr">f = μN</div>
+      <div class="formula-note">μ = coefficient of friction, N = normal force</div>
+    </div>
+  </div>
+
+  <div class="subtopic-label">Linear Momentum &amp; Impulse</div>
+  <div class="formula-grid">
+    <div class="formula-card">
+      <div class="formula-name">Linear Momentum</div>
+      <div class="formula-expr">p = mv</div>
+      <div class="formula-unit">SI: <span>kg·m/s</span> &nbsp;|&nbsp; CGS: g·cm/s</div>
+    </div>
+    <div class="formula-card">
+      <div class="formula-name">Law of Conservation of Momentum</div>
+      <div class="formula-expr">p₁ + p₂ = p₁' + p₂' (constant when F_ext=0)</div>
+    </div>
+    <div class="formula-card">
+      <div class="formula-name">Impulse of Force</div>
+      <div class="formula-expr">J = F × t</div>
+      <div class="formula-expr">J = Δp = m(v − u)</div>
+      <div class="formula-unit">SI: <span>N·s</span> or <span>kg·m/s</span></div>
+    </div>
+    <div class="formula-card">
+      <div class="formula-name">Impulse-Momentum Theorem</div>
+      <div class="formula-expr">F·Δt = Δ(mv)</div>
+    </div>
+  </div>
+
+  <div class="subtopic-label">Circular Motion</div>
+  <div class="formula-grid">
+    <div class="formula-card">
+      <div class="formula-name">Angular Velocity</div>
+      <div class="formula-expr">ω = v / r</div>
+      <div class="formula-expr">ω = 2πn = 2π/T</div>
+      <div class="formula-unit">SI: <span>rad/s</span></div>
+    </div>
+    <div class="formula-card">
+      <div class="formula-name">Angular Acceleration</div>
+      <div class="formula-expr">α = Δω / Δt</div>
+      <div class="formula-unit">SI: <span>rad/s²</span></div>
+    </div>
+    <div class="formula-card">
+      <div class="formula-name">Centripetal Acceleration</div>
+      <div class="formula-expr">a_c = v² / r = ω²r</div>
+      <div class="formula-unit">SI: <span>m/s²</span></div>
+    </div>
+    <div class="formula-card">
+      <div class="formula-name">Centripetal Force</div>
+      <div class="formula-expr">F_c = mv² / r = mω²r</div>
+      <div class="formula-unit">SI: <span>N</span> &nbsp;|&nbsp; directed TOWARDS centre</div>
+    </div>
+    <div class="formula-card">
+      <div class="formula-name">Centrifugal Force (pseudo)</div>
+      <div class="formula-expr">F_cf = mv² / r</div>
+      <div class="formula-note">Equal in magnitude to centripetal, directed AWAY from centre</div>
+    </div>
+    <div class="formula-card">
+      <div class="formula-name">Time Period &amp; Frequency</div>
+      <div class="formula-expr">T = 2πr / v = 2π / ω</div>
+      <div class="formula-expr">n = 1/T</div>
+    </div>
+    <div class="formula-card">
+      <div class="formula-name">Relation: v, ω, r</div>
+      <div class="formula-expr">v = ωr</div>
+    </div>
+  </div>
+
+  <div class="subtopic-label">Work, Energy &amp; Power</div>
+  <div class="formula-grid">
+    <div class="formula-card">
+      <div class="formula-name">Work Done</div>
+      <div class="formula-expr">W = F·d·cosθ</div>
+      <div class="formula-unit">SI: <span>joule (J)</span> &nbsp;|&nbsp; CGS: erg</div>
+    </div>
+    <div class="formula-card">
+      <div class="formula-name">Kinetic Energy</div>
+      <div class="formula-expr">KE = ½mv²</div>
+      <div class="formula-expr">KE = p² / (2m)</div>
+      <div class="formula-unit">SI: <span>J</span></div>
+    </div>
+    <div class="formula-card">
+      <div class="formula-name">Potential Energy (Gravitational)</div>
+      <div class="formula-expr">PE = mgh</div>
+      <div class="formula-unit">SI: <span>J</span></div>
+    </div>
+    <div class="formula-card">
+      <div class="formula-name">Work-Energy Theorem</div>
+      <div class="formula-expr">W_net = ΔKE = KE_f − KE_i</div>
+    </div>
+    <div class="formula-card">
+      <div class="formula-name">Conservation of Mechanical Energy</div>
+      <div class="formula-expr">KE + PE = constant</div>
+      <div class="formula-expr">½mv² + mgh = constant</div>
+    </div>
+    <div class="formula-card">
+      <div class="formula-name">Power</div>
+      <div class="formula-expr">P = W / t = F·v·cosθ</div>
+      <div class="formula-unit">SI: <span>watt (W)</span> &nbsp;|&nbsp; 1 hp = 746 W</div>
+    </div>
+    <div class="formula-card">
+      <div class="formula-name">Work by external forces</div>
+      <div class="formula-expr">W_ext = ΔE_total = ΔKE + ΔPE</div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ TOPIC 3 ══════════ -->
+<section class="topic-section t3" id="topic-3">
+  <div class="section-header">
+    <div class="section-number">03</div>
+    <div><div class="section-title">Electric Current</div></div>
+  </div>
+
+  <div class="subtopic-label">Electric Charge &amp; Coulomb's Law</div>
+  <div class="formula-grid">
+    <div class="formula-card">
+      <div class="formula-name">Coulomb's Force</div>
+      <div class="formula-expr">F = kq₁q₂ / r²</div>
+      <div class="formula-expr">k = 1/(4πε₀) = 9×10⁹ N·m²/C²</div>
+      <div class="formula-unit">SI: <span>N</span> &nbsp;|&nbsp; q → C &nbsp;|&nbsp; r → m</div>
+    </div>
+    <div class="formula-card">
+      <div class="formula-name">Permittivity of free space</div>
+      <div class="formula-expr">ε₀ = 8.85×10⁻¹² C²/N·m²</div>
+      <div class="formula-unit">Unit: <span>C²/(N·m²)</span></div>
+    </div>
+    <div class="formula-card">
+      <div class="formula-name">Charge Quantisation</div>
+      <div class="formula-expr">q = ne</div>
+      <div class="formula-note">e = 1.6×10⁻¹⁹ C; n = number of electrons</div>
+    </div>
+    <div class="formula-card">
+      <div class="formula-name">Electrons in 1 Coulomb</div>
+      <div class="formula-expr">n = 1/e = 6.25×10¹⁸</div>
+    </div>
+  </div>
+
+  <div class="subtopic-label">Electric Field &amp; Potential</div>
+  <div class="formula-grid">
+    <div class="formula-card">
+      <div class="formula-name">Electric Field Intensity</div>
+      <div class="formula-expr">E = F / q</div>
+      <div class="formula-expr">E = kQ / r²</div>
+      <div class="formula-unit">SI: <span>N/C or V/m</span></div>
+    </div>
+    <div class="formula-card">
+      <div class="formula-name">Electric Potential</div>
+      <div class="formula-expr">V = W / q</div>
+      <div class="formula-expr">V = kQ / r</div>
+      <div class="formula-unit">SI: <span>volt (V) = J/C</span></div>
+    </div>
+    <div class="formula-card">
+      <div class="formula-name">Relation E and V</div>
+      <div class="formula-expr">E = −dV/dr</div>
+      <div class="formula-note">Field points in direction of decreasing potential</div>
+    </div>
+    <div class="formula-card">
+      <div class="formula-name">Electric Flux</div>
+      <div class="formula-expr">Φ = E·A·cosθ</div>
+      <div class="formula-unit">SI: <span>N·m²/C or V·m</span></div>
+    </div>
+    <div class="formula-card">
+      <div class="formula-name">Gauss's Law</div>
+      <div class="formula-expr">Φ = Q_enc / ε₀</div>
+    </div>
+  </div>
+
+  <div class="subtopic-label">Ohm's Law &amp; Resistance</div>
+  <div class="formula-grid">
+    <div class="formula-card">
+      <div class="formula-name">Ohm's Law</div>
+      <div class="formula-expr">V = IR</div>
+      <div class="formula-expr">I = V/R &nbsp;&nbsp; R = V/I</div>
+      <div class="formula-unit">V → <span>volt</span> &nbsp;|&nbsp; I → <span>ampere</span> &nbsp;|&nbsp; R → <span>ohm (Ω)</span></div>
+    </div>
+    <div class="formula-card">
+      <div class="formula-name">Resistance</div>
+      <div class="formula-expr">R = ρL / A</div>
+      <div class="formula-unit">ρ = resistivity (Ω·m) &nbsp;|&nbsp; L = length (m) &nbsp;|&nbsp; A = area (m²)</div>
+    </div>
+    <div class="formula-card">
+      <div class="formula-name">Conductance</div>
+      <div class="formula-expr">G = 1/R</div>
+      <div class="formula-unit">SI: <span>siemens (S) or mho (℧)</span></div>
+    </div>
+    <div class="formula-card">
+      <div class="formula-name">Conductivity</div>
+      <div class="formula-expr">σ = 1/ρ</div>
+      <div class="formula-unit">SI: <span>S/m or (Ω·m)⁻¹</span></div>
+    </div>
+    <div class="formula-card">
+      <div class="formula-name">Resistors in Series</div>
+      <div class="formula-expr">R_eq = R₁ + R₂ + R₃ + ...</div>
+      <div class="formula-note">Same current through each; voltage divides</div>
+    </div>
+    <div class="formula-card">
+      <div class="formula-name">Resistors in Parallel</div>
+      <div class="formula-expr">1/R_eq = 1/R₁ + 1/R₂ + 1/R₃</div>
+      <div class="formula-expr">For 2: R_eq = R₁R₂/(R₁+R₂)</div>
+      <div class="formula-note">Same voltage; current divides</div>
+    </div>
+    <div class="formula-card">
+      <div class="formula-name">Electric Power</div>
+      <div class="formula-expr">P = VI = I²R = V²/R</div>
+      <div class="formula-unit">SI: <span>W (watt)</span></div>
+    </div>
+    <div class="formula-card">
+      <div class="formula-name">Electrical Energy</div>
+      <div class="formula-expr">E = P·t = VIt = I²Rt</div>
+      <div class="formula-unit">SI: <span>J (joule)</span> &nbsp;|&nbsp; Commercial: kWh</div>
+    </div>
+  </div>
+
+  <div class="subtopic-label">Capacitance &amp; Capacitors</div>
+  <div class="formula-grid">
+    <div class="formula-card">
+      <div class="formula-name">Capacitance</div>
+      <div class="formula-expr">C = Q / V</div>
+      <div class="formula-unit">SI: <span>farad (F) = C/V</span></div>
+    </div>
+    <div class="formula-card">
+      <div class="formula-name">Parallel Plate Capacitor</div>
+      <div class="formula-expr">C = ε₀·A / d</div>
+      <div class="formula-expr">C = ε₀εᵣ·A / d (with dielectric)</div>
+      <div class="formula-note">Dielectric increases capacitance by factor εᵣ</div>
+    </div>
+    <div class="formula-card">
+      <div class="formula-name">Capacitors in Series</div>
+      <div class="formula-expr">1/C_eq = 1/C₁ + 1/C₂ + ...</div>
+    </div>
+    <div class="formula-card">
+      <div class="formula-name">Capacitors in Parallel</div>
+      <div class="formula-expr">C_eq = C₁ + C₂ + C₃ + ...</div>
+    </div>
+    <div class="formula-card">
+      <div class="formula-name">Energy stored in Capacitor</div>
+      <div class="formula-expr">U = ½CV² = Q²/(2C) = QV/2</div>
+      <div class="formula-unit">SI: <span>J</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ TOPIC 4 ══════════ -->
+<section class="topic-section t4" id="topic-4">
+  <div class="section-header">
+    <div class="section-number">04</div>
+    <div><div class="section-title">Heat &amp; Thermometry</div></div>
+  </div>
+
+  <div class="subtopic-label">Temperature Scale Conversions</div>
+  <div class="formula-grid">
+    <div class="formula-card">
+      <div class="formula-name">Celsius ↔ Fahrenheit</div>
+      <div class="formula-expr">°F = (9/5)°C + 32</div>
+      <div class="formula-expr">°C = (5/9)(°F − 32)</div>
+      <div class="formula-note">Equal at: −40°C = −40°F</div>
+    </div>
+    <div class="formula-card">
+      <div class="formula-name">Celsius ↔ Kelvin</div>
+      <div class="formula-expr">K = °C + 273.15</div>
+      <div class="formula-expr">°C = K − 273.15</div>
+    </div>
+    <div class="formula-card">
+      <div class="formula-name">Fahrenheit ↔ Kelvin</div>
+      <div class="formula-expr">K = (5/9)(°F − 32) + 273.15</div>
+    </div>
+    <div class="formula-card">
+      <div class="formula-name">General Scale Relation</div>
+      <div class="formula-expr">(C−0)/100 = (F−32)/180 = (K−273)/100</div>
+    </div>
+  </div>
+
+  <div class="subtopic-label">Heat Capacity &amp; Specific Heat</div>
+  <div class="formula-grid">
+    <div class="formula-card">
+      <div class="formula-name">Heat Energy</div>
+      <div class="formula-expr">Q = mcΔT</div>
+      <div class="formula-unit">Q → <span>J</span> &nbsp;|&nbsp; m → kg &nbsp;|&nbsp; c → J/(kg·K) &nbsp;|&nbsp; ΔT → K</div>
+    </div>
+    <div class="formula-card">
+      <div class="formula-name">Specific Heat Capacity</div>
+      <div class="formula-expr">c = Q / (mΔT)</div>
+      <div class="formula-unit">SI: <span>J/(kg·K)</span> &nbsp;|&nbsp; CGS: cal/(g·°C)</div>
+    </div>
+    <div class="formula-card">
+      <div class="formula-name">Heat Capacity (of body)</div>
+      <div class="formula-expr">C = mc = Q/ΔT</div>
+      <div class="formula-unit">SI: <span>J/K</span> &nbsp;|&nbsp; Also: cal/°C or Cal/K</div>
+    </div>
+    <div class="formula-card">
+      <div class="formula-name">Latent Heat</div>
+      <div class="formula-expr">Q = mL</div>
+      <div class="formula-unit">L → J/kg &nbsp;|&nbsp; L_fusion(water)=3.36×10⁵ J/kg</div>
+    </div>
+    <div class="formula-card">
+      <div class="formula-name">Unit Conversion</div>
+      <div class="formula-expr">1 cal = 4.186 J</div>
+      <div class="formula-expr">1 kcal = 4186 J = 4.186 kJ</div>
+    </div>
+    <div class="formula-card">
+      <div class="formula-name">Principle of Calorimetry</div>
+      <div class="formula-expr">Heat lost = Heat gained</div>
+      <div class="formula-expr">m₁c₁ΔT₁ = m₂c₂ΔT₂</div>
+    </div>
+  </div>
+
+  <div class="subtopic-label">Thermal Expansion</div>
+  <div class="formula-grid">
+    <div class="formula-card">
+      <div class="formula-name">Linear Expansion</div>
+      <div class="formula-expr">ΔL = αLΔT</div>
+      <div class="formula-expr">L_f = L₀(1 + αΔT)</div>
+      <div class="formula-unit">α = linear expansion coeff. (K⁻¹ or °C⁻¹)</div>
+    </div>
+    <div class="formula-card">
+      <div class="formula-name">Area Expansion</div>
+      <div class="formula-expr">ΔA = βAΔT</div>
+      <div class="formula-expr">β = 2α</div>
+    </div>
+    <div class="formula-card">
+      <div class="formula-name">Volume Expansion</div>
+      <div class="formula-expr">ΔV = γVΔT</div>
+      <div class="formula-expr">γ = 3α</div>
+      <div class="formula-unit">γ = volume expansion coeff.</div>
+    </div>
+    <div class="formula-card">
+      <div class="formula-name">Relation between coefficients</div>
+      <div class="formula-expr">β = 2α &nbsp;&nbsp; γ = 3α</div>
+    </div>
+  </div>
+
+  <div class="subtopic-label">Thermal Conductivity</div>
+  <div class="formula-grid">
+    <div class="formula-card">
+      <div class="formula-name">Fourier's Law (Heat Conduction)</div>
+      <div class="formula-expr">Q/t = kA(T₁−T₂)/d</div>
+      <div class="formula-note">k = thermal conductivity coeff.</div>
+      <div class="formula-unit">k → <span>W/(m·K)</span></div>
+    </div>
+    <div class="formula-card">
+      <div class="formula-name">Coefficient of Thermal Conductivity</div>
+      <div class="formula-expr">k = Qd / [A·t·(T₁−T₂)]</div>
+      <div class="formula-unit">SI: <span>W/(m·K) or J/(m·s·K)</span></div>
+    </div>
+    <div class="formula-card">
+      <div class="formula-name">Newton's Law of Cooling</div>
+      <div class="formula-expr">dT/dt = −k(T − T₀)</div>
+      <div class="formula-note">T = body temp; T₀ = surrounding temp</div>
+    </div>
+    <div class="formula-card">
+      <div class="formula-name">Stefan-Boltzmann Law (Radiation)</div>
+      <div class="formula-expr">P = εσAT⁴</div>
+      <div class="formula-note">σ = 5.67×10⁻⁸ W/(m²·K⁴); ε = emissivity</div>
+    </div>
+    <div class="formula-card">
+      <div class="formula-name">Thermal Conductivity Order</div>
+      <div class="formula-expr">Ag > Cu > Al > Fe (metals)</div>
+      <div class="formula-note">Silver has highest; Iron has lowest among common metals</div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ TOPIC 5 ══════════ -->
+<section class="topic-section t5" id="topic-5">
+  <div class="section-header">
+    <div class="section-number">05</div>
+    <div><div class="section-title">Wave Motion, Optics &amp; Acoustics</div></div>
+  </div>
+
+  <div class="subtopic-label">Wave Fundamentals</div>
+  <div class="formula-grid">
+    <div class="formula-card">
+      <div class="formula-name">Wave Speed Relation</div>
+      <div class="formula-expr">v = fλ = λ/T</div>
+      <div class="formula-unit">v → <span>m/s</span> &nbsp;|&nbsp; f → Hz &nbsp;|&nbsp; λ → m &nbsp;|&nbsp; T → s</div>
+    </div>
+    <div class="formula-card">
+      <div class="formula-name">Frequency &amp; Time Period</div>
+      <div class="formula-expr">f = 1/T</div>
+      <div class="formula-expr">ω = 2πf = 2π/T</div>
+      <div class="formula-unit">f → <span>Hz</span> &nbsp;|&nbsp; T → s &nbsp;|&nbsp; ω → rad/s</div>
+    </div>
+    <div class="formula-card">
+      <div class="formula-name">Angular Wave Number</div>
+      <div class="formula-expr">k = 2π/λ</div>
+      <div class="formula-unit">k → <span>rad/m</span></div>
+    </div>
+    <div class="formula-card">
+      <div class="formula-name">Wave Equation</div>
+      <div class="formula-expr">y = A sin(ωt − kx)</div>
+      <div class="formula-expr">y = A sin(2πft − 2πx/λ)</div>
+      <div class="formula-note">A = amplitude (m)</div>
+    </div>
+    <div class="formula-card">
+      <div class="formula-name">Intensity of Wave</div>
+      <div class="formula-expr">I ∝ A²f²</div>
+      <div class="formula-expr">I = P / (4πr²) (for point source)</div>
+      <div class="formula-unit">SI: <span>W/m²</span></div>
+    </div>
+  </div>
+
+  <div class="subtopic-label">Sound Waves &amp; Frequency Ranges</div>
+  <div class="formula-grid">
+    <div class="formula-card">
+      <div class="formula-name">Speed of Sound (in medium)</div>
+      <div class="formula-expr">v = √(B/ρ) (liquids/solids)</div>
+      <div class="formula-expr">v = √(γP/ρ) (gases)</div>
+      <div class="formula-note">v_air ≈ 340 m/s at 20°C</div>
+    </div>
+    <div class="formula-card">
+      <div class="formula-name">Speed of Sound vs Temperature</div>
+      <div class="formula-expr">v_T = v₀√(T/T₀)</div>
+      <div class="formula-expr">v_T ≈ 331 + 0.61t m/s (t in °C)</div>
+    </div>
+    <div class="formula-card">
+      <div class="formula-name">Audible Sound Range</div>
+      <div class="formula-expr">20 Hz ≤ f ≤ 20,000 Hz (20 kHz)</div>
+    </div>
+    <div class="formula-card">
+      <div class="formula-name">Infrasonic</div>
+      <div class="formula-expr">f &lt; 20 Hz</div>
+    </div>
+    <div class="formula-card">
+      <div class="formula-name">Ultrasonic</div>
+      <div class="formula-expr">f &gt; 20,000 Hz (20 kHz)</div>
+    </div>
+    <div class="formula-card">
+      <div class="formula-name">Doppler Effect (source moving)</div>
+      <div class="formula-expr">f' = f₀ × (v ± v_o) / (v ∓ v_s)</div>
+      <div class="formula-note">+ when approaching; − when receding</div>
+    </div>
+  </div>
+
+  <div class="subtopic-label">Light &amp; Electromagnetic Waves</div>
+  <div class="formula-grid">
+    <div class="formula-card">
+      <div class="formula-name">Speed of Light (vacuum)</div>
+      <div class="formula-expr">c = 3 × 10⁸ m/s</div>
+    </div>
+    <div class="formula-card">
+      <div class="formula-name">EM Wave — Speed in medium</div>
+      <div class="formula-expr">v = c / n</div>
+      <div class="formula-note">n = refractive index of medium</div>
+    </div>
+    <div class="formula-card">
+      <div class="formula-name">Absolute Refractive Index</div>
+      <div class="formula-expr">n = c / v</div>
+      <div class="formula-expr">n = sin i / sin r (Snell's Law)</div>
+    </div>
+    <div class="formula-card">
+      <div class="formula-name">Snell's Law</div>
+      <div class="formula-expr">n₁ sin θ₁ = n₂ sin θ₂</div>
+      <div class="formula-expr">n₁/n₂ = sin θ₂/sin θ₁ = v₁/v₂ = λ₁/λ₂</div>
+    </div>
+    <div class="formula-card">
+      <div class="formula-name">Relative Refractive Index</div>
+      <div class="formula-expr">₁n₂ = n₂/n₁ = v₁/v₂</div>
+    </div>
+    <div class="formula-card">
+      <div class="formula-name">Critical Angle (TIR condition)</div>
+      <div class="formula-expr">sin θ_c = n₂/n₁ (n₁ > n₂)</div>
+      <div class="formula-expr">sin θ_c = 1/n (n₂=1, air)</div>
+    </div>
+    <div class="formula-card">
+      <div class="formula-name">Total Internal Reflection</div>
+      <div class="formula-expr">θ_i &gt; θ_c AND n₁ > n₂</div>
+      <div class="formula-note">Basis of optical fibre; light stays inside denser medium</div>
+    </div>
+    <div class="formula-card">
+      <div class="formula-name">Lens Formula</div>
+      <div class="formula-expr">1/f = 1/v − 1/u</div>
+      <div class="formula-unit">f → <span>m (focal length)</span> &nbsp;|&nbsp; Sign convention applies</div>
+    </div>
+    <div class="formula-card">
+      <div class="formula-name">Magnification (Lens)</div>
+      <div class="formula-expr">m = v/u = h_i/h_o</div>
+    </div>
+    <div class="formula-card">
+      <div class="formula-name">Mirror Formula</div>
+      <div class="formula-expr">1/f = 1/v + 1/u</div>
+      <div class="formula-expr">f = R/2</div>
+    </div>
+  </div>
+
+  <div class="subtopic-label">Optical Fibre</div>
+  <div class="formula-grid">
+    <div class="formula-card">
+      <div class="formula-name">Numerical Aperture (NA)</div>
+      <div class="formula-expr">NA = √(n₁² − n₂²)</div>
+      <div class="formula-note">n₁ = core RI; n₂ = cladding RI; n₁ > n₂</div>
+    </div>
+    <div class="formula-card">
+      <div class="formula-name">Acceptance Angle</div>
+      <div class="formula-expr">sin θ_a = NA = √(n₁² − n₂²)</div>
+    </div>
+    <div class="formula-card">
+      <div class="formula-name">Principle</div>
+      <div class="formula-expr">TIR: θ > θ_c when n_core > n_cladding</div>
+      <div class="formula-note">Light propagates by successive total internal reflections</div>
+    </div>
+  </div>
+
+  <div class="subtopic-label">Acoustics — Reverberation &amp; Sabine's Formula</div>
+  <div class="formula-grid">
+    <div class="formula-card">
+      <div class="formula-name">Sabine's Formula (Reverberation Time)</div>
+      <div class="formula-expr">T = 0.161 × V / A</div>
+      <div class="formula-note">T = reverberation time (s); V = volume (m³); A = total absorption (OWU)</div>
+    </div>
+    <div class="formula-card">
+      <div class="formula-name">Total Absorption</div>
+      <div class="formula-expr">A = Σ(aᵢ·Sᵢ)</div>
+      <div class="formula-unit">A → <span>OWU (Open Window Unit = m²)</span></div>
+      <div class="formula-note">aᵢ = absorption coeff; Sᵢ = surface area (m²)</div>
+    </div>
+    <div class="formula-card">
+      <div class="formula-name">Absorption Coefficient</div>
+      <div class="formula-expr">a = Sound absorbed / Sound incident</div>
+      <div class="formula-note">a = 0 (perfect reflector); a = 1 (open window)</div>
+    </div>
+    <div class="formula-card">
+      <div class="formula-name">Echo Condition</div>
+      <div class="formula-expr">d ≥ 17 m (at 20°C, v=340 m/s)</div>
+      <div class="formula-expr">Min time = 0.1 s for distinct echo</div>
+      <div class="formula-expr">d = v·t/2</div>
+    </div>
+    <div class="formula-card">
+      <div class="formula-name">Intensity Level (Decibel)</div>
+      <div class="formula-expr">β = 10 log₁₀(I/I₀) dB</div>
+      <div class="formula-note">I₀ = 10⁻¹² W/m² (threshold of hearing)</div>
+    </div>
+  </div>
+
+  <div class="subtopic-label">LASER Properties</div>
+  <div class="formula-grid">
+    <div class="formula-card">
+      <div class="formula-name">LASER (full form)</div>
+      <div class="formula-expr">Light Amplification by Stimulated Emission of Radiation</div>
+    </div>
+    <div class="formula-card">
+      <div class="formula-name">LASER Characteristics</div>
+      <div class="formula-expr">Coherent &nbsp;|&nbsp; Monochromatic</div>
+      <div class="formula-expr">Unidirectional &nbsp;|&nbsp; High Intensity</div>
+      <div class="formula-note">NOT divergent — this is the key differentiator (converges)</div>
+    </div>
+    <div class="formula-card">
+      <div class="formula-name">Stimulated Emission Energy</div>
+      <div class="formula-expr">E = hf = hc/λ</div>
+      <div class="formula-note">h = 6.63×10⁻³⁴ J·s (Planck's constant)</div>
+    </div>
+  </div>
+
+  <div class="subtopic-label">EM Spectrum (Quick Reference)</div>
+  <table class="units-table">
+    <tr><th>Wave Type</th><th>Frequency Range</th><th>Wavelength Range</th><th>Nature</th></tr>
+    <tr><td>Radio</td><td class="unit-val">3 Hz – 300 GHz</td><td>&gt;1 mm</td><td>EM (transverse)</td></tr>
+    <tr><td>Microwave</td><td class="unit-val">300 MHz – 300 GHz</td><td>1 mm – 1 m</td><td>EM (transverse)</td></tr>
+    <tr><td>Infrared</td><td class="unit-val">300 GHz – 430 THz</td><td>700 nm – 1 mm</td><td>EM (transverse)</td></tr>
+    <tr><td>Visible Light</td><td class="unit-val">430–770 THz</td><td>390–700 nm</td><td>EM (transverse)</td></tr>
+    <tr><td>Ultraviolet</td><td class="unit-val">770 THz – 30 PHz</td><td>10–390 nm</td><td>EM (transverse)</td></tr>
+    <tr><td>X-Rays</td><td class="unit-val">30 PHz – 30 EHz</td><td>0.01–10 nm</td><td>EM (transverse)</td></tr>
+    <tr><td>Gamma Rays</td><td class="unit-val">&gt;30 EHz</td><td>&lt;0.01 nm</td><td>EM (transverse)</td></tr>
+    <tr><td>Sound Waves</td><td class="unit-val">20 Hz – 20 kHz</td><td>varies</td><td>Mechanical (longitudinal)</td></tr>
+  </table>
+</section>
+
+</main>
+
+<script>
+function switchTab(n) {
+  document.querySelectorAll('.topic-section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('topic-' + n).classList.add('active');
+  document.querySelector('[data-topic="' + n + '"]').classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// Keyboard shortcuts
+document.addEventListener('keydown', e => {
+  const n = parseInt(e.key);
+  if (n >= 1 && n <= 5) switchTab(n);
+});
+</script>
+</body>
+</html>

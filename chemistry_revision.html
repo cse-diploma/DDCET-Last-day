@@ -1,0 +1,1297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chemistry Last-Day Revision</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0c10;
+    --surface: #111318;
+    --surface2: #181c24;
+    --border: #252a35;
+    --accent1: #00e5ff;
+    --accent2: #ff6b35;
+    --accent3: #7cff6b;
+    --accent4: #ffcc00;
+    --text: #e8eaf0;
+    --muted: #7a8090;
+    --danger: #ff4757;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Syne', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* GRID BG */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(0,229,255,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,229,255,0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .container { max-width: 980px; margin: 0 auto; padding: 0 20px; position: relative; z-index: 1; }
+
+  /* HEADER */
+  header {
+    padding: 48px 0 32px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .header-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 3px;
+    color: var(--accent1);
+    text-transform: uppercase;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .header-tag::before {
+    content: '';
+    display: inline-block;
+    width: 24px;
+    height: 2px;
+    background: var(--accent1);
+  }
+
+  h1 {
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -1px;
+  }
+  h1 span { color: var(--accent1); }
+
+  .subtitle {
+    margin-top: 10px;
+    color: var(--muted);
+    font-size: 0.95rem;
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  /* TABS */
+  .tabs {
+    display: flex;
+    gap: 4px;
+    padding: 24px 0 0;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .tabs::-webkit-scrollbar { display: none; }
+
+  .tab-btn {
+    flex-shrink: 0;
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    font-family: 'Syne', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 600;
+    padding: 9px 18px;
+    cursor: pointer;
+    border-radius: 6px;
+    letter-spacing: 0.5px;
+    transition: all 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+  .tab-btn:hover { color: var(--text); border-color: var(--accent1); }
+  .tab-btn.active {
+    background: var(--accent1);
+    color: #000;
+    border-color: var(--accent1);
+  }
+  .tab-btn .num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    opacity: 0.7;
+    margin-right: 5px;
+  }
+
+  /* PANELS */
+  .panel { display: none; padding: 28px 0 60px; animation: fadeIn 0.3s ease; }
+  .panel.active { display: block; }
+
+  @keyframes fadeIn { from { opacity:0; transform: translateY(8px); } to { opacity:1; transform:translateY(0); } }
+
+  /* SECTION TITLE */
+  .sec-title {
+    font-size: 1.5rem;
+    font-weight: 800;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    letter-spacing: -0.5px;
+  }
+  .sec-title .icon {
+    width: 38px; height: 38px;
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.2rem;
+    flex-shrink: 0;
+  }
+
+  /* CARDS */
+  .cards { display: grid; gap: 16px; }
+  .cards.cols2 { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+    transition: border-color 0.2s;
+  }
+  .card:hover { border-color: var(--accent1); }
+
+  .card-title {
+    font-size: 0.9rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    margin-bottom: 12px;
+    color: var(--accent1);
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .card-title::before {
+    content: '';
+    display: inline-block;
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--accent1);
+  }
+
+  /* REACTION BLOCKS */
+  .rxn {
+    background: var(--surface2);
+    border-left: 3px solid var(--accent2);
+    border-radius: 0 8px 8px 0;
+    padding: 12px 14px;
+    margin: 8px 0;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.85rem;
+    line-height: 1.7;
+  }
+  .rxn .label {
+    font-size: 0.7rem;
+    color: var(--accent2);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+  }
+  .rxn .eq {
+    color: var(--accent3);
+  }
+  .rxn .note {
+    color: var(--muted);
+    font-size: 0.75rem;
+    margin-top: 4px;
+  }
+
+  /* FORMULA BOX */
+  .formula-box {
+    background: linear-gradient(135deg, rgba(0,229,255,0.05), rgba(0,229,255,0.02));
+    border: 1px solid rgba(0,229,255,0.25);
+    border-radius: 10px;
+    padding: 16px 18px;
+    margin: 8px 0;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.88rem;
+  }
+  .formula-box .f-label {
+    font-size: 0.7rem;
+    color: var(--accent1);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+  .formula-box .f-eq { color: #fff; font-size: 1rem; font-weight: 700; }
+  .formula-box .f-note { color: var(--muted); font-size: 0.75rem; margin-top: 6px; }
+
+  /* TIP BOXES */
+  .tip {
+    background: rgba(255,204,0,0.07);
+    border: 1px solid rgba(255,204,0,0.3);
+    border-radius: 10px;
+    padding: 14px 16px;
+    margin: 8px 0;
+    font-size: 0.88rem;
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+  }
+  .tip .tip-icon { flex-shrink: 0; font-size: 1.1rem; }
+  .tip strong { color: var(--accent4); }
+
+  /* WARN BOX */
+  .warn {
+    background: rgba(255,71,87,0.07);
+    border: 1px solid rgba(255,71,87,0.3);
+    border-radius: 10px;
+    padding: 14px 16px;
+    margin: 8px 0;
+    font-size: 0.88rem;
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    color: var(--text);
+  }
+  .warn .tip-icon { flex-shrink: 0; font-size: 1.1rem; }
+  .warn strong { color: var(--danger); }
+
+  /* GOOD BOX */
+  .good {
+    background: rgba(124,255,107,0.06);
+    border: 1px solid rgba(124,255,107,0.25);
+    border-radius: 10px;
+    padding: 14px 16px;
+    margin: 8px 0;
+    font-size: 0.88rem;
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    color: var(--text);
+  }
+  .good .tip-icon { flex-shrink: 0; font-size: 1.1rem; }
+  .good strong { color: var(--accent3); }
+
+  /* TABLE */
+  .table-wrap { overflow-x: auto; margin: 10px 0; border-radius: 10px; border: 1px solid var(--border); }
+  table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+  th {
+    background: var(--surface2);
+    color: var(--accent1);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 10px 14px;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+  }
+  td {
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.84rem;
+    color: var(--text);
+    vertical-align: top;
+  }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: rgba(255,255,255,0.02); }
+
+  /* BADGE */
+  .badge {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .badge-blue { background: rgba(0,229,255,0.15); color: var(--accent1); }
+  .badge-orange { background: rgba(255,107,53,0.15); color: var(--accent2); }
+  .badge-green { background: rgba(124,255,107,0.12); color: var(--accent3); }
+  .badge-yellow { background: rgba(255,204,0,0.12); color: var(--accent4); }
+  .badge-red { background: rgba(255,71,87,0.15); color: var(--danger); }
+
+  /* DIVIDER */
+  .divider {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 24px 0;
+  }
+
+  /* QUICK LIST */
+  ul.qlist {
+    list-style: none;
+    padding: 0;
+    margin: 8px 0;
+  }
+  ul.qlist li {
+    padding: 6px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.87rem;
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+  }
+  ul.qlist li:last-child { border-bottom: none; }
+  ul.qlist li::before { content: '→'; color: var(--accent1); flex-shrink: 0; font-family: 'JetBrains Mono'; }
+
+  /* ACCORDION */
+  .accordion { margin: 8px 0; }
+  .acc-header {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px 16px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 700;
+    font-size: 0.88rem;
+    transition: border-color 0.2s;
+    margin-bottom: 2px;
+  }
+  .acc-header:hover { border-color: var(--accent1); }
+  .acc-header.open { border-color: var(--accent1); border-bottom-left-radius: 0; border-bottom-right-radius: 0; }
+  .acc-icon { transition: transform 0.2s; font-style: normal; }
+  .acc-header.open .acc-icon { transform: rotate(180deg); }
+  .acc-body {
+    display: none;
+    background: var(--surface);
+    border: 1px solid var(--accent1);
+    border-top: none;
+    border-radius: 0 0 8px 8px;
+    padding: 16px;
+    margin-bottom: 8px;
+  }
+  .acc-body.open { display: block; animation: fadeIn 0.2s; }
+
+  /* PROGRESS BAR decorative */
+  .topic-bar {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+    padding: 14px 18px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+  }
+  .topic-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+  .topic-bar-text { font-size: 0.82rem; color: var(--muted); font-family: 'JetBrains Mono'; }
+  .topic-bar-text strong { color: var(--text); }
+
+  /* pH scale */
+  .ph-scale {
+    height: 30px;
+    border-radius: 8px;
+    background: linear-gradient(to right,
+      #e74c3c 0%, #e67e22 14%, #f1c40f 28%,
+      #2ecc71 42%, #1abc9c 57%,
+      #3498db 71%, #9b59b6 100%);
+    position: relative;
+    margin: 14px 0 8px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 4px;
+  }
+  .ph-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: #fff;
+    text-shadow: 0 0 4px rgba(0,0,0,0.8);
+    flex-shrink: 0;
+  }
+  .ph-legend {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.72rem;
+    color: var(--muted);
+    font-family: 'JetBrains Mono';
+  }
+
+  /* REACTIVITY SERIES */
+  .series-list {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.82rem;
+  }
+  .series-item {
+    padding: 6px 12px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .series-item .metal { font-weight: 700; }
+  .series-item .symbol { color: var(--muted); }
+
+  /* Responsive */
+  @media (max-width: 600px) {
+    h1 { font-size: 1.8rem; }
+    .tab-btn { padding: 8px 12px; font-size: 0.75rem; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <header>
+    <div class="header-tag">Last-Day Revision · Class 10 Chemistry</div>
+    <h1>Chemistry <span>Quick Notes</span></h1>
+    <div class="subtitle">// Units 1–3 · Reactions · Acids/Bases · Metals</div>
+  </header>
+
+  <div class="tabs">
+    <button class="tab-btn active" onclick="showPanel('p1',this)"><span class="num">01</span> Chemical Rxns</button>
+    <button class="tab-btn" onclick="showPanel('p2',this)"><span class="num">02</span> Acids & Bases</button>
+    <button class="tab-btn" onclick="showPanel('p3',this)"><span class="num">03</span> Metals & Non-metals</button>
+    <button class="tab-btn" onclick="showPanel('p4',this)"><span class="num">★</span> Exam Tips</button>
+  </div>
+
+  <!-- ===== PANEL 1: CHEMICAL REACTIONS ===== -->
+  <div class="panel active" id="p1">
+
+    <div class="topic-bar">
+      <div class="topic-dot" style="background:var(--accent2)"></div>
+      <div class="topic-bar-text"><strong>Chapter 1</strong> — Chemical Reactions & Equations</div>
+    </div>
+
+    <!-- Chemical Equations -->
+    <div class="sec-title">
+      <div class="icon" style="background:rgba(255,107,53,0.15)">⚗️</div>
+      Writing & Balancing Equations
+    </div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-title">What is a Chemical Equation?</div>
+        <ul class="qlist">
+          <li>Symbolic representation of a chemical reaction</li>
+          <li>Reactants written on LEFT, products on RIGHT, arrow (→) in between</li>
+          <li>State symbols: (s) solid, (l) liquid, (g) gas, (aq) aqueous</li>
+          <li>↑ = gas evolved, ↓ = precipitate formed</li>
+        </ul>
+        <div class="tip" style="margin-top:10px">
+          <span class="tip-icon">💡</span>
+          <div><strong>Balancing Rule:</strong> Total atoms of each element must be equal on both sides (Law of Conservation of Mass)</div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title">Steps to Balance an Equation</div>
+        <ul class="qlist">
+          <li>Write the skeleton equation first</li>
+          <li>Count atoms on each side</li>
+          <li>Add coefficients (not subscripts) to balance</li>
+          <li>Verify: atoms balanced on both sides</li>
+          <li>Add state symbols at the end</li>
+        </ul>
+        <div class="warn" style="margin-top:10px">
+          <span class="tip-icon">⚠️</span>
+          <div><strong>Never</strong> change subscripts to balance — only add coefficients before formulas!</div>
+        </div>
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <!-- Types of Reactions -->
+    <div class="sec-title">
+      <div class="icon" style="background:rgba(0,229,255,0.12)">🔄</div>
+      Types of Chemical Reactions
+    </div>
+
+    <!-- Combination -->
+    <div class="accordion">
+      <div class="acc-header" onclick="toggleAcc(this)">
+        <span>1️⃣ &nbsp;Combination Reaction <span class="badge badge-blue">A + B → AB</span></span>
+        <i class="acc-icon">▼</i>
+      </div>
+      <div class="acc-body">
+        <p style="font-size:0.85rem;color:var(--muted);margin-bottom:12px">Two or more substances combine to form a single product.</p>
+        <div class="rxn">
+          <div class="label">Burning of magnesium</div>
+          <div class="eq">2Mg(s) + O₂(g) → 2MgO(s)</div>
+          <div class="note">Magnesium burns with dazzling white light → magnesium oxide (white powder)</div>
+        </div>
+        <div class="rxn">
+          <div class="label">Formation of water</div>
+          <div class="eq">2H₂(g) + O₂(g) → 2H₂O(l)</div>
+        </div>
+        <div class="rxn">
+          <div class="label">Quicklime + water (Exothermic)</div>
+          <div class="eq">CaO(s) + H₂O(l) → Ca(OH)₂(aq) + Heat</div>
+          <div class="note">Slaking of lime — exothermic reaction</div>
+        </div>
+        <div class="rxn">
+          <div class="label">Burning of coal</div>
+          <div class="eq">C(s) + O₂(g) → CO₂(g)</div>
+        </div>
+        <div class="tip"><span class="tip-icon">💡</span><div>Many combination reactions are <strong>exothermic</strong> (release heat). Combustion is always exothermic!</div></div>
+      </div>
+    </div>
+
+    <!-- Decomposition -->
+    <div class="accordion">
+      <div class="acc-header" onclick="toggleAcc(this)">
+        <span>2️⃣ &nbsp;Decomposition Reaction <span class="badge badge-orange">AB → A + B</span></span>
+        <i class="acc-icon">▼</i>
+      </div>
+      <div class="acc-body">
+        <p style="font-size:0.85rem;color:var(--muted);margin-bottom:12px">A single compound breaks into two or more simpler substances. Opposite of combination. Requires energy (heat/light/electricity).</p>
+        <div class="rxn">
+          <div class="label">Thermal decomp. of Ferrous sulphate (TEST-FAVORITE!)</div>
+          <div class="eq">2FeSO₄(s) →(heat)→ Fe₂O₃(s) + SO₂(g) + SO₃(g)</div>
+          <div class="note">Green FeSO₄ → reddish-brown Fe₂O₃ (smell of burning sulphur)</div>
+        </div>
+        <div class="rxn">
+          <div class="label">Decomp. of Lead nitrate</div>
+          <div class="eq">2Pb(NO₃)₂(s) →(heat)→ 2PbO(s) + 4NO₂(g) + O₂(g)</div>
+          <div class="note">Brown fumes of NO₂ evolved</div>
+        </div>
+        <div class="rxn">
+          <div class="label">Decomp. of Silver chloride (Photolysis)</div>
+          <div class="eq">2AgCl(s) →(sunlight)→ 2Ag(s) + Cl₂(g)</div>
+          <div class="note">Basis of black-and-white photography. AgBr also same.</div>
+        </div>
+        <div class="rxn">
+          <div class="label">Electrolysis of water</div>
+          <div class="eq">2H₂O(l) →(electricity)→ 2H₂(g) + O₂(g)</div>
+        </div>
+        <div class="rxn">
+          <div class="label">Decomp. of Calcium carbonate (Calcination)</div>
+          <div class="eq">CaCO₃(s) →(heat)→ CaO(s) + CO₂(g)</div>
+          <div class="note">Limestone → Quicklime. Industrial process.</div>
+        </div>
+        <div class="tip"><span class="tip-icon">💡</span><div>Types: <strong>Thermal</strong> (heat), <strong>Photolytic</strong> (light), <strong>Electrolytic</strong> (electricity)</div></div>
+      </div>
+    </div>
+
+    <!-- Displacement -->
+    <div class="accordion">
+      <div class="acc-header" onclick="toggleAcc(this)">
+        <span>3️⃣ &nbsp;Displacement Reaction <span class="badge badge-green">A + BC → AC + B</span></span>
+        <i class="acc-icon">▼</i>
+      </div>
+      <div class="acc-body">
+        <p style="font-size:0.85rem;color:var(--muted);margin-bottom:12px">More reactive element displaces less reactive element from its compound.</p>
+        <div class="rxn">
+          <div class="label">Iron + Copper Sulphate (Classic!)</div>
+          <div class="eq">Fe(s) + CuSO₄(aq) → FeSO₄(aq) + Cu(s)</div>
+          <div class="note">Blue solution fades; reddish copper deposits on iron nail</div>
+        </div>
+        <div class="rxn">
+          <div class="label">Zinc + Copper sulphate</div>
+          <div class="eq">Zn(s) + CuSO₄(aq) → ZnSO₄(aq) + Cu(s)</div>
+        </div>
+        <div class="rxn">
+          <div class="label">Zinc + dilute H₂SO₄</div>
+          <div class="eq">Zn(s) + H₂SO₄(aq) → ZnSO₄(aq) + H₂(g)↑</div>
+        </div>
+        <div class="warn"><span class="tip-icon">⚠️</span><div><strong>Key rule:</strong> More reactive metal displaces less reactive metal. Learn the reactivity series!</div></div>
+      </div>
+    </div>
+
+    <!-- Double Displacement -->
+    <div class="accordion">
+      <div class="acc-header" onclick="toggleAcc(this)">
+        <span>4️⃣ &nbsp;Double Displacement <span class="badge badge-yellow">AB + CD → AD + CB</span></span>
+        <i class="acc-icon">▼</i>
+      </div>
+      <div class="acc-body">
+        <p style="font-size:0.85rem;color:var(--muted);margin-bottom:12px">Exchange of ions between two compounds. Usually results in precipitate formation.</p>
+        <div class="rxn">
+          <div class="label">Precipitation of BaSO₄ (WHITE PPT)</div>
+          <div class="eq">BaCl₂(aq) + Na₂SO₄(aq) → BaSO₄(s)↓ + 2NaCl(aq)</div>
+          <div class="note">White precipitate of barium sulphate — insoluble in dil. HCl</div>
+        </div>
+        <div class="rxn">
+          <div class="label">Precipitation of PbSO₄</div>
+          <div class="eq">Pb(NO₃)₂(aq) + 2KI(aq) → PbI₂(s)↓ + 2KNO₃(aq)</div>
+          <div class="note">Yellow precipitate of lead iodide</div>
+        </div>
+        <div class="rxn">
+          <div class="label">Neutralisation</div>
+          <div class="eq">NaOH(aq) + HCl(aq) → NaCl(aq) + H₂O(l)</div>
+          <div class="note">Acid + Base → Salt + Water (always!)</div>
+        </div>
+        <div class="tip"><span class="tip-icon">💡</span><div>Double displacement reactions forming precipitate = <strong>precipitation reactions</strong>. Neutralisation is also double displacement.</div></div>
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <div class="sec-title" style="font-size:1.1rem">⚡ Oxidation &amp; Reduction (Bonus)</div>
+    <div class="cards cols2">
+      <div class="card">
+        <div class="card-title" style="color:var(--accent2)">Oxidation</div>
+        <ul class="qlist">
+          <li>Gain of oxygen</li>
+          <li>Loss of hydrogen</li>
+          <li>Loss of electrons (OIL)</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="card-title" style="color:var(--accent3)">Reduction</div>
+        <ul class="qlist">
+          <li>Loss of oxygen</li>
+          <li>Gain of hydrogen</li>
+          <li>Gain of electrons (RIG)</li>
+        </ul>
+      </div>
+    </div>
+    <div class="formula-box" style="margin-top:14px">
+      <div class="f-label">Memory Trick</div>
+      <div class="f-eq">OIL RIG</div>
+      <div class="f-note">Oxidation Is Loss, Reduction Is Gain (of electrons). In every redox reaction, both occur simultaneously.</div>
+    </div>
+
+    <div class="tip" style="margin-top:12px">
+      <span class="tip-icon">🔁</span>
+      <div><strong>Redox Example:</strong> CuO + H₂ → Cu + H₂O &nbsp;|&nbsp; CuO is reduced (loses O), H₂ is oxidised (gains O)</div>
+    </div>
+
+    <div class="tip">
+      <span class="tip-icon">🌫️</span>
+      <div><strong>Rancidity:</strong> Oxidation of fats and oils → bad smell. Prevented by: antioxidants, nitrogen packing, refrigeration, airtight containers.</div>
+    </div>
+    <div class="tip">
+      <span class="tip-icon">🟤</span>
+      <div><strong>Corrosion:</strong> Oxidation of metals (iron rusts, silver tarnishes, copper turns green). Fe + O₂ + H₂O → Fe₂O₃·xH₂O (rust)</div>
+    </div>
+
+  </div>
+
+  <!-- ===== PANEL 2: ACIDS BASES SALTS ===== -->
+  <div class="panel" id="p2">
+
+    <div class="topic-bar">
+      <div class="topic-dot" style="background:var(--accent1)"></div>
+      <div class="topic-bar-text"><strong>Chapter 2</strong> — Acids, Bases &amp; Salts</div>
+    </div>
+
+    <div class="sec-title">
+      <div class="icon" style="background:rgba(0,229,255,0.12)">🧪</div>
+      Chemical Properties
+    </div>
+
+    <div class="cards cols2">
+      <div class="card">
+        <div class="card-title">Properties of Acids</div>
+        <ul class="qlist">
+          <li>Sour taste (never taste in lab!)</li>
+          <li>Turn blue litmus RED</li>
+          <li>pH &lt; 7</li>
+          <li>React with metals → salt + H₂↑</li>
+          <li>React with bases → salt + water</li>
+          <li>Conduct electricity (ionise in water)</li>
+          <li>Contain H⁺ ions in solution</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="card-title" style="color:var(--accent3)">Properties of Bases</div>
+        <ul class="qlist">
+          <li>Bitter taste, soapy feel</li>
+          <li>Turn red litmus BLUE</li>
+          <li>pH &gt; 7</li>
+          <li>React with acids → salt + water</li>
+          <li>React with non-metal oxides</li>
+          <li>Conduct electricity</li>
+          <li>Contain OH⁻ ions in solution</li>
+        </ul>
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <!-- KEY REACTIONS -->
+    <div class="sec-title" style="font-size:1.1rem">🔬 All Important Reactions — Acids &amp; Bases</div>
+
+    <div class="accordion">
+      <div class="acc-header" onclick="toggleAcc(this)">
+        <span>Acids + Metals</span><i class="acc-icon">▼</i>
+      </div>
+      <div class="acc-body">
+        <div class="rxn">
+          <div class="label">Zinc + dilute H₂SO₄</div>
+          <div class="eq">Zn + H₂SO₄ → ZnSO₄ + H₂↑</div>
+        </div>
+        <div class="rxn">
+          <div class="label">Iron + dilute HCl</div>
+          <div class="eq">Fe + 2HCl → FeCl₂ + H₂↑</div>
+        </div>
+        <div class="rxn">
+          <div class="label">Magnesium + dilute HCl</div>
+          <div class="eq">Mg + 2HCl → MgCl₂ + H₂↑</div>
+          <div class="note">Mg reacts vigorously, bubbles rapidly</div>
+        </div>
+        <div class="warn"><span class="tip-icon">⚠️</span><div><strong>Copper does NOT</strong> react with dilute HCl (low in reactivity series)</div></div>
+      </div>
+    </div>
+
+    <div class="accordion">
+      <div class="acc-header" onclick="toggleAcc(this)">
+        <span>Acids + Metal Carbonates / Bicarbonates</span><i class="acc-icon">▼</i>
+      </div>
+      <div class="acc-body">
+        <div class="rxn">
+          <div class="label">Sodium carbonate + HCl</div>
+          <div class="eq">Na₂CO₃ + 2HCl → 2NaCl + H₂O + CO₂↑</div>
+        </div>
+        <div class="rxn">
+          <div class="label">Sodium bicarbonate + HCl</div>
+          <div class="eq">NaHCO₃ + HCl → NaCl + H₂O + CO₂↑</div>
+          <div class="note">CO₂ turns lime water milky: Ca(OH)₂ + CO₂ → CaCO₃↓ + H₂O</div>
+        </div>
+        <div class="formula-box">
+          <div class="f-label">Lime Water Test</div>
+          <div class="f-eq">Ca(OH)₂ + CO₂ → CaCO₃↓ + H₂O</div>
+          <div class="f-note">White precipitate = CO₂ present. Excess CO₂ makes it clear again (CaCO₃ → Ca(HCO₃)₂)</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="accordion">
+      <div class="acc-header" onclick="toggleAcc(this)">
+        <span>Reaction of Metallic Oxides with Acids</span><i class="acc-icon">▼</i>
+      </div>
+      <div class="acc-body">
+        <p style="font-size:0.85rem;color:var(--muted);margin-bottom:10px">Metal oxides are basic in nature. They react with acids to form salt + water.</p>
+        <div class="rxn">
+          <div class="label">Copper oxide + dilute HCl</div>
+          <div class="eq">CuO + 2HCl → CuCl₂ + H₂O</div>
+          <div class="note">Black CuO dissolves → blue-green CuCl₂ solution</div>
+        </div>
+        <div class="rxn">
+          <div class="label">Copper oxide + H₂SO₄</div>
+          <div class="eq">CuO + H₂SO₄ → CuSO₄ + H₂O</div>
+        </div>
+        <div class="formula-box">
+          <div class="f-label">General Formula</div>
+          <div class="f-eq">Metal Oxide + Acid → Salt + Water</div>
+          <div class="f-note">Metal oxides = basic oxides. Non-metal oxides (SO₂, CO₂) are acidic oxides.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="accordion">
+      <div class="acc-header" onclick="toggleAcc(this)">
+        <span>Acids &amp; Bases in Water — Ionisation</span><i class="acc-icon">▼</i>
+      </div>
+      <div class="acc-body">
+        <div class="rxn">
+          <div class="label">HCl in water</div>
+          <div class="eq">HCl + H₂O → H₃O⁺ + Cl⁻</div>
+          <div class="note">H⁺ (proton) attaches to water → hydronium ion H₃O⁺. This is what makes it acidic.</div>
+        </div>
+        <div class="rxn">
+          <div class="label">NaOH in water</div>
+          <div class="eq">NaOH → Na⁺ + OH⁻</div>
+          <div class="note">OH⁻ is responsible for basic character</div>
+        </div>
+        <div class="tip"><span class="tip-icon">💡</span><div>Acids <strong>without water do NOT show acidic properties</strong> (no H⁺ ions). Pure HCl gas won't turn litmus red — only HCl solution will!</div></div>
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <!-- pH -->
+    <div class="sec-title" style="font-size:1.1rem">📊 pH Scale &amp; Importance</div>
+    <div class="card">
+      <div class="card-title">pH Scale (0–14)</div>
+      <div class="ph-scale">
+        <span class="ph-label">0</span>
+        <span class="ph-label">3</span>
+        <span class="ph-label">5</span>
+        <span class="ph-label">7</span>
+        <span class="ph-label">9</span>
+        <span class="ph-label">11</span>
+        <span class="ph-label">14</span>
+      </div>
+      <div class="ph-legend">
+        <span>← Strong Acid</span>
+        <span>Neutral</span>
+        <span>Strong Base →</span>
+      </div>
+    </div>
+
+    <div class="cards cols2" style="margin-top:12px">
+      <div class="card">
+        <div class="card-title">pH of Common Substances</div>
+        <div class="table-wrap">
+          <table>
+            <tr><th>Substance</th><th>pH</th></tr>
+            <tr><td>Gastric juice (HCl in stomach)</td><td><span class="badge badge-red">1.5–2</span></td></tr>
+            <tr><td>Lemon juice</td><td><span class="badge badge-red">2.2</span></td></tr>
+            <tr><td>Vinegar</td><td><span class="badge badge-orange">3</span></td></tr>
+            <tr><td>Tomato juice</td><td><span class="badge badge-orange">4</span></td></tr>
+            <tr><td>Pure water</td><td><span class="badge badge-green">7</span></td></tr>
+            <tr><td>Blood</td><td><span class="badge badge-green">7.4</span></td></tr>
+            <tr><td>Baking soda</td><td><span class="badge badge-blue">8.3</span></td></tr>
+            <tr><td>Milk of magnesia</td><td><span class="badge badge-blue">10</span></td></tr>
+          </table>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title">Importance of pH</div>
+        <ul class="qlist">
+          <li><strong>Tooth decay:</strong> Bacteria produce acid; pH drops below 5.5 → enamel corrodes</li>
+          <li><strong>Stomach:</strong> HCl (pH~2) aids digestion; excess → antacids (Mg(OH)₂)</li>
+          <li><strong>Plants:</strong> Best growth at pH 6–7; acidic/basic soil treated with lime/fertilisers</li>
+          <li><strong>Bee sting:</strong> Acidic → apply baking soda</li>
+          <li><strong>Ant bite:</strong> Formic acid → baking soda neutralises</li>
+          <li><strong>Wasp sting:</strong> Alkaline → apply vinegar</li>
+          <li><strong>Blood:</strong> pH 7.35–7.45; variation = enzyme malfunction</li>
+        </ul>
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <!-- SALTS -->
+    <div class="sec-title" style="font-size:1.1rem">🧂 Salts — Family &amp; pH</div>
+    <div class="cards cols2">
+      <div class="card">
+        <div class="card-title">Common Salt Families</div>
+        <div class="table-wrap">
+          <table>
+            <tr><th>Salt</th><th>Formula</th><th>Use</th></tr>
+            <tr><td>Common salt</td><td>NaCl</td><td>Food, NaOH production</td></tr>
+            <tr><td>Washing soda</td><td>Na₂CO₃·10H₂O</td><td>Glass, soap industry</td></tr>
+            <tr><td>Baking soda</td><td>NaHCO₃</td><td>Baking, antacid</td></tr>
+            <tr><td>Bleaching powder</td><td>CaOCl₂</td><td>Disinfectant, bleach</td></tr>
+            <tr><td>Plaster of Paris</td><td>(CaSO₄)·½H₂O</td><td>Plaster casts</td></tr>
+          </table>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title">Important Salt Reactions</div>
+        <div class="rxn">
+          <div class="label">Baking soda → Baking powder</div>
+          <div class="eq">NaHCO₃ + heat → Na₂CO₃ + H₂O + CO₂↑</div>
+          <div class="note">Baking powder = NaHCO₃ + tartaric acid (prevents soapy taste of Na₂CO₃)</div>
+        </div>
+        <div class="rxn">
+          <div class="label">Chloralkali Process (Electrolysis of NaCl)</div>
+          <div class="eq">2NaCl + 2H₂O → 2NaOH + Cl₂↑ + H₂↑</div>
+          <div class="note">Products: NaOH (at cathode), Cl₂ (anode), H₂ (cathode)</div>
+        </div>
+        <div class="rxn">
+          <div class="label">Plaster of Paris (setting)</div>
+          <div class="eq">(CaSO₄)·½H₂O + 1½H₂O → CaSO₄·2H₂O</div>
+          <div class="note">Gypsum forms when POP sets — expands slightly</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tip" style="margin-top:10px">
+      <span class="tip-icon">💡</span>
+      <div><strong>pH of Salts:</strong> Strong acid + Strong base → neutral (pH=7) | Weak acid + Strong base → basic (pH>7) | Strong acid + Weak base → acidic (pH&lt;7)</div>
+    </div>
+  </div>
+
+  <!-- ===== PANEL 3: METALS & NON-METALS ===== -->
+  <div class="panel" id="p3">
+
+    <div class="topic-bar">
+      <div class="topic-dot" style="background:var(--accent3)"></div>
+      <div class="topic-bar-text"><strong>Chapter 3</strong> — Metals &amp; Non-metals</div>
+    </div>
+
+    <div class="sec-title">
+      <div class="icon" style="background:rgba(124,255,107,0.12)">⚙️</div>
+      Physical Properties
+    </div>
+
+    <div class="cards cols2">
+      <div class="card">
+        <div class="card-title">Metals</div>
+        <ul class="qlist">
+          <li><strong>Lustre</strong> — Shiny surface</li>
+          <li><strong>Malleable</strong> — Can be hammered into sheets (Gold most malleable)</li>
+          <li><strong>Ductile</strong> — Can be drawn into wires (Gold most ductile)</li>
+          <li><strong>Good conductors</strong> of heat &amp; electricity</li>
+          <li><strong>High melting point</strong> (except Ga, Cs, Hg)</li>
+          <li><strong>Sonorous</strong> — Produce sound when struck</li>
+          <li>Hard (except Na, K — soft, cut with knife)</li>
+          <li>High density (except Li, Na, K — float on water)</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="card-title" style="color:var(--accent2)">Non-metals</div>
+        <ul class="qlist">
+          <li><strong>No lustre</strong> (except iodine, graphite)</li>
+          <li><strong>Brittle</strong> in solid state</li>
+          <li><strong>Non-malleable, non-ductile</strong></li>
+          <li><strong>Poor conductors</strong> (except graphite)</li>
+          <li><strong>Low melting point</strong> (except diamond)</li>
+          <li>Not sonorous</li>
+          <li>Low density</li>
+          <li>Some are gases at room temp (O₂, N₂, Cl₂)</li>
+        </ul>
+        <div class="tip" style="margin-top:8px">
+          <span class="tip-icon">⚡</span>
+          <div><strong>Graphite</strong> — only non-metal that conducts electricity (used in electrodes)</div>
+        </div>
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <!-- Chemical Properties of Metals -->
+    <div class="sec-title" style="font-size:1.1rem">⚗️ Chemical Properties of Metals</div>
+
+    <div class="accordion">
+      <div class="acc-header" onclick="toggleAcc(this)">
+        <span>Reaction of Metals with Oxygen</span><i class="acc-icon">▼</i>
+      </div>
+      <div class="acc-body">
+        <div class="rxn">
+          <div class="label">Magnesium (burns brightly)</div>
+          <div class="eq">2Mg + O₂ → 2MgO (basic oxide)</div>
+        </div>
+        <div class="rxn">
+          <div class="label">Sodium (reacts vigorously)</div>
+          <div class="eq">4Na + O₂ → 2Na₂O</div>
+          <div class="note">Na stored in kerosene to prevent oxidation</div>
+        </div>
+        <div class="rxn">
+          <div class="label">Iron (rusting — slow oxidation)</div>
+          <div class="eq">4Fe + 3O₂ + xH₂O → 2Fe₂O₃·xH₂O (rust)</div>
+        </div>
+        <div class="rxn">
+          <div class="label">Gold, Silver, Platinum</div>
+          <div class="eq">Do NOT react with O₂ (least reactive)</div>
+          <div class="note">Noble metals — remain shiny</div>
+        </div>
+        <div class="tip"><span class="tip-icon">💡</span><div>Metal oxides are <strong>basic</strong>. Non-metal oxides are <strong>acidic</strong> (SO₂, CO₂, NO₂).</div></div>
+      </div>
+    </div>
+
+    <div class="accordion">
+      <div class="acc-header" onclick="toggleAcc(this)">
+        <span>Reaction of Metals with Water</span><i class="acc-icon">▼</i>
+      </div>
+      <div class="acc-body">
+        <div class="rxn">
+          <div class="label">Sodium + cold water (vigorous)</div>
+          <div class="eq">2Na + 2H₂O → 2NaOH + H₂↑</div>
+          <div class="note">Reacts explosively; H₂ catches fire</div>
+        </div>
+        <div class="rxn">
+          <div class="label">Calcium + cold water</div>
+          <div class="eq">Ca + 2H₂O → Ca(OH)₂ + H₂↑</div>
+          <div class="note">Less vigorous than Na; milky solution</div>
+        </div>
+        <div class="rxn">
+          <div class="label">Magnesium + hot water / steam</div>
+          <div class="eq">Mg + H₂O (steam) → MgO + H₂↑</div>
+          <div class="note">Reacts only with steam, not cold water</div>
+        </div>
+        <div class="rxn">
+          <div class="label">Iron + steam (very hot)</div>
+          <div class="eq">3Fe + 4H₂O (steam) → Fe₃O₄ + 4H₂↑</div>
+        </div>
+        <div class="rxn">
+          <div class="label">Copper</div>
+          <div class="eq">No reaction with water or steam</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="accordion">
+      <div class="acc-header" onclick="toggleAcc(this)">
+        <span>Reaction of Metals with Dilute Acids</span><i class="acc-icon">▼</i>
+      </div>
+      <div class="acc-body">
+        <div class="rxn">
+          <div class="label">General equation</div>
+          <div class="eq">Metal + Dilute acid → Salt + H₂↑</div>
+        </div>
+        <div class="rxn">
+          <div class="label">Zinc + HCl</div>
+          <div class="eq">Zn + 2HCl → ZnCl₂ + H₂↑</div>
+        </div>
+        <div class="rxn">
+          <div class="label">Magnesium + H₂SO₄</div>
+          <div class="eq">Mg + H₂SO₄ → MgSO₄ + H₂↑</div>
+        </div>
+        <div class="warn"><span class="tip-icon">⚠️</span><div><strong>Copper, Silver, Gold</strong> do NOT react with dilute acids. They need concentrated HNO₃ (aqua regia for gold).</div></div>
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <!-- Reactivity Series -->
+    <div class="sec-title" style="font-size:1.1rem">📈 Reactivity Series (MUST MEMORISE!)</div>
+    <div class="card">
+      <div class="card-title">Order of Reactivity (Most → Least)</div>
+      <div class="series-list">
+        <div class="series-item" style="background:rgba(255,71,87,0.15)"><span class="metal">Potassium</span> <span class="symbol">K — Most Reactive</span></div>
+        <div class="series-item" style="background:rgba(255,71,87,0.11)"><span class="metal">Sodium</span> <span class="symbol">Na</span></div>
+        <div class="series-item" style="background:rgba(255,107,53,0.12)"><span class="metal">Calcium</span> <span class="symbol">Ca</span></div>
+        <div class="series-item" style="background:rgba(255,107,53,0.10)"><span class="metal">Magnesium</span> <span class="symbol">Mg</span></div>
+        <div class="series-item" style="background:rgba(255,204,0,0.10)"><span class="metal">Aluminium</span> <span class="symbol">Al</span></div>
+        <div class="series-item" style="background:rgba(255,204,0,0.08)"><span class="metal">Zinc</span> <span class="symbol">Zn</span></div>
+        <div class="series-item" style="background:rgba(255,204,0,0.06)"><span class="metal">Iron</span> <span class="symbol">Fe</span></div>
+        <div class="series-item" style="background:rgba(124,255,107,0.08)"><span class="metal">Lead</span> <span class="symbol">Pb</span></div>
+        <div class="series-item" style="background:rgba(124,255,107,0.08)"><span class="metal">Hydrogen</span> <span class="symbol">H — (reference point)</span></div>
+        <div class="series-item" style="background:rgba(0,229,255,0.07)"><span class="metal">Copper</span> <span class="symbol">Cu</span></div>
+        <div class="series-item" style="background:rgba(0,229,255,0.05)"><span class="metal">Silver</span> <span class="symbol">Ag</span></div>
+        <div class="series-item" style="background:rgba(0,229,255,0.04)"><span class="metal">Gold</span> <span class="symbol">Au — Least Reactive</span></div>
+      </div>
+      <div class="formula-box" style="margin-top:12px">
+        <div class="f-label">Mnemonic</div>
+        <div class="f-eq" style="font-size:0.85rem">Please Stop Calling Me A Zebra, I Like His Crown Suit Gold</div>
+        <div class="f-note">K, Na, Ca, Mg, Al, Zn, Fe, Pb, H, Cu, Ag, Au</div>
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <!-- Ionic Compounds / How metals react with non-metals -->
+    <div class="sec-title" style="font-size:1.1rem">🔗 Metal + Non-metal → Ionic Compound</div>
+    <div class="card">
+      <div class="card-title">Formation of NaCl</div>
+      <div class="rxn">
+        <div class="label">Sodium gives electron to Chlorine</div>
+        <div class="eq">Na → Na⁺ + e⁻ (oxidation)</div>
+        <div class="eq">Cl + e⁻ → Cl⁻ (reduction)</div>
+        <div class="eq">Na⁺ + Cl⁻ → NaCl (ionic bond)</div>
+      </div>
+      <div class="card-title" style="margin-top:14px">Properties of Ionic Compounds</div>
+      <ul class="qlist">
+        <li>Solid at room temperature, hard and brittle</li>
+        <li>High melting and boiling points</li>
+        <li>Conduct electricity in molten/aqueous state (not solid)</li>
+        <li>Soluble in water (polar solvents)</li>
+        <li>Insoluble in organic solvents (petrol, kerosene)</li>
+      </ul>
+    </div>
+
+    <hr class="divider">
+
+    <!-- Corrosion -->
+    <div class="sec-title" style="font-size:1.1rem">🟤 Corrosion of Metals</div>
+    <div class="cards cols2">
+      <div class="card">
+        <div class="card-title">Key Corrosion Facts</div>
+        <ul class="qlist">
+          <li><strong>Rusting of iron:</strong> Fe + O₂ + H₂O → Fe₂O₃·xH₂O</li>
+          <li><strong>Silver tarnishes:</strong> Ag₂S (black) — reacts with H₂S in air</li>
+          <li><strong>Copper turns green:</strong> CuCO₃·Cu(OH)₂ (green patina)</li>
+          <li>Corrosion weakens structural material</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="card-title">Prevention of Corrosion</div>
+        <ul class="qlist">
+          <li><strong>Painting / Oiling / Greasing</strong> — barrier from air/water</li>
+          <li><strong>Galvanisation</strong> — coat iron with Zinc</li>
+          <li><strong>Electroplating</strong> — deposit metal layer</li>
+          <li><strong>Alloying</strong> — stainless steel (Fe+Cr+Ni) doesn't rust</li>
+          <li><strong>Cathodic protection</strong> — use sacrificial anode</li>
+        </ul>
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <!-- Thermite Reaction -->
+    <div class="sec-title" style="font-size:1.1rem">🔥 Thermite Reaction (Displacement)</div>
+    <div class="rxn">
+      <div class="label">Aluminium displaces iron (very exothermic!)</div>
+      <div class="eq">Fe₂O₃ + 2Al → Al₂O₃ + 2Fe + Large Heat</div>
+      <div class="note">Used for welding railway tracks (thermite welding). Al is more reactive than Fe.</div>
+    </div>
+    <div class="tip">
+      <span class="tip-icon">💡</span>
+      <div>This is a <strong>displacement reaction AND redox reaction</strong> — Al is oxidised, Fe₂O₃ is reduced.</div>
+    </div>
+
+  </div>
+
+  <!-- ===== PANEL 4: EXAM TIPS ===== -->
+  <div class="panel" id="p4">
+
+    <div class="topic-bar">
+      <div class="topic-dot" style="background:var(--accent4)"></div>
+      <div class="topic-bar-text"><strong>Exam Strategy</strong> — Last Day Revision Tips &amp; Tricks</div>
+    </div>
+
+    <div class="sec-title">
+      <div class="icon" style="background:rgba(255,204,0,0.15)">🎯</div>
+      High-Yield Exam Points
+    </div>
+
+    <div class="cards">
+      <div class="card">
+        <div class="card-title" style="color:var(--accent4)">Most Frequently Asked Reactions</div>
+        <div class="table-wrap">
+          <table>
+            <tr><th>Reaction</th><th>Type</th><th>Key Observation</th></tr>
+            <tr><td>Fe + CuSO₄ → FeSO₄ + Cu</td><td><span class="badge badge-green">Displacement</span></td><td>Blue → light green; copper deposits</td></tr>
+            <tr><td>2FeSO₄ → Fe₂O₃ + SO₂ + SO₃</td><td><span class="badge badge-orange">Thermal Decomp.</span></td><td>Green → reddish brown; pungent smell</td></tr>
+            <tr><td>2AgCl → 2Ag + Cl₂ (light)</td><td><span class="badge badge-blue">Photolytic Decomp.</span></td><td>White AgCl turns grey/black</td></tr>
+            <tr><td>NaOH + HCl → NaCl + H₂O</td><td><span class="badge badge-yellow">Neutralisation</span></td><td>Exothermic; pH → 7</td></tr>
+            <tr><td>BaCl₂ + Na₂SO₄ → BaSO₄↓ + 2NaCl</td><td><span class="badge badge-yellow">Double Displ.</span></td><td>White precipitate insoluble in HCl</td></tr>
+            <tr><td>CaO + H₂O → Ca(OH)₂</td><td><span class="badge badge-orange">Combination</span></td><td>Exothermic; lime water forms</td></tr>
+            <tr><td>Fe₂O₃ + 2Al → Al₂O₃ + 2Fe</td><td><span class="badge badge-red">Thermite</span></td><td>Intense heat; molten iron produced</td></tr>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <div class="cards cols2">
+      <div class="card">
+        <div class="card-title">Common 1-Mark Questions</div>
+        <ul class="qlist">
+          <li>What gas is evolved when zinc reacts with HCl? → <strong>H₂</strong></li>
+          <li>Which metal is stored in kerosene? → <strong>Sodium</strong></li>
+          <li>Which non-metal conducts electricity? → <strong>Graphite</strong></li>
+          <li>pH of neutral solution? → <strong>7</strong></li>
+          <li>Which acid is in ant's sting? → <strong>Formic acid (HCOOH)</strong></li>
+          <li>Bee sting — acid or base? → <strong>Acidic</strong> (use NaHCO₃)</li>
+          <li>Wasp sting — acid or base? → <strong>Basic/Alkaline</strong> (use vinegar)</li>
+          <li>Chemical name of baking soda? → <strong>Sodium bicarbonate</strong></li>
+          <li>Chemical name of washing soda? → <strong>Sodium carbonate decahydrate</strong></li>
+          <li>POP full form? → <strong>Plaster of Paris</strong></li>
+          <li>Most ductile metal? → <strong>Gold</strong></li>
+          <li>Which metal is liquid at room temp? → <strong>Mercury (Hg)</strong></li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="card-title">Common 2-Mark / Reasoning Questions</div>
+        <ul class="qlist">
+          <li>Why does rusting need both O₂ and water? → Both needed to form Fe₂O₃·xH₂O</li>
+          <li>Why is Na stored in kerosene? → Reacts vigorously with O₂ and H₂O in air</li>
+          <li>Why copper used in electrical wires? → Good conductor + ductile (not because most ductile — that's gold)</li>
+          <li>Why is pure HCl gas not acidic? → No H⁺ ions without water</li>
+          <li>Why does AgCl turn grey in sunlight? → Photolytic decomposition; Ag formed</li>
+          <li>Why are ionic compounds solid? → Strong electrostatic forces between ions</li>
+          <li>Why does colour of CuSO₄ change when Fe dipped? → Fe more reactive, displaces Cu</li>
+        </ul>
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <div class="sec-title" style="font-size:1.1rem">⚡ Formulas &amp; Definitions Cheatsheet</div>
+    <div class="cards cols2">
+      <div class="card">
+        <div class="formula-box">
+          <div class="f-label">Neutralisation</div>
+          <div class="f-eq">Acid + Base → Salt + Water</div>
+        </div>
+        <div class="formula-box">
+          <div class="f-label">Metal + Acid</div>
+          <div class="f-eq">Metal + Acid → Salt + H₂↑</div>
+        </div>
+        <div class="formula-box">
+          <div class="f-label">Metal Oxide + Acid</div>
+          <div class="f-eq">Metal Oxide + Acid → Salt + Water</div>
+        </div>
+        <div class="formula-box">
+          <div class="f-label">Metal Carbonate + Acid</div>
+          <div class="f-eq">MCO₃ + 2HCl → MCl₂ + H₂O + CO₂↑</div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="formula-box">
+          <div class="f-label">Corrosion (Rusting)</div>
+          <div class="f-eq">4Fe + 3O₂ + xH₂O → 2Fe₂O₃·xH₂O</div>
+        </div>
+        <div class="formula-box">
+          <div class="f-label">Chloralkali Process</div>
+          <div class="f-eq">2NaCl + 2H₂O → 2NaOH + Cl₂ + H₂</div>
+        </div>
+        <div class="formula-box">
+          <div class="f-label">Lime Water Test</div>
+          <div class="f-eq">Ca(OH)₂ + CO₂ → CaCO₃↓ + H₂O</div>
+          <div class="f-note">White milky ppt = CO₂ present</div>
+        </div>
+        <div class="formula-box">
+          <div class="f-label">Slaking of Lime</div>
+          <div class="f-eq">CaO + H₂O → Ca(OH)₂ + Heat</div>
+        </div>
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <div class="sec-title" style="font-size:1.1rem">⚠️ Tricky Points — Don't Make These Mistakes!</div>
+    <div class="warn">
+      <span class="tip-icon">❌</span>
+      <div>Copper does <strong>NOT</strong> react with dilute HCl or H₂SO₄ (below H in reactivity series)</div>
+    </div>
+    <div class="warn">
+      <span class="tip-icon">❌</span>
+      <div>Don't say "photolysis of AgCl produces silver and oxygen" — it produces <strong>Ag and Cl₂</strong></div>
+    </div>
+    <div class="warn">
+      <span class="tip-icon">❌</span>
+      <div><strong>Graphite</strong> is a non-metal that conducts electricity. Don't say "all non-metals are insulators"</div>
+    </div>
+    <div class="warn">
+      <span class="tip-icon">❌</span>
+      <div>Don't confuse <strong>Baking Soda (NaHCO₃)</strong> and <strong>Washing Soda (Na₂CO₃·10H₂O)</strong></div>
+    </div>
+    <div class="warn">
+      <span class="tip-icon">❌</span>
+      <div><strong>Plaster of Paris</strong> is CaSO₄·½H₂O, NOT CaSO₄·2H₂O (that's gypsum)</div>
+    </div>
+    <div class="warn">
+      <span class="tip-icon">❌</span>
+      <div>pH scale is 0–14, not 1–14. Strong acids can have pH = 0 or even negative!</div>
+    </div>
+
+    <hr class="divider">
+
+    <div class="sec-title" style="font-size:1.1rem">✅ Last-Minute Golden Tips</div>
+    <div class="good"><span class="tip-icon">✅</span><div>Always write <strong>state symbols</strong> — (s), (l), (g), (aq) — in reactions for full marks</div></div>
+    <div class="good"><span class="tip-icon">✅</span><div>Write <strong>conditions above the arrow</strong> (heat Δ, light hν, electricity) when applicable</div></div>
+    <div class="good"><span class="tip-icon">✅</span><div>For displacement: always check reactivity series — MORE reactive element displaces LESS reactive</div></div>
+    <div class="good"><span class="tip-icon">✅</span><div>Name the type of reaction whenever asked — 1 extra mark in many questions</div></div>
+    <div class="good"><span class="tip-icon">✅</span><div>Mention <strong>colour change</strong> in observations (blue → pale green for CuSO₄ with Fe)</div></div>
+    <div class="good"><span class="tip-icon">✅</span><div>For pH questions: lower pH = stronger acid, higher pH = stronger base. pH 7 = neutral</div></div>
+    <div class="good"><span class="tip-icon">✅</span><div>Revise the <strong>reactivity series mnemonic</strong> — at least 5 reactions can be predicted from it</div></div>
+    <div class="good"><span class="tip-icon">✅</span><div>In 5-mark questions: define the concept → give equation → state conditions → observation → application</div></div>
+
+  </div>
+
+</div><!-- end container -->
+
+<script>
+  function showPanel(id, btn) {
+    document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    btn.classList.add('active');
+  }
+
+  function toggleAcc(header) {
+    const body = header.nextElementSibling;
+    const isOpen = header.classList.contains('open');
+    // close all
+    document.querySelectorAll('.acc-header').forEach(h => h.classList.remove('open'));
+    document.querySelectorAll('.acc-body').forEach(b => b.classList.remove('open'));
+    if (!isOpen) {
+      header.classList.add('open');
+      body.classList.add('open');
+    }
+  }
+</script>
+</body>
+</html>

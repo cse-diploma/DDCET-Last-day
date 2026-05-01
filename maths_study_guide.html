@@ -1,0 +1,1345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mathematics Complete Study Guide</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0e1a;
+    --bg2: #111827;
+    --bg3: #1a2234;
+    --card: #151c2e;
+    --card2: #1e2840;
+    --border: rgba(99,157,255,0.15);
+    --border2: rgba(99,157,255,0.3);
+    --text: #e8eaf6;
+    --text2: #9da8c5;
+    --text3: #636e8a;
+    --accent: #639dff;
+    --accent2: #a78bfa;
+    --green: #34d399;
+    --amber: #fbbf24;
+    --coral: #f87171;
+    --teal: #2dd4bf;
+    --pink: #f472b6;
+    --glow: rgba(99,157,255,0.08);
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { background:var(--bg); color:var(--text); font-family:'DM Sans',sans-serif; min-height:100vh; }
+
+  /* SIDEBAR */
+  .sidebar {
+    position:fixed; left:0; top:0; height:100vh; width:260px;
+    background:var(--bg2); border-right:1px solid var(--border);
+    display:flex; flex-direction:column; z-index:100; overflow:hidden;
+  }
+  .sidebar-header {
+    padding:1.5rem 1.25rem 1rem;
+    border-bottom:1px solid var(--border);
+    background: linear-gradient(135deg, #0f172a, #1e2840);
+  }
+  .sidebar-title {
+    font-family:'Playfair Display',serif;
+    font-size:1.1rem; font-weight:700;
+    color:var(--accent); letter-spacing:0.02em;
+    line-height:1.3;
+  }
+  .sidebar-sub { font-size:0.72rem; color:var(--text3); margin-top:0.3rem; letter-spacing:0.05em; text-transform:uppercase; }
+  .nav-list { flex:1; overflow-y:auto; padding:0.75rem 0; }
+  .nav-list::-webkit-scrollbar { width:3px; }
+  .nav-list::-webkit-scrollbar-thumb { background:var(--border2); border-radius:4px; }
+  .nav-item {
+    display:flex; align-items:center; gap:0.6rem;
+    padding:0.65rem 1.25rem; cursor:pointer;
+    font-size:0.82rem; color:var(--text2); font-weight:500;
+    border-left:3px solid transparent;
+    transition:all 0.2s;
+  }
+  .nav-item:hover { background:var(--glow); color:var(--text); border-left-color:var(--border2); }
+  .nav-item.active { background:rgba(99,157,255,0.12); color:var(--accent); border-left-color:var(--accent); }
+  .nav-num { font-family:'JetBrains Mono',monospace; font-size:0.7rem; color:var(--text3); background:var(--bg3); padding:2px 6px; border-radius:4px; min-width:24px; text-align:center; }
+  .nav-item.active .nav-num { background:rgba(99,157,255,0.2); color:var(--accent); }
+
+  /* MAIN */
+  .main { margin-left:260px; min-height:100vh; }
+
+  /* HERO */
+  .hero {
+    background: linear-gradient(135deg, #0d1424 0%, #1a2234 50%, #0d1424 100%);
+    padding:3rem 3rem 2.5rem;
+    border-bottom:1px solid var(--border);
+    position:relative; overflow:hidden;
+  }
+  .hero::before {
+    content:''; position:absolute; top:-60px; right:-60px;
+    width:300px; height:300px; border-radius:50%;
+    background:radial-gradient(circle, rgba(99,157,255,0.06) 0%, transparent 70%);
+  }
+  .hero-badge {
+    display:inline-block; font-size:0.7rem; font-weight:600; letter-spacing:0.1em;
+    text-transform:uppercase; color:var(--accent); background:rgba(99,157,255,0.1);
+    border:1px solid rgba(99,157,255,0.3); padding:4px 12px; border-radius:20px; margin-bottom:1rem;
+  }
+  .hero h1 {
+    font-family:'Playfair Display',serif; font-size:2.8rem; font-weight:900;
+    line-height:1.1; color:var(--text);
+  }
+  .hero h1 span { color:var(--accent); }
+  .hero-desc { font-size:0.9rem; color:var(--text2); margin-top:0.75rem; max-width:600px; line-height:1.6; }
+  .hero-stats { display:flex; gap:2rem; margin-top:1.5rem; }
+  .hero-stat { text-align:center; }
+  .hero-stat-num { font-family:'JetBrains Mono',monospace; font-size:1.4rem; font-weight:500; color:var(--accent); }
+  .hero-stat-label { font-size:0.7rem; color:var(--text3); text-transform:uppercase; letter-spacing:0.05em; margin-top:2px; }
+
+  /* CONTENT AREA */
+  .content { padding:2rem 3rem; }
+
+  /* TOPIC SECTION */
+  .topic-section { display:none; }
+  .topic-section.active { display:block; animation:fadeIn 0.3s ease; }
+  @keyframes fadeIn { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:none} }
+
+  .topic-header {
+    display:flex; align-items:flex-start; gap:1rem; margin-bottom:1.5rem;
+    padding-bottom:1rem; border-bottom:1px solid var(--border);
+  }
+  .topic-icon {
+    width:48px; height:48px; border-radius:12px; display:flex; align-items:center; justify-content:center;
+    font-family:'JetBrains Mono',monospace; font-size:1rem; font-weight:700; flex-shrink:0;
+  }
+  .topic-title { font-family:'Playfair Display',serif; font-size:1.6rem; font-weight:700; color:var(--text); }
+  .topic-subtitle { font-size:0.82rem; color:var(--text3); margin-top:0.25rem; }
+  .marks-badge { display:inline-block; font-size:0.7rem; font-weight:600; padding:2px 8px; border-radius:10px; margin-top:0.4rem; }
+
+  /* TABS */
+  .tabs { display:flex; gap:0.5rem; margin-bottom:1.5rem; flex-wrap:wrap; }
+  .tab-btn {
+    padding:6px 16px; border-radius:20px; font-size:0.78rem; font-weight:500;
+    cursor:pointer; border:1px solid var(--border2); background:transparent;
+    color:var(--text2); transition:all 0.2s; font-family:'DM Sans',sans-serif;
+  }
+  .tab-btn:hover { background:var(--glow); color:var(--text); }
+  .tab-btn.active { background:var(--accent); color:#fff; border-color:var(--accent); }
+
+  .tab-content { display:none; }
+  .tab-content.active { display:block; animation:fadeIn 0.2s ease; }
+
+  /* CARDS GRID */
+  .grid2 { display:grid; grid-template-columns:1fr 1fr; gap:1rem; margin-bottom:1rem; }
+  .grid3 { display:grid; grid-template-columns:1fr 1fr 1fr; gap:1rem; margin-bottom:1rem; }
+  @media(max-width:900px){ .grid2,.grid3{ grid-template-columns:1fr; } }
+
+  /* FORMULA CARD */
+  .fcard {
+    background:var(--card); border:1px solid var(--border); border-radius:12px;
+    padding:1rem 1.25rem; margin-bottom:0.75rem;
+  }
+  .fcard-title {
+    font-size:0.75rem; text-transform:uppercase; letter-spacing:0.08em; font-weight:600;
+    margin-bottom:0.6rem; padding-bottom:0.5rem; border-bottom:1px solid var(--border);
+  }
+  .formula {
+    font-family:'JetBrains Mono',monospace; font-size:0.88rem;
+    background:var(--bg3); border:1px solid var(--border); border-radius:8px;
+    padding:0.6rem 1rem; margin:0.4rem 0; color:var(--teal); line-height:1.6;
+    overflow-x:auto; white-space:pre-wrap;
+  }
+  .formula-note { font-size:0.75rem; color:var(--text3); margin-top:0.3rem; }
+
+  /* TIP / TRICK CARD */
+  .tip-card {
+    background:var(--card); border-radius:12px; padding:1rem 1.25rem; margin-bottom:0.75rem;
+    border-left:3px solid var(--green); border-top:1px solid var(--border); border-right:1px solid var(--border); border-bottom:1px solid var(--border);
+  }
+  .tip-card.trick { border-left-color:var(--amber); }
+  .tip-card.fast { border-left-color:var(--coral); }
+  .tip-card.warn { border-left-color:var(--accent2); }
+  .tip-label { font-size:0.68rem; font-weight:700; text-transform:uppercase; letter-spacing:0.1em; margin-bottom:0.4rem; }
+  .tip-card .tip-label { color:var(--green); }
+  .tip-card.trick .tip-label { color:var(--amber); }
+  .tip-card.fast .tip-label { color:var(--coral); }
+  .tip-card.warn .tip-label { color:var(--accent2); }
+  .tip-text { font-size:0.83rem; color:var(--text2); line-height:1.6; }
+  .tip-text code { font-family:'JetBrains Mono',monospace; background:var(--bg3); padding:1px 5px; border-radius:4px; font-size:0.82rem; color:var(--amber); }
+
+  /* OBJECTIVE CARD */
+  .obj-card {
+    background:var(--card); border:1px solid var(--border); border-radius:12px;
+    padding:1rem 1.25rem; margin-bottom:0.75rem;
+  }
+  .obj-q { font-size:0.85rem; color:var(--text); margin-bottom:0.5rem; font-weight:500; }
+  .obj-ans {
+    font-size:0.8rem; color:var(--text3); background:var(--bg3); border:1px solid var(--border);
+    border-radius:6px; padding:0.4rem 0.75rem; cursor:pointer; transition:all 0.2s;
+    display:inline-block;
+  }
+  .obj-ans:hover, .obj-ans.revealed { color:var(--green); border-color:var(--green); }
+  .obj-key { font-family:'JetBrains Mono',monospace; font-size:0.78rem; color:var(--teal); font-weight:500; }
+
+  /* TABLE */
+  table { width:100%; border-collapse:collapse; margin:0.5rem 0 1rem; font-size:0.82rem; }
+  th { background:var(--bg3); color:var(--text2); font-weight:600; padding:0.5rem 0.75rem; text-align:left; border-bottom:1px solid var(--border); }
+  td { padding:0.45rem 0.75rem; border-bottom:1px solid rgba(99,157,255,0.07); color:var(--text); }
+  tr:hover td { background:var(--glow); }
+  .mono { font-family:'JetBrains Mono',monospace; font-size:0.8rem; color:var(--teal); }
+
+  /* SECTION HEADING */
+  .sec-h { font-size:0.7rem; text-transform:uppercase; letter-spacing:0.1em; font-weight:700; color:var(--text3); margin:1rem 0 0.5rem; }
+
+  /* SEARCH */
+  .search-wrap { padding:0.75rem 1rem; border-bottom:1px solid var(--border); }
+  .search-inp {
+    width:100%; background:var(--bg3); border:1px solid var(--border); border-radius:8px;
+    padding:0.45rem 0.75rem; color:var(--text); font-size:0.78rem; font-family:'DM Sans',sans-serif;
+    outline:none;
+  }
+  .search-inp:focus { border-color:var(--accent); }
+  .search-inp::placeholder { color:var(--text3); }
+
+  /* MOBILE TOGGLE */
+  .mob-toggle {
+    display:none; position:fixed; top:1rem; left:1rem; z-index:200;
+    background:var(--accent); border:none; color:#fff; border-radius:8px;
+    padding:8px 12px; cursor:pointer; font-family:'DM Sans',sans-serif; font-size:0.8rem;
+  }
+  @media(max-width:768px){
+    .sidebar { transform:translateX(-100%); transition:transform 0.3s; }
+    .sidebar.open { transform:translateX(0); }
+    .main { margin-left:0; }
+    .mob-toggle { display:block; }
+    .hero { padding:4rem 1.5rem 1.5rem; }
+    .hero h1 { font-size:1.8rem; }
+    .content { padding:1.5rem; }
+  }
+  p { color:var(--text2); font-size:0.83rem; line-height:1.7; margin-bottom:0.5rem; }
+  ul { padding-left:1.2rem; }
+  li { font-size:0.83rem; color:var(--text2); line-height:1.7; margin-bottom:0.15rem; }
+  strong { color:var(--text); font-weight:600; }
+</style>
+</head>
+<body>
+
+<button class="mob-toggle" onclick="document.querySelector('.sidebar').classList.toggle('open')">☰ Menu</button>
+
+<nav class="sidebar">
+  <div class="sidebar-header">
+    <div class="sidebar-title">Mathematics<br>Exam Guide</div>
+    <div class="sidebar-sub">All Topics · All Formulas</div>
+  </div>
+  <div class="search-wrap">
+    <input class="search-inp" type="text" placeholder="Search topics..." id="searchInp" oninput="filterNav(this.value)">
+  </div>
+  <div class="nav-list" id="navList">
+    <div class="nav-item active" onclick="show('t1')" data-label="Determinants Matrices">
+      <span class="nav-num">01</span> Determinants &amp; Matrices
+    </div>
+    <div class="nav-item" onclick="show('t2')" data-label="Trigonometry">
+      <span class="nav-num">02</span> Trigonometry
+    </div>
+    <div class="nav-item" onclick="show('t3')" data-label="Vectors">
+      <span class="nav-num">03</span> Vectors
+    </div>
+    <div class="nav-item" onclick="show('t4')" data-label="Coordinate Geometry">
+      <span class="nav-num">04</span> Coordinate Geometry
+    </div>
+    <div class="nav-item" onclick="show('t5')" data-label="Function Limit">
+      <span class="nav-num">05</span> Function &amp; Limit
+    </div>
+    <div class="nav-item" onclick="show('t6')" data-label="Differentiation Applications">
+      <span class="nav-num">06</span> Differentiation
+    </div>
+    <div class="nav-item" onclick="show('t7')" data-label="Integration">
+      <span class="nav-num">07</span> Integration
+    </div>
+    <div class="nav-item" onclick="show('t8')" data-label="Logarithm">
+      <span class="nav-num">08</span> Logarithm
+    </div>
+    <div class="nav-item" onclick="show('t9')" data-label="Statistics Mean Median Mode">
+      <span class="nav-num">09</span> Statistics
+    </div>
+  </div>
+</nav>
+
+<main class="main">
+  <div class="hero">
+    <div class="hero-badge">Exam Ready</div>
+    <h1>Complete <span>Mathematics</span><br>Formula Book</h1>
+    <p class="hero-desc">All formulas, objective points, tips, tricks, and fast methods — structured for your exam. Click any topic in the sidebar to jump directly.</p>
+    <div class="hero-stats">
+      <div class="hero-stat"><div class="hero-stat-num">9</div><div class="hero-stat-label">Topics</div></div>
+      <div class="hero-stat"><div class="hero-stat-num">200+</div><div class="hero-stat-label">Formulas</div></div>
+      <div class="hero-stat"><div class="hero-stat-num">80+</div><div class="hero-stat-label">Exam Points</div></div>
+      <div class="hero-stat"><div class="hero-stat-num">50+</div><div class="hero-stat-label">Tips & Tricks</div></div>
+    </div>
+  </div>
+
+  <div class="content">
+
+<!-- ==================== TOPIC 1: DETERMINANTS & MATRICES ==================== -->
+<section class="topic-section active" id="t1">
+  <div class="topic-header">
+    <div class="topic-icon" style="background:rgba(99,157,255,0.15);color:var(--accent)">|A|</div>
+    <div>
+      <div class="topic-title">Determinants &amp; Matrices</div>
+      <div class="topic-subtitle">Determinant values, matrix types, operations, inverse, and simultaneous equations</div>
+      <span class="marks-badge" style="background:rgba(99,157,255,0.1);color:var(--accent)">8 Marks</span>
+    </div>
+  </div>
+
+  <div class="tabs">
+    <button class="tab-btn active" onclick="switchTab(this,'t1f')">Formulas</button>
+    <button class="tab-btn" onclick="switchTab(this,'t1o')">Objective Points</button>
+    <button class="tab-btn" onclick="switchTab(this,'t1t')">Tips &amp; Tricks</button>
+  </div>
+
+  <div class="tab-content active" id="t1f">
+    <div class="sec-h">Determinant Formulas</div>
+    <div class="fcard">
+      <div class="fcard-title" style="color:var(--accent)">1×1 &amp; 2×2 Determinant</div>
+      <div class="formula">|a| = a
+
+|a  b|
+|c  d| = ad - bc</div>
+      <p class="formula-note">Rule: Multiply main diagonal, subtract anti-diagonal product</p>
+    </div>
+
+    <div class="fcard">
+      <div class="fcard-title" style="color:var(--accent)">3×3 Determinant (Expansion along Row 1)</div>
+      <div class="formula">|a₁ b₁ c₁|
+|a₂ b₂ c₂| = a₁(b₂c₃ - b₃c₂) - b₁(a₂c₃ - a₃c₂) + c₁(a₂b₃ - a₃b₂)
+|a₃ b₃ c₃|</div>
+      <p class="formula-note">Signs: + − + for first row. Cofactor expansion method.</p>
+    </div>
+
+    <div class="sec-h">Matrix Types — Summary Table</div>
+    <div class="fcard">
+      <table>
+        <tr><th>Type</th><th>Definition / Key Property</th></tr>
+        <tr><td>Rectangular</td><td>m×n where m ≠ n</td></tr>
+        <tr><td>Square</td><td>m×n where m = n (equal rows &amp; columns)</td></tr>
+        <tr><td>Null / Zero</td><td>All elements = 0 ; O_mn</td></tr>
+        <tr><td>Diagonal</td><td>Square; off-diagonal = 0; diag elements may differ</td></tr>
+        <tr><td>Scalar</td><td>Diagonal matrix with all diagonal elements equal (k·I)</td></tr>
+        <tr><td>Identity (I)</td><td>Scalar matrix with diagonal = 1; AI = IA = A</td></tr>
+        <tr><td>Singular</td><td>|A| = 0 → inverse does NOT exist</td></tr>
+        <tr><td>Non-singular</td><td>|A| ≠ 0 → inverse EXISTS</td></tr>
+        <tr><td>Transpose (Aᵀ)</td><td>Rows ↔ Columns; (AB)ᵀ = BᵀAᵀ</td></tr>
+        <tr><td>Symmetric</td><td>A = Aᵀ</td></tr>
+        <tr><td>Skew-Symmetric</td><td>Aᵀ = −A ; diagonal = 0</td></tr>
+      </table>
+    </div>
+
+    <div class="sec-h">Matrix Operations</div>
+    <div class="grid2">
+      <div class="fcard">
+        <div class="fcard-title" style="color:var(--teal)">Addition / Subtraction</div>
+        <div class="formula">(A + B)ᵢⱼ = aᵢⱼ + bᵢⱼ
+Condition: Same order (m×n)</div>
+        <p class="formula-note">Commutative: A+B = B+A | Associative: (A+B)+C = A+(B+C)</p>
+      </div>
+      <div class="fcard">
+        <div class="fcard-title" style="color:var(--teal)">Scalar Multiplication</div>
+        <div class="formula">(kA)ᵢⱼ = k · aᵢⱼ
+k(A+B) = kA + kB
+(k+l)A = kA + lA</div>
+      </div>
+    </div>
+    <div class="fcard">
+      <div class="fcard-title" style="color:var(--teal)">Matrix Multiplication</div>
+      <div class="formula">(AB)ᵢⱼ = Σₖ aᵢₖ · bₖⱼ
+
+Condition: Columns of A = Rows of B
+If A is m×n and B is n×p → AB is m×p</div>
+      <p class="formula-note">NOT commutative (AB ≠ BA in general). Associative: (AB)C = A(BC)</p>
+    </div>
+
+    <div class="sec-h">Adjoint &amp; Inverse of 2×2 Matrix</div>
+    <div class="fcard">
+      <div class="fcard-title" style="color:var(--pink)">For A = |a b; c d|</div>
+      <div class="formula">adj(A) = | d  -b|
+         |-c   a|
+
+A⁻¹ = adj(A) / |A| = (1/(ad-bc)) × | d  -b|
+                                      |-c   a|
+
+Condition: |A| ≠ 0 (non-singular)
+Verify: A × A⁻¹ = I</div>
+      <p class="formula-note">Formula: Swap main diagonal, negate off-diagonal, divide by determinant</p>
+    </div>
+
+    <div class="sec-h">Simultaneous Linear Equations (Cramer's Rule)</div>
+    <div class="fcard">
+      <div class="fcard-title" style="color:var(--amber)">Two Variables: a₁x + b₁y = c₁ | a₂x + b₂y = c₂</div>
+      <div class="formula">D  = |a₁ b₁| = a₁b₂ - a₂b₁
+      |a₂ b₂|
+
+Dₓ = |c₁ b₁| = c₁b₂ - c₂b₁
+     |c₂ b₂|
+
+Dᵧ = |a₁ c₁| = a₁c₂ - a₂c₁
+     |a₂ c₂|
+
+x = Dₓ/D ,  y = Dᵧ/D  (when D ≠ 0)</div>
+    </div>
+
+    <div class="fcard">
+      <div class="fcard-title" style="color:var(--amber)">Matrix Method: AX = B → X = A⁻¹B</div>
+      <div class="formula">|a₁ b₁| |x|   |c₁|
+|a₂ b₂| |y| = |c₂|
+
+[x] = A⁻¹ [c₁]
+[y]        [c₂]</div>
+    </div>
+  </div>
+
+  <div class="tab-content" id="t1o">
+    <div class="sec-h">Key Objective Points</div>
+    <div class="obj-card"><div class="obj-q">Order of matrix determines?</div><div class="obj-ans" onclick="this.classList.toggle('revealed')">Reveal</div><div class="obj-key">Number of rows × Number of columns (m×n = total elements)</div></div>
+    <div class="obj-card"><div class="obj-q">Condition for matrix multiplication AB?</div><div class="obj-ans" onclick="this.classList.toggle('revealed')">Reveal</div><div class="obj-key">Columns of A = Rows of B (A: m×n, B: n×p → AB: m×p)</div></div>
+    <div class="obj-card"><div class="obj-q">If |A| = 0, matrix is called?</div><div class="obj-ans" onclick="this.classList.toggle('revealed')">Reveal</div><div class="obj-key">Singular matrix — inverse does NOT exist</div></div>
+    <div class="obj-card"><div class="obj-q">Value of I (Identity) matrix?</div><div class="obj-ans" onclick="this.classList.toggle('revealed')">Reveal</div><div class="obj-key">Diagonal = 1, all other elements = 0; |I| = 1 always</div></div>
+    <div class="obj-card"><div class="obj-q">For 2×2: adj(A) formula?</div><div class="obj-ans" onclick="this.classList.toggle('revealed')">Reveal</div><div class="obj-key">Swap a and d (diagonal), change signs of b and c (off-diagonal)</div></div>
+    <div class="obj-card"><div class="obj-q">Cramer's Rule fails when?</div><div class="obj-ans" onclick="this.classList.toggle('revealed')">Reveal</div><div class="obj-key">D = 0 (determinant of coefficient matrix is zero)</div></div>
+    <div class="obj-card"><div class="obj-q">A + (−A) = ?</div><div class="obj-ans" onclick="this.classList.toggle('revealed')">Reveal</div><div class="obj-key">O (Zero/Null matrix of same order)</div></div>
+    <div class="obj-card"><div class="obj-q">Transpose of transpose: (Aᵀ)ᵀ = ?</div><div class="obj-ans" onclick="this.classList.toggle('revealed')">Reveal</div><div class="obj-key">A (original matrix)</div></div>
+    <div class="obj-card"><div class="obj-q">Number of elements in m×n matrix?</div><div class="obj-ans" onclick="this.classList.toggle('revealed')">Reveal</div><div class="obj-key">m × n elements</div></div>
+    <div class="obj-card"><div class="obj-q">A·A⁻¹ = ?</div><div class="obj-ans" onclick="this.classList.toggle('revealed')">Reveal</div><div class="obj-key">I (Identity matrix)</div></div>
+  </div>
+
+  <div class="tab-content" id="t1t">
+    <div class="tip-card"><div class="tip-label">Tip</div><div class="tip-text">For 2×2 inverse: just remember "<strong>SWAP the diagonal, NEGATE the off-diagonal, DIVIDE by det</strong>". No need to compute cofactors separately.</div></div>
+    <div class="tip-card trick"><div class="tip-label">Trick — Determinant of 3×3</div><div class="tip-text">Use <strong>Sarrus' Rule</strong>: Write the first two columns again to the right of the matrix. Multiply left-to-right diagonals (+), subtract right-to-left diagonals (−). Very fast for numerical problems.</div></div>
+    <div class="tip-card fast"><div class="tip-label">Fast Method — Cramer's Rule</div><div class="tip-text">Replace x-column with constants for Dₓ, replace y-column with constants for Dᵧ. The pattern is: constant column replaces the variable's column.</div></div>
+    <div class="tip-card"><div class="tip-label">Tip</div><div class="tip-text">Check: if any two rows (or columns) are identical in a determinant → value = 0. If a row is all zeros → determinant = 0.</div></div>
+    <div class="tip-card warn"><div class="tip-label">Common Mistake</div><div class="tip-text">AB ≠ BA in general. Do NOT apply commutativity to matrix multiplication. Always check order.</div></div>
+    <div class="tip-card trick"><div class="tip-label">Trick — Verify Inverse</div><div class="tip-text">Always verify: <code>A × A⁻¹ = I</code>. If not, recheck your determinant or adj calculation.</div></div>
+    <div class="tip-card fast"><div class="tip-label">Fast Check — Singular?</div><div class="tip-text">For 2×2 <code>|a b; c d|</code>: it's singular if <code>ad = bc</code> (i.e., rows/columns are proportional).</div></div>
+  </div>
+</section>
+
+<!-- ==================== TOPIC 2: TRIGONOMETRY ==================== -->
+<section class="topic-section" id="t2">
+  <div class="topic-header">
+    <div class="topic-icon" style="background:rgba(45,212,191,0.15);color:var(--teal)">sin</div>
+    <div>
+      <div class="topic-title">Trigonometry</div>
+      <div class="topic-subtitle">Angles, trig functions, periods, compound angles, sum-product formulas</div>
+      <span class="marks-badge" style="background:rgba(45,212,191,0.1);color:var(--teal)">6 Marks</span>
+    </div>
+  </div>
+  <div class="tabs">
+    <button class="tab-btn active" onclick="switchTab(this,'t2f')">Formulas</button>
+    <button class="tab-btn" onclick="switchTab(this,'t2o')">Objective Points</button>
+    <button class="tab-btn" onclick="switchTab(this,'t2t')">Tips &amp; Tricks</button>
+  </div>
+
+  <div class="tab-content active" id="t2f">
+    <div class="sec-h">Angle Conversion</div>
+    <div class="grid2">
+      <div class="fcard">
+        <div class="fcard-title" style="color:var(--teal)">Degree ↔ Radian</div>
+        <div class="formula">π radians = 180°
+1° = π/180 rad  ≈ 0.01745 rad
+1 rad = 180°/π ≈ 57.296°
+
+Degrees → Radians: × π/180
+Radians → Degrees: × 180/π</div>
+      </div>
+      <div class="fcard">
+        <div class="fcard-title" style="color:var(--teal)">Important Angles</div>
+        <table>
+          <tr><th>Deg</th><th>Rad</th><th>sin</th><th>cos</th><th>tan</th></tr>
+          <tr><td>0°</td><td>0</td><td>0</td><td>1</td><td>0</td></tr>
+          <tr><td>30°</td><td>π/6</td><td>½</td><td>√3/2</td><td>1/√3</td></tr>
+          <tr><td>45°</td><td>π/4</td><td>1/√2</td><td>1/√2</td><td>1</td></tr>
+          <tr><td>60°</td><td>π/3</td><td>√3/2</td><td>½</td><td>√3</td></tr>
+          <tr><td>90°</td><td>π/2</td><td>1</td><td>0</td><td>∞</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <div class="sec-h">Fundamental Identities</div>
+    <div class="grid2">
+      <div class="fcard">
+        <div class="fcard-title" style="color:var(--accent)">Pythagorean Identities</div>
+        <div class="formula">sin²θ + cos²θ = 1
+1 + tan²θ = sec²θ
+1 + cot²θ = cosec²θ</div>
+      </div>
+      <div class="fcard">
+        <div class="fcard-title" style="color:var(--accent)">Reciprocal Relations</div>
+        <div class="formula">cosecθ = 1/sinθ
+secθ   = 1/cosθ
+cotθ   = 1/tanθ = cosθ/sinθ
+tanθ   = sinθ/cosθ</div>
+      </div>
+    </div>
+
+    <div class="sec-h">Periods of Trig Functions</div>
+    <div class="fcard">
+      <table>
+        <tr><th>Function</th><th>Period</th><th>Domain</th><th>Range</th></tr>
+        <tr><td class="mono">sin x, cos x</td><td>2π (360°)</td><td>ℝ</td><td>[−1, 1]</td></tr>
+        <tr><td class="mono">tan x</td><td>π (180°)</td><td>x ≠ (2n+1)π/2</td><td>ℝ</td></tr>
+        <tr><td class="mono">cot x</td><td>π (180°)</td><td>x ≠ nπ</td><td>ℝ</td></tr>
+        <tr><td class="mono">sec x</td><td>2π (360°)</td><td>x ≠ (2n+1)π/2</td><td>(−∞,−1]∪[1,∞)</td></tr>
+        <tr><td class="mono">cosec x</td><td>2π (360°)</td><td>x ≠ nπ</td><td>(−∞,−1]∪[1,∞)</td></tr>
+      </table>
+      <p class="formula-note">Period of sin(nx) = 2π/n | Period of tan(nx) = π/n</p>
+    </div>
+
+    <div class="sec-h">Allied Angles</div>
+    <div class="fcard">
+      <div class="formula">sin(−θ) = −sinθ,   cos(−θ) = cosθ,   tan(−θ) = −tanθ
+sin(90°−θ) = cosθ,  cos(90°−θ) = sinθ,  tan(90°−θ) = cotθ
+sin(90°+θ) = cosθ,  cos(90°+θ) = −sinθ, tan(90°+θ) = −cotθ
+sin(180°−θ) = sinθ, cos(180°−θ) = −cosθ,tan(180°−θ) = −tanθ
+sin(180°+θ) = −sinθ,cos(180°+θ) = −cosθ,tan(180°+θ) = tanθ
+sin(270°−θ) = −cosθ,cos(270°−θ) = −sinθ,tan(270°−θ) = cotθ
+sin(270°+θ) = −cosθ,cos(270°+θ) = sinθ, tan(270°+θ) = −cotθ
+sin(360°−θ) = −sinθ,cos(360°−θ) = cosθ, tan(360°−θ) = −tanθ</div>
+    </div>
+
+    <div class="sec-h">Compound Angle Formulas</div>
+    <div class="fcard">
+      <div class="fcard-title" style="color:var(--pink)">Addition Formulas</div>
+      <div class="formula">sin(A+B) = sinA cosB + cosA sinB
+sin(A−B) = sinA cosB − cosA sinB
+cos(A+B) = cosA cosB − sinA sinB
+cos(A−B) = cosA cosB + sinA sinB
+tan(A+B) = (tanA + tanB)/(1 − tanA tanB)
+tan(A−B) = (tanA − tanB)/(1 + tanA tanB)</div>
+    </div>
+
+    <div class="sec-h">Double Angle Formulas</div>
+    <div class="fcard">
+      <div class="formula">sin 2A = 2 sinA cosA = 2tanA/(1+tan²A)
+cos 2A = cos²A − sin²A = 2cos²A − 1 = 1 − 2sin²A = (1−tan²A)/(1+tan²A)
+tan 2A = 2tanA/(1 − tan²A)
+
+From cos 2A:
+  cos²A = (1 + cos2A)/2
+  sin²A = (1 − cos2A)/2</div>
+    </div>
+
+    <div class="sec-h">Triple Angle Formulas</div>
+    <div class="fcard">
+      <div class="formula">sin 3A = 3sinA − 4sin³A
+cos 3A = 4cos³A − 3cosA
+tan 3A = (3tanA − tan³A)/(1 − 3tan²A)</div>
+    </div>
+
+    <div class="sec-h">Half Angle Formulas</div>
+    <div class="fcard">
+      <div class="formula">sin(A/2) = ±√((1−cosA)/2)
+cos(A/2) = ±√((1+cosA)/2)
+tan(A/2) = sinA/(1+cosA) = (1−cosA)/sinA = ±√((1−cosA)/(1+cosA))</div>
+    </div>
+
+    <div class="sec-h">Sum-to-Product Formulas</div>
+    <div class="fcard">
+      <div class="fcard-title" style="color:var(--amber)">Sum → Product</div>
+      <div class="formula">sinC + sinD = 2 sin((C+D)/2) cos((C−D)/2)
+sinC − sinD = 2 cos((C+D)/2) sin((C−D)/2)
+cosC + cosD = 2 cos((C+D)/2) cos((C−D)/2)
+cosC − cosD = −2 sin((C+D)/2) sin((C−D)/2)</div>
+    </div>
+    <div class="fcard">
+      <div class="fcard-title" style="color:var(--amber)">Product → Sum (Factor Formulas)</div>
+      <div class="formula">2 sinA cosB = sin(A+B) + sin(A−B)
+2 cosA sinB = sin(A+B) − sin(A−B)
+2 cosA cosB = cos(A+B) + cos(A−B)
+2 sinA sinB = cos(A−B) − cos(A+B)</div>
+    </div>
+  </div>
+
+  <div class="tab-content" id="t2o">
+    <div class="obj-card"><div class="obj-q">Value of sin²θ + cos²θ?</div><div class="obj-ans" onclick="this.classList.toggle('revealed')">Reveal</div><div class="obj-key">= 1 (always, for all θ)</div></div>
+    <div class="obj-card"><div class="obj-q">Period of tan x?</div><div class="obj-ans" onclick="this.classList.toggle('revealed')">Reveal</div><div class="obj-key">π (180°)</div></div>
+    <div class="obj-card"><div class="obj-q">sin(90° − θ) = ?</div><div class="obj-ans" onclick="this.classList.toggle('revealed')">Reveal</div><div class="obj-key">cosθ (co-function identity)</div></div>
+    <div class="obj-card"><div class="obj-q">cos 2A in terms of cos only?</div><div class="obj-ans" onclick="this.classList.toggle('revealed')">Reveal</div><div class="obj-key">2cos²A − 1</div></div>
+    <div class="obj-card"><div class="obj-q">sin 2A = ?</div><div class="obj-ans" onclick="this.classList.toggle('revealed')">Reveal</div><div class="obj-key">2 sinA cosA</div></div>
+    <div class="obj-card"><div class="obj-q">tan 45° = ?</div><div class="obj-ans" onclick="this.classList.toggle('revealed')">Reveal</div><div class="obj-key">1</div></div>
+    <div class="obj-card"><div class="obj-q">Range of sin x and cos x?</div><div class="obj-ans" onclick="this.classList.toggle('revealed')">Reveal</div><div class="obj-key">[−1, 1]</div></div>
+    <div class="obj-card"><div class="obj-q">180° in radians = ?</div><div class="obj-ans" onclick="this.classList.toggle('revealed')">Reveal</div><div class="obj-key">π radians</div></div>
+    <div class="obj-card"><div class="obj-q">1 + tan²θ = ?</div><div class="obj-ans" onclick="this.classList.toggle('revealed')">Reveal</div><div class="obj-key">sec²θ</div></div>
+    <div class="obj-card"><div class="obj-q">cos(A+B)·cos(A−B) = ?</div><div class="obj-ans" onclick="this.classList.toggle('revealed')">Reveal</div><div class="obj-key">cos²A − sin²B</div></div>
+  </div>
+
+  <div class="tab-content" id="t2t">
+    <div class="tip-card"><div class="tip-label">Mnemonic — CAST Rule</div><div class="tip-text">In which quadrant are functions positive? <strong>All Students Take Calculus</strong> (Q1: All, Q2: Sin, Q3: Tan, Q4: Cos). Quadrant I→IV going counterclockwise.</div></div>
+    <div class="tip-card trick"><div class="tip-label">Trick — Values by Hand</div><div class="tip-text">For sin(0°,30°,45°,60°,90°): numerators are √0,√1,√2,√3,√4 divided by 2. That gives 0, ½, 1/√2, √3/2, 1. For cos, reverse the order!</div></div>
+    <div class="tip-card fast"><div class="tip-label">Fast — Allied Angle Rule</div><div class="tip-text">For multiples of 90°: function changes (sin↔cos, tan↔cot). For multiples of 180°: function stays same. Sign depends on quadrant of original angle.</div></div>
+    <div class="tip-card"><div class="tip-label">Tip</div><div class="tip-text">For sum-to-product and product-to-sum: these always appear in exam as <strong>simplification problems</strong>. Memorize the 4 product formulas and 4 sum formulas separately.</div></div>
+    <div class="tip-card warn"><div class="tip-label">Warning</div><div class="tip-text">sin(A+B) ≠ sinA + sinB. This is a very common exam trap. Always use the full compound angle formula.</div></div>
+    <div class="tip-card trick"><div class="tip-label">Trick — Half Angle Signs</div><div class="tip-text">For sin(A/2) and cos(A/2), always determine sign by the quadrant of A/2, not A.</div></div>
+  </div>
+</section>
+
+<!-- ==================== TOPIC 3: VECTORS ==================== -->
+<section class="topic-section" id="t3">
+  <div class="topic-header">
+    <div class="topic-icon" style="background:rgba(167,139,250,0.15);color:var(--accent2)">→v</div>
+    <div>
+      <div class="topic-title">Vectors</div>
+      <div class="topic-subtitle">Introduction, types, operations, dot product, cross product, angle between vectors</div>
+      <span class="marks-badge" style="background:rgba(167,139,250,0.1);color:var(--accent2)">4 Marks</span>
+    </div>
+  </div>
+  <div class="tabs">
+    <button class="tab-btn active" onclick="switchTab(this,'t3f')">Formulas</button>
+    <button class="tab-btn" onclick="switchTab(this,'t3o')">Objective Points</button>
+    <button class="tab-btn" onclick="switchTab(this,'t3t')">Tips &amp; Tricks</button>
+  </div>
+
+  <div class="tab-content active" id="t3f">
+    <div class="sec-h">Basics</div>
+    <div class="grid2">
+      <div class="fcard">
+        <div class="fcard-title" style="color:var(--accent2)">Vector Notation</div>
+        <div class="formula">a⃗ = aₓî + aᵧĵ + a_zk̂
+where î,ĵ,k̂ are unit vectors along X,Y,Z</div>
+      </div>
+      <div class="fcard">
+        <div class="fcard-title" style="color:var(--accent2)">Magnitude (Length)</div>
+        <div class="formula">|a⃗| = √(aₓ² + aᵧ² + a_z²)
+In 2D: |a⃗| = √(aₓ² + aᵧ²)</div>
+      </div>
+    </div>
+
+    <div class="sec-h">Types of Vectors</div>
+    <div class="fcard">
+      <table>
+        <tr><th>Type</th><th>Property</th></tr>
+        <tr><td>Null / Zero vector (0⃗)</td><td>Magnitude = 0; direction undefined</td></tr>
+        <tr><td>Unit vector (â)</td><td>|â| = 1; â = a⃗/|a⃗|</td></tr>
+        <tr><td>Equal vectors</td><td>Same magnitude and direction</td></tr>
+        <tr><td>Negative vector (−a⃗)</td><td>Same magnitude, opposite direction</td></tr>
+        <tr><td>Collinear / Parallel</td><td>Same or opposite direction; a⃗ = λb⃗</td></tr>
+        <tr><td>Co-initial</td><td>Same starting point</td></tr>
+        <tr><td>Co-planar</td><td>Lie in same plane</td></tr>
+      </table>
+    </div>
+
+    <div class="sec-h">Vector Operations</div>
+    <div class="fcard">
+      <div class="fcard-title" style="color:var(--teal)">Addition &amp; Subtraction</div>
+      <div class="formula">a⃗ + b⃗ = (aₓ+bₓ)î + (aᵧ+bᵧ)ĵ + (a_z+b_z)k̂
+a⃗ − b⃗ = (aₓ−bₓ)î + (aᵧ−bᵧ)ĵ + (a_z−b_z)k̂
+
+Triangle Law: a⃗ + b⃗ = c⃗
+Parallelogram Law: |R⃗|² = P²+Q²+2PQcosθ</div>
+    </div>
+
+    <div class="sec-h">Dot Product (Scalar Product)</div>
+    <div class="fcard">
+      <div class="fcard-title" style="color:var(--green)">a⃗ · b⃗</div>
+      <div class="formula">a⃗ · b⃗ = |a⃗||b⃗| cosθ
+       = aₓbₓ + aᵧbᵧ + a_zb_z  (component form)
+
+cosθ = (a⃗ · b⃗) / (|a⃗| · |b⃗|)
+
+Properties:
+• Commutative: a⃗ · b⃗ = b⃗ · a⃗
+• Result is a SCALAR
+• a⃗ · a⃗ = |a⃗|² = aₓ² + aᵧ² + a_z²
+• If perpendicular: a⃗ · b⃗ = 0 (cosθ = 0)
+• î·î = ĵ·ĵ = k̂·k̂ = 1
+• î·ĵ = ĵ·k̂ = k̂·î = 0</div>
+    </div>
+
+    <div class="sec-h">Cross Product (Vector Product)</div>
+    <div class="fcard">
+      <div class="fcard-title" style="color:var(--coral)">a⃗ × b⃗</div>
+      <div class="formula">a⃗ × b⃗ = |a⃗||b⃗| sinθ · n̂
+
+Component form (determinant):
+a⃗ × b⃗ = | î   ĵ   k̂ |
+          | aₓ  aᵧ  a_z|
+          | bₓ  bᵧ  b_z|
+= î(aᵧb_z − a_zbᵧ) − ĵ(aₓb_z − a_zbₓ) + k̂(aₓbᵧ − aᵧbₓ)
+
+|a⃗ × b⃗| = |a⃗||b⃗| sinθ  (magnitude = area of parallelogram)
+
+Properties:
+• NOT commutative: a⃗ × b⃗ = −(b⃗ × a⃗)
+• Result is a VECTOR (perpendicular to both)
+• If parallel: a⃗ × b⃗ = 0⃗
+• î×ĵ = k̂, ĵ×k̂ = î, k̂×î = ĵ
+• ĵ×î = −k̂, k̂×ĵ = −î, î×k̂ = −ĵ
+• î×î = ĵ×ĵ = k̂×k̂ = 0⃗</div>
+    </div>
+
+    <div class="sec-h">Angle Between Vectors</div>
+    <div class="fcard">
+      <div class="formula">cosθ = (a⃗ · b⃗)/(|a⃗| · |b⃗|)
+
+θ = 0° → parallel (same direction)
+θ = 90° → perpendicular
+θ = 180° → anti-parallel (opposite direction)
+
+Condition for perpendicular: a⃗ · b⃗ = 0
+Condition for parallel: a⃗ × b⃗ = 0⃗</div>
+    </div>
+  </div>
+
+  <div class="tab-content" id="t3o">
+    <div class="obj-card"><div class="obj-q">Dot product of two perpendicular vectors?</div><div class="obj-ans" onclick="this.classList.toggle('revealed')">Reveal</div><div class="obj-key">= 0 (since cos 90° = 0)</div></div>
+    <div class="obj-card"><div class="obj-q">Cross product gives a?</div><div class="obj-ans" onclick="this.classList.toggle('revealed')">Reveal</div><div class="obj-key">Vector (not a scalar)</div></div>
+    <div class="obj-card"><div class="obj-q">Unit vector formula?</div><div class="obj-ans" onclick="this.classList.toggle('revealed')">Reveal</div><div class="obj-key">â = a⃗/|a⃗|</div></div>
+    <div class="obj-card"><div class="obj-q">î · ĵ = ?</div><div class="obj-ans" onclick="this.classList.toggle('revealed')">Reveal</div><div class="obj-key">0 (since î ⊥ ĵ)</div></div>
+    <div class="obj-card"><div class="obj-q">î × ĵ = ?</div><div class="obj-ans" onclick="this.classList.toggle('revealed')">Reveal</div><div class="obj-key">k̂</div></div>
+    <div class="obj-card"><div class="obj-q">|a⃗ × b⃗| geometrically represents?</div><div class="obj-ans" onclick="this.classList.toggle('revealed')">Reveal</div><div class="obj-key">Area of parallelogram formed by a⃗ and b⃗</div></div>
+    <div class="obj-card"><div class="obj-q">a⃗ × b⃗ = −(b⃗ × a⃗) means?</div><div class="obj-ans" onclick="this.classList.toggle('revealed')">Reveal</div><div class="obj-key">Cross product is anti-commutative (NOT commutative)</div></div>
+    <div class="obj-card"><div class="obj-q">a⃗ · a⃗ = ?</div><div class="obj-ans" onclick="this.classList.toggle('revealed')">Reveal</div><div class="obj-key">|a⃗|² (square of magnitude)</div></div>
+  </div>
+
+  <div class="tab-content" id="t3t">
+    <div class="tip-card"><div class="tip-label">Mnemonic — Cross Product Signs</div><div class="tip-text">Cyclic order: <strong>î → ĵ → k̂ → î</strong>. Forward = positive (î×ĵ=k̂). Backward = negative (ĵ×î=−k̂).</div></div>
+    <div class="tip-card trick"><div class="tip-label">Trick — Cross Product 3×3</div><div class="tip-text">Always expand the 3×3 determinant along the first row (î, ĵ, k̂). Remember sign pattern: <code>+ − +</code>.</div></div>
+    <div class="tip-card fast"><div class="tip-label">Fast Method — Angle between Vectors</div><div class="tip-text">1) Compute dot product, 2) Compute both magnitudes, 3) Divide. That gives cos θ. Take inverse cosine for the angle.</div></div>
+    <div class="tip-card warn"><div class="tip-label">Key Difference</div><div class="tip-text">Dot product → scalar (one number). Cross product → vector. If question asks for a number result, it's likely dot product. If it asks for a perpendicular vector, it's cross product.</div></div>
+  </div>
+</section>
+
+<!-- ==================== TOPIC 4: COORDINATE GEOMETRY ==================== -->
+<section class="topic-section" id="t4">
+  <div class="topic-header">
+    <div class="topic-icon" style="background:rgba(251,191,36,0.15);color:var(--amber)">xy</div>
+    <div>
+      <div class="topic-title">Coordinate Geometry</div>
+      <div class="topic-subtitle">Lines, slopes, forms of equations, parallel/perpendicular, circles</div>
+      <span class="marks-badge" style="background:rgba(251,191,36,0.1);color:var(--amber)">4 Marks</span>
+    </div>
+  </div>
+  <div class="tabs">
+    <button class="tab-btn active" onclick="switchTab(this,'t4f')">Formulas</button>
+    <button class="tab-btn" onclick="switchTab(this,'t4o')">Objective Points</button>
+    <button class="tab-btn" onclick="switchTab(this,'t4t')">Tips &amp; Tricks</button>
+  </div>
+
+  <div class="tab-content active" id="t4f">
+    <div class="sec-h">Slope of a Line</div>
+    <div class="fcard">
+      <div class="formula">m = tanθ  (θ = inclination angle with positive x-axis)
+m = (y₂ − y₁)/(x₂ − x₁)  (two-point formula)</div>
+    </div>
+
+    <div class="sec-h">Equation of a Line — All Forms</div>
+    <div class="fcard">
+      <div class="fcard-title" style="color:var(--amber)">Two-Point Form</div>
+      <div class="formula">(y − y₁)/(y₂ − y₁) = (x − x₁)/(x₂ − x₁)</div>
+    </div>
+    <div class="fcard">
+      <div class="fcard-title" style="color:var(--amber)">Slope-Point Form</div>
+      <div class="formula">y − y₁ = m(x − x₁)   where m = slope, (x₁,y₁) = given point</div>
+    </div>
+    <div class="fcard">
+      <div class="fcard-title" style="color:var(--amber)">Slope-Intercept Form</div>
+      <div class="formula">y = mx + c   (c = y-intercept, m = slope)</div>
+    </div>
+    <div class="fcard">
+      <div class="fcard-title" style="color:var(--amber)">Intercept Form</div>
+      <div class="formula">x/a + y/b = 1   (a = x-intercept, b = y-intercept)</div>
+    </div>
+    <div class="fcard">
+      <div class="fcard-title" style="color:var(--amber)">General Form</div>
+      <div class="formula">ax + by + c = 0
+Slope m = −a/b
+x-intercept = −c/a,  y-intercept = −c/b</div>
+    </div>
+
+    <div class="sec-h">Parallel &amp; Perpendicular Lines</div>
+    <div class="grid2">
+      <div class="fcard">
+        <div class="fcard-title" style="color:var(--green)">Parallel Lines</div>
+        <div class="formula">Condition: m₁ = m₂ (equal slopes)
+Line through (x₁,y₁) parallel to ax+by+c=0:
+ax + by = ax₁ + by₁</div>
+      </div>
+      <div class="fcard">
+        <div class="fcard-title" style="color:var(--coral)">Perpendicular Lines</div>
+        <div class="formula">Condition: m₁ × m₂ = −1
+Line through (x₁,y₁) perpendicular to ax+by+c=0:
+bx − ay = bx₁ − ay₁</div>
+      </div>
+    </div>
+
+    <div class="sec-h">Angle Between Two Lines</div>
+    <div class="fcard">
+      <div class="formula">tanθ = |(m₁ − m₂)/(1 + m₁m₂)|
+If m₁m₂ = −1 → lines are perpendicular (θ = 90°)
+If m₁ = m₂ → lines are parallel (θ = 0°)</div>
+    </div>
+
+    <div class="sec-h">Distance Formulas</div>
+    <div class="fcard">
+      <div class="formula">Distance between two points:
+d = √((x₂−x₁)² + (y₂−y₁)²)
+
+Distance from point (x₁,y₁) to line ax+by+c=0:
+d = |ax₁ + by₁ + c| / √(a² + b²)
+
+Midpoint: ((x₁+x₂)/2, (y₁+y₂)/2)</div>
+    </div>
+
+    <div class="sec-h">Circle Equations</div>
+    <div class="fcard">
+      <div class="fcard-title" style="color:var(--accent)">Standard Form</div>
+      <div class="formula">(x − h)² + (y − k)² = r²
+Centre = (h, k),  Radius = r
+
+If centre at origin (0,0):
+x² + y² = r²</div>
+    </div>
+    <div class="fcard">
+      <div class="fcard-title" style="color:var(--accent)">General Form → Centre &amp; Radius</div>
+      <div class="formula">General form: x² + y² + 2gx + 2fy + c = 0
+Centre = (−g, −f)
+Radius  = √(g² + f² − c)
+Condition: g² + f² − c > 0  (real circle)</div>
+      <p class="formula-note">Remember: centre coordinates are negatives of g and f (the half-coefficients)</p>
+    </div>
+  </div>
+
+  <div class="tab-content" id="t4o">
+    <div class="obj-card"><div class="obj-q">Condition for two lines to be parallel?</div><div class="obj-ans" onclick="this.classList.toggle('revealed')">Reveal</div><div class="obj-key">m₁ = m₂ (slopes equal)</div></div>
+    <div class="obj-card"><div class="obj-q">Condition for perpendicular lines?</div><div class="obj-ans" onclick="this.classList.toggle('revealed')">Reveal</div><div class="obj-key">m₁ × m₂ = −1</div></div>
+    <div class="obj-card"><div class="obj-q">Centre from x²+y²+2gx+2fy+c=0?</div><div class="obj-ans" onclick="this.classList.toggle('revealed')">Reveal</div><div class="obj-key">(−g, −f)</div></div>
+    <div class="obj-card"><div class="obj-q">Radius from general circle equation?</div><div class="obj-ans" onclick="this.classList.toggle('revealed')">Reveal</div><div class="obj-key">r = √(g²+f²−c)</div></div>
+    <div class="obj-card"><div class="obj-q">Slope of x-axis?</div><div class="obj-ans" onclick="this.classList.toggle('revealed')">Reveal</div><div class="obj-key">0 (tan 0° = 0)</div></div>
+    <div class="obj-card"><div class="obj-q">Slope of y-axis?</div><div class="obj-ans" onclick="this.classList.toggle('revealed')">Reveal</div><div class="obj-key">Undefined (tan 90° = ∞)</div></div>
+    <div class="obj-card"><div class="obj-q">If a line makes angle θ with x-axis, slope = ?</div><div class="obj-ans" onclick="this.classList.toggle('revealed')">Reveal</div><div class="obj-key">m = tan θ</div></div>
+    <div class="obj-card"><div class="obj-q">Intercept form: x/a + y/b = 1. x-intercept = ?</div><div class="obj-ans" onclick="this.classList.toggle('revealed')">Reveal</div><div class="obj-key">a (set y=0 to get x=a)</div></div>
+  </div>
+
+  <div class="tab-content" id="t4t">
+    <div class="tip-card"><div class="tip-label">Tip — General Circle Form</div><div class="tip-text">To convert to standard form: complete the square for x and y. Group x terms, add (b/2)² to both sides, repeat for y.</div></div>
+    <div class="tip-card trick"><div class="tip-label">Trick — Perpendicular Slope</div><div class="tip-text">Perpendicular slope = negative reciprocal. If m = 2/3, perpendicular slope = −3/2. Just flip and negate!</div></div>
+    <div class="tip-card fast"><div class="tip-label">Fast — Line Through Point, Parallel to ax+by+c=0</div><div class="tip-text">Just replace c with −(ax₁+by₁). New line: ax + by − (ax₁+by₁) = 0 or ax+by = ax₁+by₁.</div></div>
+    <div class="tip-card warn"><div class="tip-label">Common Mistake</div><div class="tip-text">In general circle x²+y²+2gx+2fy+c=0, centre is (−g,−f) NOT (g,f). The negative sign is crucial.</div></div>
+    <div class="tip-card trick"><div class="tip-label">Trick — Two Point to Slope-Point</div><div class="tip-text">First find slope m = (y₂−y₁)/(x₂−x₁), then substitute ONE point into y−y₁=m(x−x₁). Simpler than remembering the two-point formula directly.</div></div>
+  </div>
+</section>
+
+<!-- ==================== TOPIC 5: FUNCTION & LIMIT ==================== -->
+<section class="topic-section" id="t5">
+  <div class="topic-header">
+    <div class="topic-icon" style="background:rgba(52,211,153,0.15);color:var(--green)">lim</div>
+    <div>
+      <div class="topic-title">Function &amp; Limit</div>
+      <div class="topic-subtitle">Functions, limit concept, standard limit formulas</div>
+      <span class="marks-badge" style="background:rgba(52,211,153,0.1);color:var(--green)">6 Marks</span>
+    </div>
+  </div>
+  <div class="tabs">
+    <button class="tab-btn active" onclick="switchTab(this,'t5f')">Formulas</button>
+    <button class="tab-btn" onclick="switchTab(this,'t5o')">Objective Points</button>
+    <button class="tab-btn" onclick="switchTab(this,'t5t')">Tips &amp; Tricks</button>
+  </div>
+
+  <div class="tab-content active" id="t5f">
+    <div class="sec-h">Function Basics</div>
+    <div class="fcard">
+      <div class="formula">f: A → B  (function from domain A to codomain B)
+f(x) = output value for input x
+Domain: all valid inputs (where f is defined)
+Range: all actual output values
+Codomain: all possible outputs declared</div>
+    </div>
+
+    <div class="sec-h">Standard Limit Formulas</div>
+    <div class="fcard">
+      <div class="fcard-title" style="color:var(--green)">Algebraic &amp; Trigonometric Limits</div>
+      <div class="formula">lim(x→a) xⁿ − aⁿ / (x − a) = naⁿ⁻¹  [★ Very Important]
+
+lim(x→0) sin x / x = 1
+lim(x→0) tan x / x = 1
+lim(x→0) (1 − cos x)/x = 0
+lim(x→0) (1 − cos x)/x² = 1/2
+lim(x→0) sin ax / x = a
+lim(x→0) tan ax / x = a
+lim(x→0) sin ax / sin bx = a/b
+lim(x→0) sin ax / bx = a/b</div>
+    </div>
+    <div class="fcard">
+      <div class="fcard-title" style="color:var(--green)">Exponential &amp; Logarithmic Limits</div>
+      <div class="formula">lim(x→0) (eˣ − 1)/x = 1
+lim(x→0) (aˣ − 1)/x = loge a = ln a
+lim(x→0) log(1+x)/x = 1
+lim(x→0) (1+x)^(1/x) = e
+lim(n→∞) (1 + 1/n)ⁿ = e ≈ 2.71828</div>
+    </div>
+    <div class="fcard">
+      <div class="fcard-title" style="color:var(--green)">Limit Properties</div>
+      <div class="formula">lim[f(x) ± g(x)] = lim f(x) ± lim g(x)
+lim[f(x) · g(x)] = lim f(x) · lim g(x)
+lim[f(x)/g(x)] = lim f(x) / lim g(x)  [if lim g(x) ≠ 0]
+lim[k·f(x)] = k · lim f(x)
+lim(x→a) c = c  (constant function)</div>
+    </div>
+    <div class="fcard">
+      <div class="fcard-title" style="color:var(--amber)">L'Hôpital's Rule (0/0 or ∞/∞ form)</div>
+      <div class="formula">lim f(x)/g(x) = lim f'(x)/g'(x)  [differentiate top and bottom]</div>
+    </div>
+  </div>
+
+  <div class="tab-content" id="t5o">
+    <div class="obj-card"><div class="obj-q">lim(x→0) sin x / x = ?</div><div class="obj-ans" onclick="this.classList.toggle('revealed')">Reveal</div><div class="obj-key">= 1 (most important limit)</div></div>
+    <div class="obj-card"><div class="obj-q">lim(x→0) (eˣ−1)/x = ?</div><div class="obj-ans" onclick="this.classList.toggle('revealed')">Reveal</div><div class="obj-key">= 1</div></div>
+    <div class="obj-card"><div class="obj-q">lim(x→a) xⁿ−aⁿ/(x−a) = ?</div><div class="obj-ans" onclick="this.classList.toggle('revealed')">Reveal</div><div class="obj-key">= naⁿ⁻¹</div></div>
+    <div class="obj-card"><div class="obj-q">lim(n→∞) (1+1/n)ⁿ = ?</div><div class="obj-ans" onclick="this.classList.toggle('revealed')">Reveal</div><div class="obj-key">= e ≈ 2.71828</div></div>
+    <div class="obj-card"><div class="obj-q">lim(x→0) tan x / x = ?</div><div class="obj-ans" onclick="this.classList.toggle('revealed')">Reveal</div><div class="obj-key">= 1</div></div>
+    <div class="obj-card"><div class="obj-q">lim(x→0) (aˣ−1)/x = ?</div><div class="obj-ans" onclick="this.classList.toggle('revealed')">Reveal</div><div class="obj-key">= ln a (natural log of a)</div></div>
+    <div class="obj-card"><div class="obj-q">Domain of f(x) = √x?</div><div class="obj-ans" onclick="this.classList.toggle('revealed')">Reveal</div><div class="obj-key">x ≥ 0  i.e., [0, ∞)</div></div>
+    <div class="obj-card"><div class="obj-q">lim(x→0) (1−cosx)/x² = ?</div><div class="obj-ans" onclick="this.classList.toggle('revealed')">Reveal</div><div class="obj-key">= 1/2</div></div>
+  </div>
+
+  <div class="tab-content" id="t5t">
+    <div class="tip-card"><div class="tip-label">Golden Rule</div><div class="tip-text">If direct substitution gives 0/0 or ∞/∞, it's an indeterminate form. Then: factorize &amp; cancel, or use standard formulas, or apply L'Hôpital's rule.</div></div>
+    <div class="tip-card trick"><div class="tip-label">Trick — sin/x type</div><div class="tip-text">For any limit like lim(x→0) sin(ax)/(bx), answer = a/b. The angles must match: numerator angle = ax, denominator x multiplied by a/b.</div></div>
+    <div class="tip-card fast"><div class="tip-label">Fast — xⁿ−aⁿ limit</div><div class="tip-text">Remember the result is naⁿ⁻¹. Just bring down the power, reduce by 1. Example: lim x⁵−a⁵/(x−a) = 5a⁴.</div></div>
+    <div class="tip-card warn"><div class="tip-label">Domain Tips</div><div class="tip-text">f(x) = 1/x → domain: x ≠ 0. f(x) = √x → domain: x ≥ 0. f(x) = log x → domain: x > 0. f(x) = 1/√x → domain: x > 0.</div></div>
+  </div>
+</section>
+
+<!-- ==================== TOPIC 6: DIFFERENTIATION ==================== -->
+<section class="topic-section" id="t6">
+  <div class="topic-header">
+    <div class="topic-icon" style="background:rgba(248,113,113,0.15);color:var(--coral)">d/dx</div>
+    <div>
+      <div class="topic-title">Differentiation &amp; Applications</div>
+      <div class="topic-subtitle">Derivatives, rules, chain rule, implicit, parametric, logarithmic, velocity &amp; acceleration</div>
+      <span class="marks-badge" style="background:rgba(248,113,113,0.1);color:var(--coral)">8 Marks</span>
+    </div>
+  </div>
+  <div class="tabs">
+    <button class="tab-btn active" onclick="switchTab(this,'t6f')">Formulas</button>
+    <button class="tab-btn" onclick="switchTab(this,'t6o')">Objective Points</button>
+    <button class="tab-btn" onclick="switchTab(this,'t6t')">Tips &amp; Tricks</button>
+  </div>
+
+  <div class="tab-content active" id="t6f">
+    <div class="sec-h">Standard Derivatives</div>
+    <div class="fcard">
+      <table>
+        <tr><th>f(x)</th><th>f'(x) = d/dx [f(x)]</th></tr>
+        <tr><td class="mono">c (constant)</td><td class="mono">0</td></tr>
+        <tr><td class="mono">x</td><td class="mono">1</td></tr>
+        <tr><td class="mono">xⁿ</td><td class="mono">nxⁿ⁻¹</td></tr>
+        <tr><td class="mono">√x = x^(1/2)</td><td class="mono">1/(2√x)</td></tr>
+        <tr><td class="mono">1/x = x⁻¹</td><td class="mono">−1/x²</td></tr>
+        <tr><td class="mono">eˣ</td><td class="mono">eˣ</td></tr>
+        <tr><td class="mono">aˣ</td><td class="mono">aˣ ln a</td></tr>
+        <tr><td class="mono">ln x (loge x)</td><td class="mono">1/x</td></tr>
+        <tr><td class="mono">log_a x</td><td class="mono">1/(x ln a)</td></tr>
+        <tr><td class="mono">sin x</td><td class="mono">cos x</td></tr>
+        <tr><td class="mono">cos x</td><td class="mono">−sin x</td></tr>
+        <tr><td class="mono">tan x</td><td class="mono">sec²x</td></tr>
+        <tr><td class="mono">cot x</td><td class="mono">−cosec²x</td></tr>
+        <tr><td class="mono">sec x</td><td class="mono">sec x · tan x</td></tr>
+        <tr><td class="mono">cosec x</td><td class="mono">−cosec x · cot x</td></tr>
+        <tr><td class="mono">sin⁻¹ x</td><td class="mono">1/√(1−x²)</td></tr>
+        <tr><td class="mono">cos⁻¹ x</td><td class="mono">−1/√(1−x²)</td></tr>
+        <tr><td class="mono">tan⁻¹ x</td><td class="mono">1/(1+x²)</td></tr>
+        <tr><td class="mono">cot⁻¹ x</td><td class="mono">−1/(1+x²)</td></tr>
+        <tr><td class="mono">sec⁻¹ x</td><td class="mono">1/(|x|√(x²−1))</td></tr>
+        <tr><td class="mono">cosec⁻¹ x</td><td class="mono">−1/(|x|√(x²−1))</td></tr>
+      </table>
+    </div>
+
+    <div class="sec-h">Rules of Differentiation</div>
+    <div class="grid2">
+      <div class="fcard">
+        <div class="fcard-title" style="color:var(--coral)">Sum / Difference Rule</div>
+        <div class="formula">d/dx [f±g] = f' ± g'</div>
+      </div>
+      <div class="fcard">
+        <div class="fcard-title" style="color:var(--coral)">Scalar Multiple Rule</div>
+        <div class="formula">d/dx [kf(x)] = k·f'(x)</div>
+      </div>
+    </div>
+    <div class="fcard">
+      <div class="fcard-title" style="color:var(--coral)">Product Rule</div>
+      <div class="formula">d/dx [u·v] = u·v' + v·u'
+(First × Derivative of Second) + (Second × Derivative of First)</div>
+    </div>
+    <div class="fcard">
+      <div class="fcard-title" style="color:var(--coral)">Quotient Rule</div>
+      <div class="formula">d/dx [u/v] = (v·u' − u·v') / v²
+Denominator²</div>
+    </div>
+    <div class="fcard">
+      <div class="fcard-title" style="color:var(--coral)">Chain Rule</div>
+      <div class="formula">dy/dx = (dy/du) × (du/dx)
+d/dx [f(g(x))] = f'(g(x)) · g'(x)
+
+Example: d/dx [sin(x²)] = cos(x²) · 2x</div>
+    </div>
+
+    <div class="sec-h">Implicit Differentiation</div>
+    <div class="fcard">
+      <div class="formula">If f(x, y) = 0, differentiate both sides w.r.t. x.
+Treat y as function of x. Use chain rule for y terms.
+d/dx[y²] = 2y · (dy/dx)
+d/dx[y³] = 3y² · (dy/dx)
+Then solve for dy/dx.</div>
+    </div>
+
+    <div class="sec-h">Parametric Differentiation</div>
+    <div class="fcard">
+      <div class="formula">If x = f(t) and y = g(t):
+dy/dx = (dy/dt)/(dx/dt) = g'(t)/f'(t)</div>
+    </div>
+
+    <div class="sec-h">Logarithmic Differentiation</div>
+    <div class="fcard">
+      <div class="formula">For y = [f(x)]^g(x):
+Take log: ln y = g(x) · ln f(x)
+Differentiate both sides:
+(1/y)(dy/dx) = g'(x)·ln f(x) + g(x)·f'(x)/f(x)
+Multiply both sides by y.</div>
+    </div>
+
+    <div class="sec-h">Successive Differentiation</div>
+    <div class="fcard">
+      <div class="formula">First derivative:  y' = dy/dx = f'(x)
+Second derivative: y'' = d²y/dx² = f''(x) = d/dx[f'(x)]</div>
+    </div>
+
+    <div class="sec-h">Applications — Velocity &amp; Acceleration</div>
+    <div class="fcard">
+      <div class="fcard-title" style="color:var(--amber)">If position s = f(t)</div>
+      <div class="formula">Velocity     v = ds/dt = f'(t)
+Acceleration a = dv/dt = d²s/dt² = f''(t)
+At rest:     v = 0 (solve for t)
+Uniform:     a = 0  (constant velocity)</div>
+    </div>
+  </div>
+
+  <div class="tab-content" id="t6o">
+    <div class="obj-card"><div class="obj-q">d/dx (eˣ) = ?</div><div class="obj-ans" onclick="this.classList.toggle('revealed')">Reveal</div><div class="obj-key">eˣ (derivative = itself)</div></div>
+    <div class="obj-card"><div class="obj-q">d/dx (sin x) = ?</div><div class="obj-ans" onclick="this.classList.toggle('revealed')">Reveal</div><div class="obj-key">cos x</div></div>
+    <div class="obj-card"><div class="obj-q">d/dx (ln x) = ?</div><div class="obj-ans" onclick="this.classList.toggle('revealed')">Reveal</div><div class="obj-key">1/x</div></div>
+    <div class="obj-card"><div class="obj-q">Product rule for d/dx(uv)?</div><div class="obj-ans" onclick="this.classList.toggle('revealed')">Reveal</div><div class="obj-key">u·v' + v·u'</div></div>
+    <div class="obj-card"><div class="obj-q">d/dx (tan x) = ?</div><div class="obj-ans" onclick="this.classList.toggle('revealed')">Reveal</div><div class="obj-key">sec²x</div></div>
+    <div class="obj-card"><div class="obj-q">d/dx (xⁿ) = ?</div><div class="obj-ans" onclick="this.classList.toggle('revealed')">Reveal</div><div class="obj-key">nxⁿ⁻¹ (power rule)</div></div>
+    <div class="obj-card"><div class="obj-q">Velocity = ? if s is position</div><div class="obj-ans" onclick="this.classList.toggle('revealed')">Reveal</div><div class="obj-key">v = ds/dt (first derivative)</div></div>
+    <div class="obj-card"><div class="obj-q">Acceleration = ? if v is velocity</div><div class="obj-ans" onclick="this.classList.toggle('revealed')">Reveal</div><div class="obj-key">a = dv/dt = d²s/dt² (second derivative)</div></div>
+    <div class="obj-card"><div class="obj-q">d/dx (cos x) = ?</div><div class="obj-ans" onclick="this.classList.toggle('revealed')">Reveal</div><div class="obj-key">−sin x (note the negative!)</div></div>
+    <div class="obj-card"><div class="obj-q">Quotient rule for u/v?</div><div class="obj-ans" onclick="this.classList.toggle('revealed')">Reveal</div><div class="obj-key">(v·u' − u·v')/v²</div></div>
+  </div>
+
+  <div class="tab-content" id="t6t">
+    <div class="tip-card"><div class="tip-label">Mnemonic — Quotient Rule</div><div class="tip-text">"<strong>Low D-High minus High D-Low, square the bottom and away we go!</strong>" → (v·u' − u·v')/v²</div></div>
+    <div class="tip-card trick"><div class="tip-label">Trick — Chain Rule</div><div class="tip-text">Think of it as: "Derivative of outer × derivative of inner". For sin(3x²): d/dx[sin] = cos (outer), then multiply by d/dx[3x²] = 6x (inner). Answer: 6x·cos(3x²).</div></div>
+    <div class="tip-card fast"><div class="tip-label">Fast — Logarithmic Differentiation</div><div class="tip-text">Use when you have a <strong>variable in both base and exponent</strong>, like y=xˣ or complicated products. Taking log always simplifies these dramatically.</div></div>
+    <div class="tip-card warn"><div class="tip-label">Common Mistake</div><div class="tip-text">d/dx(cos x) = <strong>−sin x</strong>, not +sin x. The negative is crucial. Similarly, d/dx(cot x) = −cosec²x (negative).</div></div>
+    <div class="tip-card"><div class="tip-label">Tip — Parametric</div><div class="tip-text">For x=at², y=2at: dx/dt=2at, dy/dt=2a → dy/dx = 2a/2at = 1/t. Always compute dx/dt first, then dy/dt, then divide.</div></div>
+    <div class="tip-card trick"><div class="tip-label">Trick — Implicit</div><div class="tip-text">For y² term: differentiate as 2y·(dy/dx). For y³: 3y²·(dy/dx). Think chain rule — y is function of x.</div></div>
+  </div>
+</section>
+
+<!-- ==================== TOPIC 7: INTEGRATION ==================== -->
+<section class="topic-section" id="t7">
+  <div class="topic-header">
+    <div class="topic-icon" style="background:rgba(167,139,250,0.15);color:var(--accent2)">∫dx</div>
+    <div>
+      <div class="topic-title">Integration</div>
+      <div class="topic-subtitle">Standard integrals, substitution, by parts, definite integrals</div>
+      <span class="marks-badge" style="background:rgba(167,139,250,0.1);color:var(--accent2)">8 Marks</span>
+    </div>
+  </div>
+  <div class="tabs">
+    <button class="tab-btn active" onclick="switchTab(this,'t7f')">Formulas</button>
+    <button class="tab-btn" onclick="switchTab(this,'t7o')">Objective Points</button>
+    <button class="tab-btn" onclick="switchTab(this,'t7t')">Tips &amp; Tricks</button>
+  </div>
+
+  <div class="tab-content active" id="t7f">
+    <div class="sec-h">Standard Integrals</div>
+    <div class="fcard">
+      <table>
+        <tr><th>∫ f(x) dx</th><th>Result</th></tr>
+        <tr><td class="mono">∫ 0 dx</td><td class="mono">C</td></tr>
+        <tr><td class="mono">∫ 1 dx</td><td class="mono">x + C</td></tr>
+        <tr><td class="mono">∫ k dx</td><td class="mono">kx + C</td></tr>
+        <tr><td class="mono">∫ xⁿ dx  (n≠−1)</td><td class="mono">xⁿ⁺¹/(n+1) + C</td></tr>
+        <tr><td class="mono">∫ x⁻¹ dx = ∫ 1/x dx</td><td class="mono">ln|x| + C</td></tr>
+        <tr><td class="mono">∫ eˣ dx</td><td class="mono">eˣ + C</td></tr>
+        <tr><td class="mono">∫ aˣ dx</td><td class="mono">aˣ/(ln a) + C</td></tr>
+        <tr><td class="mono">∫ sin x dx</td><td class="mono">−cos x + C</td></tr>
+        <tr><td class="mono">∫ cos x dx</td><td class="mono">sin x + C</td></tr>
+        <tr><td class="mono">∫ tan x dx</td><td class="mono">ln|sec x| + C</td></tr>
+        <tr><td class="mono">∫ cot x dx</td><td class="mono">ln|sin x| + C</td></tr>
+        <tr><td class="mono">∫ sec x dx</td><td class="mono">ln|sec x + tan x| + C</td></tr>
+        <tr><td class="mono">∫ cosec x dx</td><td class="mono">ln|cosec x − cot x| + C</td></tr>
+        <tr><td class="mono">∫ sec²x dx</td><td class="mono">tan x + C</td></tr>
+        <tr><td class="mono">∫ cosec²x dx</td><td class="mono">−cot x + C</td></tr>
+        <tr><td class="mono">∫ sec x·tan x dx</td><td class="mono">sec x + C</td></tr>
+        <tr><td class="mono">∫ cosec x·cot x dx</td><td class="mono">−cosec x + C</td></tr>
+        <tr><td class="mono">∫ 1/√(1−x²) dx</td><td class="mono">sin⁻¹x + C</td></tr>
+        <tr><td class="mono">∫ −1/√(1−x²) dx</td><td class="mono">cos⁻¹x + C</td></tr>
+        <tr><td class="mono">∫ 1/(1+x²) dx</td><td class="mono">tan⁻¹x + C</td></tr>
+        <tr><td class="mono">∫ 1/(x√(x²−1)) dx</td><td class="mono">sec⁻¹x + C</td></tr>
+      </table>
+    </div>
+
+    <div class="sec-h">Integration Rules</div>
+    <div class="grid2">
+      <div class="fcard">
+        <div class="fcard-title" style="color:var(--accent2)">Linearity</div>
+        <div class="formula">∫ [f(x) ± g(x)] dx = ∫f dx ± ∫g dx
+∫ k·f(x) dx = k·∫f(x) dx</div>
+      </div>
+      <div class="fcard">
+        <div class="fcard-title" style="color:var(--accent2)">Standard Trick</div>
+        <div class="formula">∫ f(ax+b) dx = F(ax+b)/a + C
+where F is antiderivative of f</div>
+      </div>
+    </div>
+
+    <div class="sec-h">Integration by Substitution</div>
+    <div class="fcard">
+      <div class="formula">Let u = g(x), then du = g'(x)dx
+∫ f(g(x))·g'(x) dx = ∫ f(u) du
+Solve in terms of u, then substitute back.
+
+Example: ∫ 2x·cos(x²) dx
+  Let u = x² → du = 2x dx
+  = ∫ cos u du = sin u + C = sin(x²) + C</div>
+    </div>
+
+    <div class="sec-h">Integration by Parts</div>
+    <div class="fcard">
+      <div class="formula">∫ u·v dx = u·∫v dx − ∫(u'·∫v dx) dx
+or: ∫ u dv = uv − ∫ v du
+
+LIATE Rule for choosing u (first function):
+L = Logarithmic (ln x, log x)
+I = Inverse trig (sin⁻¹x, tan⁻¹x)
+A = Algebraic (xⁿ, polynomial)
+T = Trigonometric (sin x, cos x)
+E = Exponential (eˣ, aˣ)
+→ u is whichever comes FIRST in LIATE</div>
+    </div>
+
+    <div class="sec-h">Definite Integral</div>
+    <div class="fcard">
+      <div class="formula">∫ₐᵇ f(x) dx = [F(x)]ₐᵇ = F(b) − F(a)
+
+Properties:
+∫ₐᵇ f(x) dx = −∫ᵦₐ f(x) dx
+∫ₐᵃ f(x) dx = 0
+∫ₐᵇ k·f(x) dx = k·∫ₐᵇ f(x) dx
+∫ₐᵇ f(x) dx = ∫ₐᶜ f(x) dx + ∫ᶜᵇ f(x) dx  (additive)</div>
+    </div>
+  </div>
+
+  <div class="tab-content" id="t7o">
+    <div class="obj-card"><div class="obj-q">∫ eˣ dx = ?</div><div class="obj-ans" onclick="this.classList.toggle('revealed')">Reveal</div><div class="obj-key">eˣ + C</div></div>
+    <div class="obj-card"><div class="obj-q">∫ 1/x dx = ?</div><div class="obj-ans" onclick="this.classList.toggle('revealed')">Reveal</div><div class="obj-key">ln|x| + C</div></div>
+    <div class="obj-card"><div class="obj-q">∫ cos x dx = ?</div><div class="obj-ans" onclick="this.classList.toggle('revealed')">Reveal</div><div class="obj-key">sin x + C</div></div>
+    <div class="obj-card"><div class="obj-q">∫ sin x dx = ?</div><div class="obj-ans" onclick="this.classList.toggle('revealed')">Reveal</div><div class="obj-key">−cos x + C (negative!)</div></div>
+    <div class="obj-card"><div class="obj-q">∫ sec²x dx = ?</div><div class="obj-ans" onclick="this.classList.toggle('revealed')">Reveal</div><div class="obj-key">tan x + C</div></div>
+    <div class="obj-card"><div class="obj-q">∫ xⁿ dx = ? (n ≠ −1)</div><div class="obj-ans" onclick="this.classList.toggle('revealed')">Reveal</div><div class="obj-key">xⁿ⁺¹/(n+1) + C (add 1 to power, divide by new power)</div></div>
+    <div class="obj-card"><div class="obj-q">Definite integral ∫ₐᵃ f(x) dx = ?</div><div class="obj-ans" onclick="this.classList.toggle('revealed')">Reveal</div><div class="obj-key">= 0 (same lower and upper limit)</div></div>
+    <div class="obj-card"><div class="obj-q">LIATE order for integration by parts?</div><div class="obj-ans" onclick="this.classList.toggle('revealed')">Reveal</div><div class="obj-key">Log, Inverse trig, Algebraic, Trig, Exponential — choose u as earliest</div></div>
+    <div class="obj-card"><div class="obj-q">∫ 1/(1+x²) dx = ?</div><div class="obj-ans" onclick="this.classList.toggle('revealed')">Reveal</div><div class="obj-key">tan⁻¹x + C</div></div>
+  </div>
+
+  <div class="tab-content" id="t7t">
+    <div class="tip-card"><div class="tip-label">Tip — Anti-derivative Logic</div><div class="tip-text">Integration is reverse of differentiation. Always verify: differentiate your answer and check if it gives the integrand.</div></div>
+    <div class="tip-card trick"><div class="tip-label">Trick — Linear Substitution</div><div class="tip-text">For ∫ f(ax+b) dx: just do the normal integral and divide by a (the coefficient). Example: ∫sin(3x)dx = −cos(3x)/3 + C.</div></div>
+    <div class="tip-card fast"><div class="tip-label">Fast — By Parts LIATE</div><div class="tip-text">For ∫ x·eˣ dx: x is Algebraic (A), eˣ is Exponential (E). A comes before E in LIATE → u = x, dv = eˣdx. Answer: xeˣ − eˣ + C = eˣ(x−1) + C.</div></div>
+    <div class="tip-card warn"><div class="tip-label">Common Mistake</div><div class="tip-text">∫sinx dx = <strong>−cosx</strong> not +cosx. The negative is critical. Think: derivative of −cosx = sinx, so reverse gives −cosx.</div></div>
+    <div class="tip-card trick"><div class="tip-label">Trick — Definite Integral</div><div class="tip-text">Always apply limits: F(upper) − F(lower). Never forget to substitute both limits and subtract. Forgetting the −F(a) is the most common exam error.</div></div>
+    <div class="tip-card"><div class="tip-label">Tip</div><div class="tip-text">Always add <strong>+C</strong> (constant of integration) in indefinite integrals. Omitting C loses marks in every exam.</div></div>
+  </div>
+</section>
+
+<!-- ==================== TOPIC 8: LOGARITHM ==================== -->
+<section class="topic-section" id="t8">
+  <div class="topic-header">
+    <div class="topic-icon" style="background:rgba(52,211,153,0.15);color:var(--green)">log</div>
+    <div>
+      <div class="topic-title">Logarithm</div>
+      <div class="topic-subtitle">Logarithm as function, laws of logarithm</div>
+      <span class="marks-badge" style="background:rgba(52,211,153,0.1);color:var(--green)">4 Marks</span>
+    </div>
+  </div>
+  <div class="tabs">
+    <button class="tab-btn active" onclick="switchTab(this,'t8f')">Formulas</button>
+    <button class="tab-btn" onclick="switchTab(this,'t8o')">Objective Points</button>
+    <button class="tab-btn" onclick="switchTab(this,'t8t')">Tips &amp; Tricks</button>
+  </div>
+
+  <div class="tab-content active" id="t8f">
+    <div class="sec-h">Definition</div>
+    <div class="fcard">
+      <div class="formula">log_b(x) = y  ↔  bʸ = x
+(b is base, b > 0, b ≠ 1, x > 0)
+
+Natural log: ln x = log_e x  (base = e ≈ 2.71828)
+Common log: log x = log₁₀ x (base = 10)</div>
+    </div>
+
+    <div class="sec-h">Laws of Logarithm</div>
+    <div class="fcard">
+      <div class="fcard-title" style="color:var(--green)">All Logarithm Rules</div>
+      <div class="formula">1. Product Rule:  log(mn) = log m + log n
+2. Quotient Rule: log(m/n) = log m − log n
+3. Power Rule:    log(mⁿ) = n·log m
+4. Base Change:   log_b(x) = log_a(x)/log_a(b)
+5. log_b(b) = 1  (log of base to itself = 1)
+6. log_b(1) = 0  (log of 1 = 0, any base)
+7. log_b(bⁿ) = n
+8. b^(log_b x) = x  (exponential-log inverse)
+9. log_a(x) = 1/log_x(a)  (reciprocal property)
+10. log₁₀ 2 ≈ 0.3010,  log₁₀ 3 ≈ 0.4771
+
+Important: log_b(0) = undefined, log of negative = undefined</div>
+    </div>
+
+    <div class="sec-h">Standard Values</div>
+    <div class="fcard">
+      <table>
+        <tr><th>Expression</th><th>Value</th></tr>
+        <tr><td class="mono">log₁₀ 1</td><td>0</td></tr>
+        <tr><td class="mono">log₁₀ 10</td><td>1</td></tr>
+        <tr><td class="mono">log₁₀ 100</td><td>2</td></tr>
+        <tr><td class="mono">log₁₀ 0.1</td><td>−1</td></tr>
+        <tr><td class="mono">ln e</td><td>1</td></tr>
+        <tr><td class="mono">ln 1</td><td>0</td></tr>
+        <tr><td class="mono">log₁₀ 2</td><td>≈ 0.3010</td></tr>
+        <tr><td class="mono">log₁₀ 3</td><td>≈ 0.4771</td></tr>
+        <tr><td class="mono">log₁₀ 5</td><td>≈ 0.6990</td></tr>
+        <tr><td class="mono">log₁₀ 7</td><td>≈ 0.8451</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="tab-content" id="t8o">
+    <div class="obj-card"><div class="obj-q">log(mn) = ?</div><div class="obj-ans" onclick="this.classList.toggle('revealed')">Reveal</div><div class="obj-key">log m + log n (product rule)</div></div>
+    <div class="obj-card"><div class="obj-q">log(m/n) = ?</div><div class="obj-ans" onclick="this.classList.toggle('revealed')">Reveal</div><div class="obj-key">log m − log n (quotient rule)</div></div>
+    <div class="obj-card"><div class="obj-q">log_b(b) = ?</div><div class="obj-ans" onclick="this.classList.toggle('revealed')">Reveal</div><div class="obj-key">= 1 (log of base to itself)</div></div>
+    <div class="obj-card"><div class="obj-q">log_b(1) = ?</div><div class="obj-ans" onclick="this.classList.toggle('revealed')">Reveal</div><div class="obj-key">= 0 (for any valid base b)</div></div>
+    <div class="obj-card"><div class="obj-q">log(mⁿ) = ?</div><div class="obj-ans" onclick="this.classList.toggle('revealed')">Reveal</div><div class="obj-key">n·log m (power rule)</div></div>
+    <div class="obj-card"><div class="obj-q">log₁₀(1000) = ?</div><div class="obj-ans" onclick="this.classList.toggle('revealed')">Reveal</div><div class="obj-key">= 3 (since 10³ = 1000)</div></div>
+    <div class="obj-card"><div class="obj-q">Base change formula?</div><div class="obj-ans" onclick="this.classList.toggle('revealed')">Reveal</div><div class="obj-key">log_b(x) = log(x)/log(b)</div></div>
+    <div class="obj-card"><div class="obj-q">Domain of log x?</div><div class="obj-ans" onclick="this.classList.toggle('revealed')">Reveal</div><div class="obj-key">x > 0 (argument must be positive)</div></div>
+  </div>
+
+  <div class="tab-content" id="t8t">
+    <div class="tip-card"><div class="tip-label">Golden Rule</div><div class="tip-text">Three core rules: log of product = sum, log of quotient = difference, log of power = multiply. All simplification problems use only these three.</div></div>
+    <div class="tip-card trick"><div class="tip-label">Trick — Base Change</div><div class="tip-text">To convert log₂(8) to common log: = log(8)/log(2) = 3log2/log2 = 3. Very useful to simplify without a calculator.</div></div>
+    <div class="tip-card fast"><div class="tip-label">Fast Values</div><div class="tip-text">Memorize: log 2 = 0.3010, log 3 = 0.4771. Then: log 4 = 2×0.3010 = 0.6020, log 6 = log2+log3 = 0.7781, log 5 = log(10/2) = 1−0.3010 = 0.6990.</div></div>
+    <div class="tip-card warn"><div class="tip-label">Warning</div><div class="tip-text">log(m+n) ≠ log m + log n. Only log(m×n) = log m + log n. This is the most common misconception in log problems.</div></div>
+  </div>
+</section>
+
+<!-- ==================== TOPIC 9: STATISTICS ==================== -->
+<section class="topic-section" id="t9">
+  <div class="topic-header">
+    <div class="topic-icon" style="background:rgba(244,114,182,0.15);color:var(--pink)">x̄</div>
+    <div>
+      <div class="topic-title">Statistics</div>
+      <div class="topic-subtitle">Mean, Median, Mode for ungrouped data</div>
+      <span class="marks-badge" style="background:rgba(244,114,182,0.1);color:var(--pink)">2 Marks</span>
+    </div>
+  </div>
+  <div class="tabs">
+    <button class="tab-btn active" onclick="switchTab(this,'t9f')">Formulas</button>
+    <button class="tab-btn" onclick="switchTab(this,'t9o')">Objective Points</button>
+    <button class="tab-btn" onclick="switchTab(this,'t9t')">Tips &amp; Tricks</button>
+  </div>
+
+  <div class="tab-content active" id="t9f">
+    <div class="sec-h">Measures of Central Tendency</div>
+    <div class="fcard">
+      <div class="fcard-title" style="color:var(--pink)">Mean (Arithmetic Mean)</div>
+      <div class="formula">x̄ = (x₁ + x₂ + ... + xₙ)/n = Σxᵢ/n
+(Sum of all values divided by count)</div>
+    </div>
+    <div class="fcard">
+      <div class="fcard-title" style="color:var(--pink)">Median</div>
+      <div class="formula">Step 1: Arrange data in ascending order
+Step 2: 
+  If n is ODD:  Median = ((n+1)/2)th term
+  If n is EVEN: Median = [(n/2)th + (n/2+1)th] / 2</div>
+    </div>
+    <div class="fcard">
+      <div class="fcard-title" style="color:var(--pink)">Mode</div>
+      <div class="formula">Mode = value that occurs MOST frequently
+• Unimodal: one mode
+• Bimodal: two modes
+• Multimodal: more than two modes
+• No mode: all values occur equally</div>
+    </div>
+    <div class="fcard">
+      <div class="fcard-title" style="color:var(--amber)">Empirical Relation</div>
+      <div class="formula">Mode = 3·Median − 2·Mean
+(For moderately skewed data)</div>
+    </div>
+    <div class="sec-h">Worked Example</div>
+    <div class="fcard">
+      <div class="formula">Data: 4, 7, 3, 9, 7, 2, 7, 1
+Sorted: 1, 2, 3, 4, 7, 7, 7, 9  (n = 8, even)
+
+Mean   = (1+2+3+4+7+7+7+9)/8 = 40/8 = 5
+Median = (4th + 5th)/2 = (4+7)/2 = 5.5
+Mode   = 7 (appears 3 times)</div>
+    </div>
+  </div>
+
+  <div class="tab-content" id="t9o">
+    <div class="obj-card"><div class="obj-q">Mean formula for ungrouped data?</div><div class="obj-ans" onclick="this.classList.toggle('revealed')">Reveal</div><div class="obj-key">x̄ = Σxᵢ/n (sum divided by count)</div></div>
+    <div class="obj-card"><div class="obj-q">Median for odd n observations?</div><div class="obj-ans" onclick="this.classList.toggle('revealed')">Reveal</div><div class="obj-key">((n+1)/2)th term after arranging in order</div></div>
+    <div class="obj-card"><div class="obj-q">Median for even n observations?</div><div class="obj-ans" onclick="this.classList.toggle('revealed')">Reveal</div><div class="obj-key">Average of (n/2)th and (n/2+1)th terms</div></div>
+    <div class="obj-card"><div class="obj-q">Mode = ?</div><div class="obj-ans" onclick="this.classList.toggle('revealed')">Reveal</div><div class="obj-key">Most frequently occurring value</div></div>
+    <div class="obj-card"><div class="obj-q">Empirical relation: Mode = ?</div><div class="obj-ans" onclick="this.classList.toggle('revealed')">Reveal</div><div class="obj-key">3·Median − 2·Mean</div></div>
+    <div class="obj-card"><div class="obj-q">Data: 2,4,6,8,10 — Median?</div><div class="obj-ans" onclick="this.classList.toggle('revealed')">Reveal</div><div class="obj-key">= 6 (3rd term, n=5 odd, (5+1)/2 = 3rd)</div></div>
+  </div>
+
+  <div class="tab-content" id="t9t">
+    <div class="tip-card"><div class="tip-label">Tip — Step by Step</div><div class="tip-text"><strong>Mean</strong>: add all, divide by n. <strong>Median</strong>: sort first, then find middle. <strong>Mode</strong>: find most repeated. Remember this order!</div></div>
+    <div class="tip-card trick"><div class="tip-label">Trick — Quick Median</div><div class="tip-text">For n=5 terms: median is 3rd term. For n=7: 4th term. For n=9: 5th term. Formula: (n+1)/2 for odd n gives term position directly.</div></div>
+    <div class="tip-card fast"><div class="tip-label">Fast — Mean</div><div class="tip-text">If all values are close, pick a working mean (approximate), find deviations, average deviations, add back. Faster arithmetic for messy numbers.</div></div>
+    <div class="tip-card warn"><div class="tip-label">Always Sort First!</div><div class="tip-text">The most common mistake: forgetting to arrange data in ascending order before finding the median. Median on unsorted data = wrong answer.</div></div>
+  </div>
+</section>
+
+  </div><!-- end .content -->
+</main>
+
+<script>
+function show(id) {
+  document.querySelectorAll('.topic-section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  const idx = parseInt(id.replace('t','')) - 1;
+  document.querySelectorAll('.nav-item')[idx].classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+  if(window.innerWidth <= 768) document.querySelector('.sidebar').classList.remove('open');
+}
+
+function switchTab(btn, contentId) {
+  const section = btn.closest('.topic-section');
+  section.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  section.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById(contentId).classList.add('active');
+}
+
+function filterNav(val) {
+  const v = val.toLowerCase();
+  document.querySelectorAll('.nav-item').forEach(item => {
+    const label = item.getAttribute('data-label').toLowerCase();
+    item.style.display = label.includes(v) ? 'flex' : 'none';
+  });
+}
+</script>
+</body>
+</html>

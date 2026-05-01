@@ -1,0 +1,1605 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Physics Formula Compendium — DE 2025</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0c14;
+    --surface: #111420;
+    --card: #161a28;
+    --border: #1e2436;
+    --accent1: #00e5ff;
+    --accent2: #ff6b35;
+    --accent3: #a78bfa;
+    --accent4: #34d399;
+    --accent5: #fbbf24;
+    --text: #e2e8f0;
+    --muted: #64748b;
+    --formula-bg: #0d1117;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* Hero Header */
+  header {
+    position: relative;
+    padding: 60px 40px 50px;
+    text-align: center;
+    border-bottom: 1px solid var(--border);
+    overflow: hidden;
+  }
+
+  header::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 50% 0%, rgba(0,229,255,0.07) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .grid-bg {
+    position: absolute;
+    inset: 0;
+    background-image: 
+      linear-gradient(rgba(0,229,255,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,229,255,0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+  }
+
+  header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.2rem, 5vw, 3.8rem);
+    font-weight: 900;
+    letter-spacing: -0.02em;
+    background: linear-gradient(135deg, var(--accent1) 0%, var(--accent3) 50%, var(--accent2) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    position: relative;
+    z-index: 1;
+  }
+
+  header p {
+    margin-top: 12px;
+    font-size: 0.95rem;
+    color: var(--muted);
+    font-family: 'Space Mono', monospace;
+    letter-spacing: 0.08em;
+    position: relative;
+    z-index: 1;
+  }
+
+  .badge {
+    display: inline-block;
+    margin-top: 16px;
+    padding: 6px 16px;
+    border: 1px solid var(--accent1);
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-family: 'Space Mono', monospace;
+    color: var(--accent1);
+    letter-spacing: 0.1em;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Search Bar */
+  .search-wrap {
+    max-width: 600px;
+    margin: 32px auto 0;
+    padding: 0 40px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .search-wrap input {
+    width: 100%;
+    padding: 14px 20px 14px 48px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.95rem;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  .search-wrap input:focus { border-color: var(--accent1); }
+  .search-wrap input::placeholder { color: var(--muted); }
+
+  .search-icon {
+    position: absolute;
+    left: 58px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--muted);
+    font-size: 1.1rem;
+    pointer-events: none;
+  }
+
+  /* Tab Navigation */
+  nav {
+    display: flex;
+    gap: 4px;
+    padding: 24px 40px 0;
+    overflow-x: auto;
+    scrollbar-width: none;
+    border-bottom: 1px solid var(--border);
+  }
+
+  nav::-webkit-scrollbar { display: none; }
+
+  .tab {
+    flex-shrink: 0;
+    padding: 10px 20px;
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid transparent;
+    color: var(--muted);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.88rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .tab .tab-num {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.7rem;
+    font-family: 'Space Mono', monospace;
+    background: var(--border);
+    transition: all 0.2s;
+  }
+
+  .tab:hover { color: var(--text); }
+  .tab.active { color: var(--text); border-bottom-color: var(--accent-cur); }
+  .tab.active .tab-num { background: var(--accent-cur); color: #000; }
+
+  /* Main Content */
+  main {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 40px 80px;
+  }
+
+  .section { display: none; }
+  .section.active { display: block; }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 32px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .section-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+    flex-shrink: 0;
+  }
+
+  .section-header h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8rem;
+    font-weight: 700;
+  }
+
+  .section-header p {
+    font-size: 0.85rem;
+    color: var(--muted);
+    margin-top: 4px;
+  }
+
+  /* Formula Grid */
+  .formula-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 16px;
+    margin-bottom: 32px;
+  }
+
+  .formula-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+    cursor: pointer;
+  }
+
+  .formula-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+  }
+
+  .formula-card-header {
+    padding: 14px 18px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .formula-card-header .tag {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem;
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    margin-left: auto;
+  }
+
+  .formula-card-title {
+    font-size: 0.9rem;
+    font-weight: 600;
+    flex: 1;
+  }
+
+  .formula-body {
+    padding: 18px;
+  }
+
+  .formula-eq {
+    background: var(--formula-bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px 18px;
+    font-family: 'Space Mono', monospace;
+    font-size: 1rem;
+    color: var(--accent-cur, var(--accent1));
+    text-align: center;
+    letter-spacing: 0.02em;
+    margin-bottom: 12px;
+    line-height: 1.6;
+  }
+
+  .formula-desc {
+    font-size: 0.82rem;
+    color: var(--muted);
+    line-height: 1.6;
+    margin-bottom: 10px;
+  }
+
+  .si-unit {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.78rem;
+    font-family: 'Space Mono', monospace;
+    background: rgba(255,255,255,0.04);
+    padding: 4px 10px;
+    border-radius: 4px;
+    color: var(--text);
+  }
+
+  .si-unit span { color: var(--muted); }
+
+  /* Sub-section Headings */
+  .sub-heading {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin: 32px 0 16px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .sub-heading::before {
+    content: '';
+    display: inline-block;
+    width: 20px;
+    height: 2px;
+    background: var(--accent-cur, var(--accent1));
+    border-radius: 2px;
+  }
+
+  /* Variables legend */
+  .variables-box {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 18px 22px;
+    margin-top: 4px;
+    margin-bottom: 24px;
+  }
+
+  .variables-box h4 {
+    font-size: 0.78rem;
+    font-family: 'Space Mono', monospace;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+
+  .var-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 6px;
+  }
+
+  .var-item {
+    font-size: 0.8rem;
+    color: var(--text);
+    display: flex;
+    gap: 8px;
+  }
+
+  .var-item .sym {
+    font-family: 'Space Mono', monospace;
+    color: var(--accent-cur, var(--accent1));
+    min-width: 30px;
+  }
+
+  /* Summary Table */
+  .summary-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.85rem;
+    margin-top: 4px;
+  }
+
+  .summary-table th {
+    text-align: left;
+    padding: 10px 14px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    font-family: 'Space Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+    text-transform: uppercase;
+  }
+
+  .summary-table td {
+    padding: 10px 14px;
+    border: 1px solid var(--border);
+    vertical-align: top;
+    line-height: 1.5;
+  }
+
+  .summary-table tr:nth-child(even) td { background: rgba(255,255,255,0.02); }
+  .summary-table td:nth-child(2) { font-family: 'Space Mono', monospace; font-size: 0.82rem; color: var(--accent-cur, var(--accent1)); }
+  .summary-table td:nth-child(3) { color: var(--muted); font-size: 0.8rem; }
+
+  /* Color themes per section */
+  [data-section="1"] { --accent-cur: #00e5ff; }
+  [data-section="2"] { --accent-cur: #ff6b35; }
+  [data-section="3"] { --accent-cur: #a78bfa; }
+  [data-section="4"] { --accent-cur: #34d399; }
+  [data-section="5"] { --accent-cur: #fbbf24; }
+
+  .formula-card[data-section="1"]:hover { border-color: #00e5ff44; }
+  .formula-card[data-section="2"]:hover { border-color: #ff6b3544; }
+  .formula-card[data-section="3"]:hover { border-color: #a78bfa44; }
+  .formula-card[data-section="4"]:hover { border-color: #34d39944; }
+  .formula-card[data-section="5"]:hover { border-color: #fbbf2444; }
+
+  /* Search results */
+  #search-results { display: none; }
+  #search-results.active { display: block; }
+  .no-results { text-align: center; color: var(--muted); padding: 60px 20px; font-family: 'Space Mono', monospace; }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+  /* Responsive */
+  @media (max-width: 640px) {
+    header, nav, main { padding-left: 20px; padding-right: 20px; }
+    .formula-grid { grid-template-columns: 1fr; }
+    .search-wrap { padding: 0 20px; }
+  }
+
+  /* Highlight animation */
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .section.active .formula-card {
+    animation: fadeIn 0.3s ease both;
+  }
+
+  .section.active .formula-card:nth-child(1) { animation-delay: 0.04s; }
+  .section.active .formula-card:nth-child(2) { animation-delay: 0.08s; }
+  .section.active .formula-card:nth-child(3) { animation-delay: 0.12s; }
+  .section.active .formula-card:nth-child(4) { animation-delay: 0.16s; }
+  .section.active .formula-card:nth-child(5) { animation-delay: 0.2s; }
+  .section.active .formula-card:nth-child(n+6) { animation-delay: 0.24s; }
+
+  .highlight { background: rgba(255,220,0,0.2); border-radius: 2px; padding: 0 2px; }
+
+  .tip-box {
+    background: linear-gradient(135deg, rgba(0,229,255,0.05), rgba(167,139,250,0.05));
+    border: 1px solid rgba(0,229,255,0.15);
+    border-radius: 10px;
+    padding: 16px 20px;
+    margin-bottom: 20px;
+    font-size: 0.85rem;
+    color: var(--text);
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+  }
+  .tip-box .tip-icon { font-size: 1.1rem; flex-shrink: 0; margin-top: 1px; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="grid-bg"></div>
+  <h1>Physics Formula Compendium</h1>
+  <p>DE-2025 EXAM REFERENCE · DIPLOMA ENGINEERING</p>
+  <span class="badge">5 TOPICS · 100+ FORMULAS · SI UNITS</span>
+  <div class="search-wrap">
+    <span class="search-icon">🔍</span>
+    <input type="text" id="search-input" placeholder="Search formulas, quantities, units...">
+  </div>
+</header>
+
+<nav id="main-nav">
+  <button class="tab active" data-tab="1" style="--accent-cur:#00e5ff">
+    <span class="tab-num">1</span> Units & Measurement
+  </button>
+  <button class="tab" data-tab="2" style="--accent-cur:#ff6b35">
+    <span class="tab-num">2</span> Classical Mechanics
+  </button>
+  <button class="tab" data-tab="3" style="--accent-cur:#a78bfa">
+    <span class="tab-num">3</span> Electric Current
+  </button>
+  <button class="tab" data-tab="4" style="--accent-cur:#34d399">
+    <span class="tab-num">4</span> Heat & Thermometry
+  </button>
+  <button class="tab" data-tab="5" style="--accent-cur:#fbbf24">
+    <span class="tab-num">5</span> Waves, Optics & Acoustics
+  </button>
+</nav>
+
+<main>
+
+<!-- SEARCH RESULTS -->
+<div id="search-results">
+  <div class="section-header">
+    <div class="section-icon" style="background:rgba(255,255,255,0.05)">🔍</div>
+    <div><h2 style="font-family:'Playfair Display',serif">Search Results</h2>
+    <p id="search-count"></p></div>
+  </div>
+  <div class="formula-grid" id="search-grid"></div>
+</div>
+
+<!-- SECTION 1: Units & Measurement -->
+<div class="section active" id="sec-1" data-section="1">
+  <div class="section-header">
+    <div class="section-icon" style="background:rgba(0,229,255,0.1);color:#00e5ff">📐</div>
+    <div>
+      <h2 style="color:#00e5ff">Units & Measurement</h2>
+      <p>Physical quantities, unit systems, errors and measuring instruments</p>
+    </div>
+  </div>
+
+  <div class="tip-box">
+    <span class="tip-icon">💡</span>
+    <span>PYQ Alert: Questions on significant figures, least count of vernier/screw gauge, and percentage error propagation appear every year. Master these formulas well.</span>
+  </div>
+
+  <div class="sub-heading">Fundamental & Derived Quantities</div>
+  <div class="formula-grid">
+    <div class="formula-card" data-section="1" data-tags="density mass volume">
+      <div class="formula-card-header">
+        <span class="formula-card-title">Density</span>
+        <span class="tag" style="background:rgba(0,229,255,0.1);color:#00e5ff">Mechanics</span>
+      </div>
+      <div class="formula-body">
+        <div class="formula-eq">ρ = m / V</div>
+        <p class="formula-desc">Density equals mass divided by volume. CGS: g/cm³, SI: kg/m³. Water density = 1 g/cm³ = 1000 kg/m³.</p>
+        <span class="si-unit"><span>SI:</span> kg/m³</span>
+      </div>
+    </div>
+
+    <div class="formula-card" data-section="1" data-tags="sphere volume radius">
+      <div class="formula-card-header">
+        <span class="formula-card-title">Volume of a Sphere</span>
+        <span class="tag" style="background:rgba(0,229,255,0.1);color:#00e5ff">Geometry</span>
+      </div>
+      <div class="formula-body">
+        <div class="formula-eq">V = (4/3) π r³</div>
+        <p class="formula-desc">Used when finding density of spherical objects. Relates to error propagation in r.</p>
+        <span class="si-unit"><span>SI:</span> m³</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="sub-heading">Unit Conversion — MKS ↔ CGS</div>
+  <table class="summary-table">
+    <tr><th>Quantity</th><th>SI (MKS) Unit</th><th>CGS Unit</th><th>Conversion</th></tr>
+    <tr><td>Length</td><td>metre (m)</td><td>centimetre (cm)</td><td>1 m = 100 cm</td></tr>
+    <tr><td>Mass</td><td>kilogram (kg)</td><td>gram (g)</td><td>1 kg = 1000 g</td></tr>
+    <tr><td>Time</td><td>second (s)</td><td>second (s)</td><td>—</td></tr>
+    <tr><td>Force</td><td>Newton (N)</td><td>dyne</td><td>1 N = 10⁵ dyne</td></tr>
+    <tr><td>Energy/Work</td><td>Joule (J)</td><td>erg</td><td>1 J = 10⁷ erg</td></tr>
+    <tr><td>Pressure</td><td>Pascal (Pa)</td><td>dyne/cm²</td><td>1 Pa = 10 dyne/cm²</td></tr>
+    <tr><td>Density</td><td>kg/m³</td><td>g/cm³</td><td>1 g/cm³ = 1000 kg/m³</td></tr>
+  </table>
+
+  <div class="sub-heading">Error Analysis</div>
+  <div class="formula-grid">
+    <div class="formula-card" data-section="1" data-tags="absolute error mean">
+      <div class="formula-card-header">
+        <span class="formula-card-title">Mean Absolute Error</span>
+        <span class="tag" style="background:rgba(0,229,255,0.1);color:#00e5ff">Error</span>
+      </div>
+      <div class="formula-body">
+        <div class="formula-eq">Δa_mean = (Σ|aᵢ - a_mean|) / n</div>
+        <p class="formula-desc">Average of absolute deviations from the mean value.</p>
+        <span class="si-unit"><span>Unit:</span> Same as quantity</span>
+      </div>
+    </div>
+
+    <div class="formula-card" data-section="1" data-tags="relative error fractional">
+      <div class="formula-card-header">
+        <span class="formula-card-title">Relative Error</span>
+        <span class="tag" style="background:rgba(0,229,255,0.1);color:#00e5ff">Error</span>
+      </div>
+      <div class="formula-body">
+        <div class="formula-eq">Relative Error = Δa / a_mean</div>
+        <p class="formula-desc">Ratio of mean absolute error to the mean value. Dimensionless.</p>
+        <span class="si-unit"><span>Unit:</span> Dimensionless</span>
+      </div>
+    </div>
+
+    <div class="formula-card" data-section="1" data-tags="percentage error">
+      <div class="formula-card-header">
+        <span class="formula-card-title">Percentage Error</span>
+        <span class="tag" style="background:rgba(0,229,255,0.1);color:#00e5ff">Error</span>
+      </div>
+      <div class="formula-body">
+        <div class="formula-eq">% Error = (Δa / a_mean) × 100%</div>
+        <p class="formula-desc">Relative error expressed as a percentage.</p>
+        <span class="si-unit"><span>Unit:</span> %</span>
+      </div>
+    </div>
+
+    <div class="formula-card" data-section="1" data-tags="error propagation addition subtraction">
+      <div class="formula-card-header">
+        <span class="formula-card-title">Error in Sum / Difference</span>
+        <span class="tag" style="background:rgba(0,229,255,0.1);color:#00e5ff">Propagation</span>
+      </div>
+      <div class="formula-body">
+        <div class="formula-eq">If Z = A ± B<br>ΔZ = ΔA + ΔB</div>
+        <p class="formula-desc">Absolute errors always ADD, regardless of + or −.</p>
+        <span class="si-unit"><span>Rule:</span> Add absolute errors</span>
+      </div>
+    </div>
+
+    <div class="formula-card" data-section="1" data-tags="error propagation product division power">
+      <div class="formula-card-header">
+        <span class="formula-card-title">Error in Product / Quotient</span>
+        <span class="tag" style="background:rgba(0,229,255,0.1);color:#00e5ff">Propagation</span>
+      </div>
+      <div class="formula-body">
+        <div class="formula-eq">If Z = AⁿBᵐ<br>ΔZ/Z = n(ΔA/A) + m(ΔB/B)</div>
+        <p class="formula-desc">Relative errors are multiplied by their respective powers and added. Key for density of sphere: Δρ/ρ = Δm/m + 3(Δr/r).</p>
+        <span class="si-unit"><span>Rule:</span> Add relative errors × powers</span>
+      </div>
+    </div>
+
+    <div class="formula-card" data-section="1" data-tags="sphere density error percentage radius mass">
+      <div class="formula-card-header">
+        <span class="formula-card-title">% Error in Density of Sphere</span>
+        <span class="tag" style="background:rgba(0,229,255,0.1);color:#00e5ff">★ PYQ</span>
+      </div>
+      <div class="formula-body">
+        <div class="formula-eq">%Δρ = %Δm + 3 × %Δr</div>
+        <p class="formula-desc">Since ρ = m/V = m/(4/3 πr³), volume has power 3 for radius. E.g., if Δm=0.3%, Δr=0.5% → Δρ = 0.3 + 3×0.5 = 1.8%</p>
+        <span class="si-unit"><span>Unit:</span> %</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="sub-heading">Vernier Caliper</div>
+  <div class="formula-grid">
+    <div class="formula-card" data-section="1" data-tags="vernier least count">
+      <div class="formula-card-header">
+        <span class="formula-card-title">Least Count — Vernier Caliper</span>
+        <span class="tag" style="background:rgba(0,229,255,0.1);color:#00e5ff">Instrument</span>
+      </div>
+      <div class="formula-body">
+        <div class="formula-eq">L.C. = 1 MSD − 1 VSD<br>L.C. = S / N</div>
+        <p class="formula-desc">S = smallest main scale division, N = number of vernier scale divisions. Typical: 1 MSD = 1mm, N = 10 → L.C. = 0.1mm.</p>
+        <span class="si-unit"><span>Typical L.C.:</span> 0.1 mm</span>
+      </div>
+    </div>
+
+    <div class="formula-card" data-section="1" data-tags="vernier caliper reading measurement">
+      <div class="formula-card-header">
+        <span class="formula-card-title">Vernier Reading</span>
+        <span class="tag" style="background:rgba(0,229,255,0.1);color:#00e5ff">Instrument</span>
+      </div>
+      <div class="formula-body">
+        <div class="formula-eq">Reading = MSR + (VSR × L.C.)</div>
+        <p class="formula-desc">MSR = Main Scale Reading, VSR = Vernier Scale Reading (coinciding division number).</p>
+        <span class="si-unit"><span>Unit:</span> mm or cm</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="sub-heading">Micrometer Screw Gauge</div>
+  <div class="formula-grid">
+    <div class="formula-card" data-section="1" data-tags="screw gauge least count pitch">
+      <div class="formula-card-header">
+        <span class="formula-card-title">Least Count — Screw Gauge</span>
+        <span class="tag" style="background:rgba(0,229,255,0.1);color:#00e5ff">★ PYQ</span>
+      </div>
+      <div class="formula-body">
+        <div class="formula-eq">L.C. = Pitch / N</div>
+        <p class="formula-desc">Pitch = distance moved per revolution, N = divisions on circular scale. PYQ: Pitch = 1mm, N = 100 → L.C. = 0.01mm = 0.001cm.</p>
+        <span class="si-unit"><span>Typical L.C.:</span> 0.01 mm</span>
+      </div>
+    </div>
+
+    <div class="formula-card" data-section="1" data-tags="screw gauge reading measurement">
+      <div class="formula-card-header">
+        <span class="formula-card-title">Screw Gauge Reading</span>
+        <span class="tag" style="background:rgba(0,229,255,0.1);color:#00e5ff">Instrument</span>
+      </div>
+      <div class="formula-body">
+        <div class="formula-eq">Reading = LSR + (CSR × L.C.)</div>
+        <p class="formula-desc">LSR = Linear Scale Reading, CSR = Circular Scale Reading. Zero error must be subtracted if present.</p>
+        <span class="si-unit"><span>Unit:</span> mm</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="sub-heading">Significant Figures Rules</div>
+  <div class="variables-box">
+    <h4>Key Rules</h4>
+    <div class="var-grid">
+      <div class="var-item"><span class="sym">Rule 1</span> All non-zero digits are significant</div>
+      <div class="var-item"><span class="sym">Rule 2</span> Zeros between non-zeros are significant</div>
+      <div class="var-item"><span class="sym">Rule 3</span> Leading zeros are NOT significant</div>
+      <div class="var-item"><span class="sym">Rule 4</span> Trailing zeros after decimal ARE significant</div>
+      <div class="var-item"><span class="sym">2025</span> → 4 significant figures (PYQ)</div>
+      <div class="var-item"><span class="sym">0.0050</span> → 2 significant figures</div>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 2: Classical Mechanics -->
+<div class="section" id="sec-2" data-section="2">
+  <div class="section-header">
+    <div class="section-icon" style="background:rgba(255,107,53,0.1);color:#ff6b35">⚙️</div>
+    <div>
+      <h2 style="color:#ff6b35">Classical Mechanics</h2>
+      <p>Linear motion, Newton's laws, circular motion, work-energy-power</p>
+    </div>
+  </div>
+
+  <div class="tip-box" style="border-color:rgba(255,107,53,0.2)">
+    <span class="tip-icon">💡</span>
+    <span>PYQ Alert: Force = ma, centripetal acceleration, angular velocity formula and momentum are frequently tested. See Q31, Q32 from 2025 paper.</span>
+  </div>
+
+  <div class="sub-heading">Linear Motion — Kinematics</div>
+  <div class="formula-grid">
+    <div class="formula-card" data-section="2" data-tags="velocity displacement time">
+      <div class="formula-card-header">
+        <span class="formula-card-title">Average Velocity</span>
+        <span class="tag" style="background:rgba(255,107,53,0.1);color:#ff6b35">Kinematics</span>
+      </div>
+      <div class="formula-body">
+        <div class="formula-eq">v = s / t</div>
+        <p class="formula-desc">Displacement per unit time.</p>
+        <span class="si-unit"><span>SI:</span> m/s</span>
+      </div>
+    </div>
+
+    <div class="formula-card" data-section="2" data-tags="acceleration velocity time">
+      <div class="formula-card-header">
+        <span class="formula-card-title">Acceleration</span>
+        <span class="tag" style="background:rgba(255,107,53,0.1);color:#ff6b35">Kinematics</span>
+      </div>
+      <div class="formula-body">
+        <div class="formula-eq">a = (v − u) / t</div>
+        <p class="formula-desc">Rate of change of velocity. u = initial velocity, v = final velocity.</p>
+        <span class="si-unit"><span>SI:</span> m/s²</span>
+      </div>
+    </div>
+
+    <div class="formula-card" data-section="2" data-tags="equations of motion kinematics">
+      <div class="formula-card-header">
+        <span class="formula-card-title">Three Equations of Motion</span>
+        <span class="tag" style="background:rgba(255,107,53,0.1);color:#ff6b35">★ Key</span>
+      </div>
+      <div class="formula-body">
+        <div class="formula-eq">v = u + at<br>s = ut + ½at²<br>v² = u² + 2as</div>
+        <p class="formula-desc">u = initial vel, v = final vel, a = acceleration, s = displacement, t = time. Valid for uniform acceleration.</p>
+        <span class="si-unit"><span>SI:</span> m, m/s, m/s²</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="sub-heading">Newton's Laws & Force</div>
+  <div class="formula-grid">
+    <div class="formula-card" data-section="2" data-tags="force mass acceleration newton second law">
+      <div class="formula-card-header">
+        <span class="formula-card-title">Newton's 2nd Law — Force</span>
+        <span class="tag" style="background:rgba(255,107,53,0.1);color:#ff6b35">★ PYQ</span>
+      </div>
+      <div class="formula-body">
+        <div class="formula-eq">F = m × a</div>
+        <p class="formula-desc">Force = mass × acceleration. PYQ: m = 10 kg, a = 9.8 m/s² → F = 98 N.</p>
+        <span class="si-unit"><span>SI:</span> Newton (N) = kg·m/s²</span>
+      </div>
+    </div>
+
+    <div class="formula-card" data-section="2" data-tags="momentum mass velocity impulse">
+      <div class="formula-card-header">
+        <span class="formula-card-title">Linear Momentum</span>
+        <span class="tag" style="background:rgba(255,107,53,0.1);color:#ff6b35">Newton</span>
+      </div>
+      <div class="formula-body">
+        <div class="formula-eq">p = m × v</div>
+        <p class="formula-desc">Product of mass and velocity. A vector quantity. Newton's 2nd law: F = dp/dt.</p>
+        <span class="si-unit"><span>SI:</span> kg·m/s</span>
+      </div>
+    </div>
+
+    <div class="formula-card" data-section="2" data-tags="impulse force time momentum">
+      <div class="formula-card-header">
+        <span class="formula-card-title">Impulse</span>
+        <span class="tag" style="background:rgba(255,107,53,0.1);color:#ff6b35">Newton</span>
+      </div>
+      <div class="formula-body">
+        <div class="formula-eq">J = F × t = Δp = m(v − u)</div>
+        <p class="formula-desc">Impulse equals change in momentum. Equal to area under F-t graph.</p>
+        <span class="si-unit"><span>SI:</span> N·s = kg·m/s</span>
+      </div>
+    </div>
+
+    <div class="formula-card" data-section="2" data-tags="weight gravitational force">
+      <div class="formula-card-header">
+        <span class="formula-card-title">Weight</span>
+        <span class="tag" style="background:rgba(255,107,53,0.1);color:#ff6b35">Newton</span>
+      </div>
+      <div class="formula-body">
+        <div class="formula-eq">W = m × g</div>
+        <p class="formula-desc">g = 9.8 m/s² (acceleration due to gravity). Weight is a force, measured in Newtons.</p>
+        <span class="si-unit"><span>SI:</span> Newton (N)</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="sub-heading">Circular Motion</div>
+  <div class="formula-grid">
+    <div class="formula-card" data-section="2" data-tags="angular velocity omega radius speed">
+      <div class="formula-card-header">
+        <span class="formula-card-title">Angular Velocity</span>
+        <span class="tag" style="background:rgba(255,107,53,0.1);color:#ff6b35">★ PYQ</span>
+      </div>
+      <div class="formula-body">
+        <div class="formula-eq">ω = v / r</div>
+        <p class="formula-desc">Also: ω = 2π/T = 2πf. Relation between linear speed v, radius r and angular velocity ω.</p>
+        <span class="si-unit"><span>SI:</span> rad/s</span>
+      </div>
+    </div>
+
+    <div class="formula-card" data-section="2" data-tags="centripetal acceleration circular">
+      <div class="formula-card-header">
+        <span class="formula-card-title">Centripetal Acceleration</span>
+        <span class="tag" style="background:rgba(255,107,53,0.1);color:#ff6b35">★ PYQ</span>
+      </div>
+      <div class="formula-body">
+        <div class="formula-eq">a꜀ = v² / r = ω²r</div>
+        <p class="formula-desc">Directed toward center. PYQ: v = 60 m/s, r = 2 m → a꜀ = 3600/2 = 1800 m/s².</p>
+        <span class="si-unit"><span>SI:</span> m/s²</span>
+      </div>
+    </div>
+
+    <div class="formula-card" data-section="2" data-tags="centripetal force circular mass">
+      <div class="formula-card-header">
+        <span class="formula-card-title">Centripetal Force</span>
+        <span class="tag" style="background:rgba(255,107,53,0.1);color:#ff6b35">Circular</span>
+      </div>
+      <div class="formula-body">
+        <div class="formula-eq">F꜀ = mv² / r = mω²r</div>
+        <p class="formula-desc">Force required to keep a body in circular motion. Always acts toward center. Centrifugal force = reaction, acts away from center.</p>
+        <span class="si-unit"><span>SI:</span> Newton (N)</span>
+      </div>
+    </div>
+
+    <div class="formula-card" data-section="2" data-tags="angular acceleration circular">
+      <div class="formula-card-header">
+        <span class="formula-card-title">Angular Acceleration</span>
+        <span class="tag" style="background:rgba(255,107,53,0.1);color:#ff6b35">Circular</span>
+      </div>
+      <div class="formula-body">
+        <div class="formula-eq">α = (ω₂ − ω₁) / t</div>
+        <p class="formula-desc">Rate of change of angular velocity. Related to linear: a = α·r.</p>
+        <span class="si-unit"><span>SI:</span> rad/s²</span>
+      </div>
+    </div>
+
+    <div class="formula-card" data-section="2" data-tags="time period frequency angular">
+      <div class="formula-card-header">
+        <span class="formula-card-title">Period & Frequency (Circular)</span>
+        <span class="tag" style="background:rgba(255,107,53,0.1);color:#ff6b35">Circular</span>
+      </div>
+      <div class="formula-body">
+        <div class="formula-eq">T = 2π / ω = 1 / f</div>
+        <p class="formula-desc">T = time for one full revolution, f = number of revolutions per second.</p>
+        <span class="si-unit"><span>T:</span> s &nbsp;|&nbsp; <span>f:</span> Hz</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="sub-heading">Work, Energy & Power</div>
+  <div class="formula-grid">
+    <div class="formula-card" data-section="2" data-tags="work force displacement angle">
+      <div class="formula-card-header">
+        <span class="formula-card-title">Work Done</span>
+        <span class="tag" style="background:rgba(255,107,53,0.1);color:#ff6b35">Energy</span>
+      </div>
+      <div class="formula-body">
+        <div class="formula-eq">W = F × d × cos θ</div>
+        <p class="formula-desc">θ = angle between force and displacement. W = Fd when force is along displacement (θ=0).</p>
+        <span class="si-unit"><span>SI:</span> Joule (J)</span>
+      </div>
+    </div>
+
+    <div class="formula-card" data-section="2" data-tags="kinetic energy mass velocity">
+      <div class="formula-card-header">
+        <span class="formula-card-title">Kinetic Energy</span>
+        <span class="tag" style="background:rgba(255,107,53,0.1);color:#ff6b35">Energy</span>
+      </div>
+      <div class="formula-body">
+        <div class="formula-eq">KE = ½ mv²</div>
+        <p class="formula-desc">Energy due to motion. Also: KE = p²/(2m). Work-energy theorem: W = ΔKE.</p>
+        <span class="si-unit"><span>SI:</span> Joule (J)</span>
+      </div>
+    </div>
+
+    <div class="formula-card" data-section="2" data-tags="potential energy gravitational height">
+      <div class="formula-card-header">
+        <span class="formula-card-title">Gravitational Potential Energy</span>
+        <span class="tag" style="background:rgba(255,107,53,0.1);color:#ff6b35">Energy</span>
+      </div>
+      <div class="formula-body">
+        <div class="formula-eq">PE = m × g × h</div>
+        <p class="formula-desc">Energy due to position. h = height above reference level. Conservation: KE + PE = constant.</p>
+        <span class="si-unit"><span>SI:</span> Joule (J)</span>
+      </div>
+    </div>
+
+    <div class="formula-card" data-section="2" data-tags="power work time rate">
+      <div class="formula-card-header">
+        <span class="formula-card-title">Power</span>
+        <span class="tag" style="background:rgba(255,107,53,0.1);color:#ff6b35">Energy</span>
+      </div>
+      <div class="formula-body">
+        <div class="formula-eq">P = W / t = F × v</div>
+        <p class="formula-desc">Rate of doing work. Also P = F·v for constant force. 1 HP = 746 W.</p>
+        <span class="si-unit"><span>SI:</span> Watt (W) = J/s</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 3: Electric Current -->
+<div class="section" id="sec-3" data-section="3">
+  <div class="section-header">
+    <div class="section-icon" style="background:rgba(167,139,250,0.1);color:#a78bfa">⚡</div>
+    <div>
+      <h2 style="color:#a78bfa">Electric Current</h2>
+      <p>Charge, Coulomb's law, Ohm's law, capacitance, resistors</p>
+    </div>
+  </div>
+
+  <div class="tip-box" style="border-color:rgba(167,139,250,0.2)">
+    <span class="tip-icon">💡</span>
+    <span>PYQ Alert: Coulomb's law (inverse square), series resistance, capacitance with dielectric, and number of electrons per coulomb appear frequently. See Q35–Q38.</span>
+  </div>
+
+  <div class="sub-heading">Charge & Coulomb's Law</div>
+  <div class="formula-grid">
+    <div class="formula-card" data-section="3" data-tags="coulomb force charge distance electric">
+      <div class="formula-card-header">
+        <span class="formula-card-title">Coulomb's Law</span>
+        <span class="tag" style="background:rgba(167,139,250,0.1);color:#a78bfa">★ PYQ</span>
+      </div>
+      <div class="formula-body">
+        <div class="formula-eq">F = k·q₁·q₂ / r²<br>k = 9×10⁹ N·m²/C²</div>
+        <p class="formula-desc">Force is inversely proportional to square of distance. If r is doubled → F becomes 1/4th.</p>
+        <span class="si-unit"><span>SI:</span> Newton (N)</span>
+      </div>
+    </div>
+
+    <div class="formula-card" data-section="3" data-tags="electron charge coulomb number">
+      <div class="formula-card-header">
+        <span class="formula-card-title">Charge of Electron & Coulomb</span>
+        <span class="tag" style="background:rgba(167,139,250,0.1);color:#a78bfa">★ PYQ</span>
+      </div>
+      <div class="formula-body">
+        <div class="formula-eq">e = 1.6 × 10⁻¹⁹ C<br>n = Q / e<br>1 C = 6.25 × 10¹⁸ electrons</div>
+        <p class="formula-desc">PYQ: Q35 directly asked how many electrons in 1 coulomb → 6.25 × 10¹⁸.</p>
+        <span class="si-unit"><span>SI:</span> Coulomb (C)</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="sub-heading">Electric Field, Potential & Flux</div>
+  <div class="formula-grid">
+    <div class="formula-card" data-section="3" data-tags="electric field force charge">
+      <div class="formula-card-header">
+        <span class="formula-card-title">Electric Field</span>
+        <span class="tag" style="background:rgba(167,139,250,0.1);color:#a78bfa">Field</span>
+      </div>
+      <div class="formula-body">
+        <div class="formula-eq">E = F / q = kQ / r²</div>
+        <p class="formula-desc">Force per unit charge. Due to point charge Q at distance r. Field lines are imaginary (PYQ Q34).</p>
+        <span class="si-unit"><span>SI:</span> N/C or V/m</span>
+      </div>
+    </div>
+
+    <div class="formula-card" data-section="3" data-tags="electric potential energy charge work">
+      <div class="formula-card-header">
+        <span class="formula-card-title">Electric Potential</span>
+        <span class="tag" style="background:rgba(167,139,250,0.1);color:#a78bfa">Field</span>
+      </div>
+      <div class="formula-body">
+        <div class="formula-eq">V = W / q = kQ / r</div>
+        <p class="formula-desc">Work done per unit charge to bring a positive test charge from infinity.</p>
+        <span class="si-unit"><span>SI:</span> Volt (V) = J/C</span>
+      </div>
+    </div>
+
+    <div class="formula-card" data-section="3" data-tags="electric flux Gauss area field">
+      <div class="formula-card-header">
+        <span class="formula-card-title">Electric Flux</span>
+        <span class="tag" style="background:rgba(167,139,250,0.1);color:#a78bfa">★ PYQ</span>
+      </div>
+      <div class="formula-body">
+        <div class="formula-eq">Φ = E × A × cos θ<br>Gauss: Φ = Q_enc / ε₀</div>
+        <p class="formula-desc">PYQ Q33: SI unit of electric flux = N·m²/C (or V·m).</p>
+        <span class="si-unit"><span>SI:</span> N·m²/C</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="sub-heading">Ohm's Law & Resistance</div>
+  <div class="formula-grid">
+    <div class="formula-card" data-section="3" data-tags="ohm voltage current resistance">
+      <div class="formula-card-header">
+        <span class="formula-card-title">Ohm's Law</span>
+        <span class="tag" style="background:rgba(167,139,250,0.1);color:#a78bfa">★ Key</span>
+      </div>
+      <div class="formula-body">
+        <div class="formula-eq">V = I × R</div>
+        <p class="formula-desc">Voltage = Current × Resistance. Valid for ohmic conductors at constant temperature.</p>
+        <span class="si-unit"><span>V:</span> V &nbsp;|&nbsp; <span>I:</span> A &nbsp;|&nbsp; <span>R:</span> Ω</span>
+      </div>
+    </div>
+
+    <div class="formula-card" data-section="3" data-tags="resistivity length area resistance">
+      <div class="formula-card-header">
+        <span class="formula-card-title">Resistance & Resistivity</span>
+        <span class="tag" style="background:rgba(167,139,250,0.1);color:#a78bfa">Resistance</span>
+      </div>
+      <div class="formula-body">
+        <div class="formula-eq">R = ρ × L / A</div>
+        <p class="formula-desc">ρ = resistivity, L = length, A = cross-sectional area. Conductance G = 1/R.</p>
+        <span class="si-unit"><span>R:</span> Ω &nbsp;|&nbsp; <span>ρ:</span> Ω·m</span>
+      </div>
+    </div>
+
+    <div class="formula-card" data-section="3" data-tags="series resistance combination equivalent">
+      <div class="formula-card-header">
+        <span class="formula-card-title">Resistors in Series</span>
+        <span class="tag" style="background:rgba(167,139,250,0.1);color:#a78bfa">★ PYQ</span>
+      </div>
+      <div class="formula-body">
+        <div class="formula-eq">R_eq = R₁ + R₂ + R₃ + ...</div>
+        <p class="formula-desc">Total resistance increases. Same current through all. PYQ: 5+10+15 = 30Ω.</p>
+        <span class="si-unit"><span>SI:</span> Ohm (Ω)</span>
+      </div>
+    </div>
+
+    <div class="formula-card" data-section="3" data-tags="parallel resistance combination equivalent">
+      <div class="formula-card-header">
+        <span class="formula-card-title">Resistors in Parallel</span>
+        <span class="tag" style="background:rgba(167,139,250,0.1);color:#a78bfa">Resistance</span>
+      </div>
+      <div class="formula-body">
+        <div class="formula-eq">1/R_eq = 1/R₁ + 1/R₂ + 1/R₃</div>
+        <p class="formula-desc">Equivalent resistance is less than smallest individual resistance. Same voltage across all.</p>
+        <span class="si-unit"><span>SI:</span> Ohm (Ω)</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="sub-heading">Capacitance</div>
+  <div class="formula-grid">
+    <div class="formula-card" data-section="3" data-tags="capacitance charge voltage">
+      <div class="formula-card-header">
+        <span class="formula-card-title">Capacitance</span>
+        <span class="tag" style="background:rgba(167,139,250,0.1);color:#a78bfa">Capacitor</span>
+      </div>
+      <div class="formula-body">
+        <div class="formula-eq">C = Q / V</div>
+        <p class="formula-desc">Ability to store charge per unit voltage.</p>
+        <span class="si-unit"><span>SI:</span> Farad (F) = C/V</span>
+      </div>
+    </div>
+
+    <div class="formula-card" data-section="3" data-tags="parallel plate capacitor area permittivity dielectric">
+      <div class="formula-card-header">
+        <span class="formula-card-title">Parallel Plate Capacitor</span>
+        <span class="tag" style="background:rgba(167,139,250,0.1);color:#a78bfa">★ PYQ</span>
+      </div>
+      <div class="formula-body">
+        <div class="formula-eq">C = ε₀·εᵣ·A / d</div>
+        <p class="formula-desc">PYQ Q36: Inserting dielectric (εᵣ > 1) INCREASES capacitance. A = area, d = separation, εᵣ = relative permittivity.</p>
+        <span class="si-unit"><span>SI:</span> Farad (F)</span>
+      </div>
+    </div>
+
+    <div class="formula-card" data-section="3" data-tags="capacitors series combination equivalent">
+      <div class="formula-card-header">
+        <span class="formula-card-title">Capacitors in Series</span>
+        <span class="tag" style="background:rgba(167,139,250,0.1);color:#a78bfa">Capacitor</span>
+      </div>
+      <div class="formula-body">
+        <div class="formula-eq">1/C_eq = 1/C₁ + 1/C₂ + 1/C₃</div>
+        <p class="formula-desc">Equivalent capacitance is less than smallest. Same charge on each.</p>
+        <span class="si-unit"><span>SI:</span> Farad (F)</span>
+      </div>
+    </div>
+
+    <div class="formula-card" data-section="3" data-tags="capacitors parallel combination equivalent">
+      <div class="formula-card-header">
+        <span class="formula-card-title">Capacitors in Parallel</span>
+        <span class="tag" style="background:rgba(167,139,250,0.1);color:#a78bfa">Capacitor</span>
+      </div>
+      <div class="formula-body">
+        <div class="formula-eq">C_eq = C₁ + C₂ + C₃ + ...</div>
+        <p class="formula-desc">Equivalent capacitance increases. Same voltage across each.</p>
+        <span class="si-unit"><span>SI:</span> Farad (F)</span>
+      </div>
+    </div>
+
+    <div class="formula-card" data-section="3" data-tags="energy stored capacitor">
+      <div class="formula-card-header">
+        <span class="formula-card-title">Energy Stored in Capacitor</span>
+        <span class="tag" style="background:rgba(167,139,250,0.1);color:#a78bfa">Capacitor</span>
+      </div>
+      <div class="formula-body">
+        <div class="formula-eq">U = ½CV² = ½QV = Q²/2C</div>
+        <p class="formula-desc">Energy stored in electric field between the plates.</p>
+        <span class="si-unit"><span>SI:</span> Joule (J)</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="sub-heading">Current & Power</div>
+  <div class="formula-grid">
+    <div class="formula-card" data-section="3" data-tags="current charge time">
+      <div class="formula-card-header">
+        <span class="formula-card-title">Electric Current</span>
+        <span class="tag" style="background:rgba(167,139,250,0.1);color:#a78bfa">Current</span>
+      </div>
+      <div class="formula-body">
+        <div class="formula-eq">I = Q / t</div>
+        <p class="formula-desc">Rate of flow of charge. Conventional current flows from + to −.</p>
+        <span class="si-unit"><span>SI:</span> Ampere (A) = C/s</span>
+      </div>
+    </div>
+
+    <div class="formula-card" data-section="3" data-tags="electric power voltage current resistance">
+      <div class="formula-card-header">
+        <span class="formula-card-title">Electrical Power</span>
+        <span class="tag" style="background:rgba(167,139,250,0.1);color:#a78bfa">Power</span>
+      </div>
+      <div class="formula-body">
+        <div class="formula-eq">P = VI = I²R = V²/R</div>
+        <p class="formula-desc">Rate of electrical energy consumption. Three equivalent forms using Ohm's law.</p>
+        <span class="si-unit"><span>SI:</span> Watt (W)</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 4: Heat & Thermometry -->
+<div class="section" id="sec-4" data-section="4">
+  <div class="section-header">
+    <div class="section-icon" style="background:rgba(52,211,153,0.1);color:#34d399">🌡️</div>
+    <div>
+      <h2 style="color:#34d399">Heat & Thermometry</h2>
+      <p>Temperature scales, heat capacity, thermal conductivity, expansion</p>
+    </div>
+  </div>
+
+  <div class="tip-box" style="border-color:rgba(52,211,153,0.2)">
+    <span class="tip-icon">💡</span>
+    <span>PYQ Alert: Temperature conversion (37°C = 98.6°F), 1 KCal = 4186 J, SI unit of thermal conductivity, and specific heat definition are directly tested. See Q40–Q44.</span>
+  </div>
+
+  <div class="sub-heading">Temperature Scale Conversions</div>
+  <div class="formula-grid">
+    <div class="formula-card" data-section="4" data-tags="celsius fahrenheit temperature conversion">
+      <div class="formula-card-header">
+        <span class="formula-card-title">°C ↔ °F Conversion</span>
+        <span class="tag" style="background:rgba(52,211,153,0.1);color:#34d399">★ PYQ</span>
+      </div>
+      <div class="formula-body">
+        <div class="formula-eq">°F = (9/5 × °C) + 32<br>°C = (°F − 32) × 5/9</div>
+        <p class="formula-desc">PYQ: 37°C → °F = (9/5 × 37) + 32 = 66.6 + 32 = 98.6°F.</p>
+        <span class="si-unit"><span>Note:</span> Body temp = 37°C = 98.6°F</span>
+      </div>
+    </div>
+
+    <div class="formula-card" data-section="4" data-tags="kelvin celsius temperature conversion absolute">
+      <div class="formula-card-header">
+        <span class="formula-card-title">°C ↔ Kelvin Conversion</span>
+        <span class="tag" style="background:rgba(52,211,153,0.1);color:#34d399">Conversion</span>
+      </div>
+      <div class="formula-body">
+        <div class="formula-eq">K = °C + 273.15<br>°C = K − 273.15</div>
+        <p class="formula-desc">Absolute zero = 0 K = −273.15°C. Kelvin is the SI unit of thermodynamic temperature.</p>
+        <span class="si-unit"><span>SI:</span> Kelvin (K)</span>
+      </div>
+    </div>
+
+    <div class="formula-card" data-section="4" data-tags="kelvin fahrenheit conversion">
+      <div class="formula-card-header">
+        <span class="formula-card-title">Kelvin ↔ °F Conversion</span>
+        <span class="tag" style="background:rgba(52,211,153,0.1);color:#34d399">Conversion</span>
+      </div>
+      <div class="formula-body">
+        <div class="formula-eq">°F = (9/5 × (K − 273)) + 32</div>
+        <p class="formula-desc">Convert K to °C first, then to °F. Or use: K = (5/9)(°F − 32) + 273.</p>
+        <span class="si-unit"><span>SI:</span> Kelvin (K)</span>
+      </div>
+    </div>
+
+    <div class="formula-card" data-section="4" data-tags="triple point scale comparison">
+      <div class="formula-card-header">
+        <span class="formula-card-title">Scale Comparison Formula</span>
+        <span class="tag" style="background:rgba(52,211,153,0.1);color:#34d399">Conversion</span>
+      </div>
+      <div class="formula-body">
+        <div class="formula-eq">(C − 0)/100 = (F − 32)/180 = (K − 273)/100</div>
+        <p class="formula-desc">General relation between all three scales. C/5 = (F−32)/9 = (K−273)/5.</p>
+        <span class="si-unit"><span>Key values:</span> 0°C = 32°F = 273K</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="sub-heading">Heat, Specific Heat & Capacity</div>
+  <div class="formula-grid">
+    <div class="formula-card" data-section="4" data-tags="heat specific heat mass temperature">
+      <div class="formula-card-header">
+        <span class="formula-card-title">Heat Absorbed/Released</span>
+        <span class="tag" style="background:rgba(52,211,153,0.1);color:#34d399">★ Key</span>
+      </div>
+      <div class="formula-body">
+        <div class="formula-eq">Q = m × c × ΔT</div>
+        <p class="formula-desc">m = mass, c = specific heat capacity, ΔT = temperature change.</p>
+        <span class="si-unit"><span>SI:</span> Joule (J)</span>
+      </div>
+    </div>
+
+    <div class="formula-card" data-section="4" data-tags="specific heat capacity unit mass">
+      <div class="formula-card-header">
+        <span class="formula-card-title">Specific Heat Capacity</span>
+        <span class="tag" style="background:rgba(52,211,153,0.1);color:#34d399">★ PYQ</span>
+      </div>
+      <div class="formula-body">
+        <div class="formula-eq">c = Q / (m × ΔT)</div>
+        <p class="formula-desc">Heat per unit mass per unit temperature rise. Water: c = 4186 J/kg·K = 1 cal/g·°C. PYQ Q39: Also called "specific heat".</p>
+        <span class="si-unit"><span>SI:</span> J/(kg·K)</span>
+      </div>
+    </div>
+
+    <div class="formula-card" data-section="4" data-tags="heat capacity thermal body">
+      <div class="formula-card-header">
+        <span class="formula-card-title">Heat Capacity (Thermal Capacity)</span>
+        <span class="tag" style="background:rgba(52,211,153,0.1);color:#34d399">Heat</span>
+      </div>
+      <div class="formula-body">
+        <div class="formula-eq">H = m × c = Q / ΔT</div>
+        <p class="formula-desc">Heat required per unit temperature rise for the entire body (not per unit mass).</p>
+        <span class="si-unit"><span>SI:</span> J/K</span>
+      </div>
+    </div>
+
+    <div class="formula-card" data-section="4" data-tags="calorie joule unit conversion kcal">
+      <div class="formula-card-header">
+        <span class="formula-card-title">Energy Unit Conversion</span>
+        <span class="tag" style="background:rgba(52,211,153,0.1);color:#34d399">★ PYQ</span>
+      </div>
+      <div class="formula-body">
+        <div class="formula-eq">1 cal = 4.186 J<br>1 KCal = 4186 J<br>1 J = 10⁷ erg</div>
+        <p class="formula-desc">PYQ Q23 & Q40 directly. 1 kcal = 1000 cal = 4186 J.</p>
+        <span class="si-unit"><span>SI:</span> Joule (J)</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="sub-heading">Latent Heat & Phase Change</div>
+  <div class="formula-grid">
+    <div class="formula-card" data-section="4" data-tags="latent heat phase change boiling melting">
+      <div class="formula-card-header">
+        <span class="formula-card-title">Latent Heat</span>
+        <span class="tag" style="background:rgba(52,211,153,0.1);color:#34d399">★ PYQ</span>
+      </div>
+      <div class="formula-body">
+        <div class="formula-eq">Q = m × L</div>
+        <p class="formula-desc">Heat absorbed/released during phase change at constant temperature. PYQ Q42: Boiling water at 100°C → temperature remains constant while heat is supplied (phase change).</p>
+        <span class="si-unit"><span>SI:</span> J/kg</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="sub-heading">Thermal Conductivity & Expansion</div>
+  <div class="formula-grid">
+    <div class="formula-card" data-section="4" data-tags="fourier conduction heat flow thermal conductivity">
+      <div class="formula-card-header">
+        <span class="formula-card-title">Fourier's Law — Heat Conduction</span>
+        <span class="tag" style="background:rgba(52,211,153,0.1);color:#34d399">★ PYQ</span>
+      </div>
+      <div class="formula-body">
+        <div class="formula-eq">Q/t = −k × A × (ΔT/Δx)</div>
+        <p class="formula-desc">k = coefficient of thermal conductivity. PYQ Q44: SI unit of k = W/(m·K).</p>
+        <span class="si-unit"><span>SI of k:</span> W/(m·K)</span>
+      </div>
+    </div>
+
+    <div class="formula-card" data-section="4" data-tags="linear thermal expansion coefficient length">
+      <div class="formula-card-header">
+        <span class="formula-card-title">Linear Thermal Expansion</span>
+        <span class="tag" style="background:rgba(52,211,153,0.1);color:#34d399">Expansion</span>
+      </div>
+      <div class="formula-body">
+        <div class="formula-eq">ΔL = α × L₀ × ΔT<br>L = L₀(1 + αΔT)</div>
+        <p class="formula-desc">α = coefficient of linear expansion. Different for different materials. PYQ Q41: Glass cracks on cooling due to low thermal conductivity (uneven cooling).</p>
+        <span class="si-unit"><span>α:</span> K⁻¹ or °C⁻¹</span>
+      </div>
+    </div>
+
+    <div class="formula-card" data-section="4" data-tags="volume cubical expansion coefficient">
+      <div class="formula-card-header">
+        <span class="formula-card-title">Volume (Cubical) Expansion</span>
+        <span class="tag" style="background:rgba(52,211,153,0.1);color:#34d399">Expansion</span>
+      </div>
+      <div class="formula-body">
+        <div class="formula-eq">ΔV = γ × V₀ × ΔT<br>γ = 3α</div>
+        <p class="formula-desc">γ = coefficient of volume expansion = 3 times the linear expansion coefficient.</p>
+        <span class="si-unit"><span>γ:</span> K⁻¹</span>
+      </div>
+    </div>
+
+    <div class="formula-card" data-section="4" data-tags="modes heat transfer conduction convection radiation">
+      <div class="formula-card-header">
+        <span class="formula-card-title">Modes of Heat Transfer</span>
+        <span class="tag" style="background:rgba(52,211,153,0.1);color:#34d399">Transfer</span>
+      </div>
+      <div class="formula-body">
+        <div class="formula-eq">Stefan's Law: P = σAT⁴<br>σ = 5.67 × 10⁻⁸ W/m²K⁴</div>
+        <p class="formula-desc">Conduction: through solids (Q/t = kAΔT/L). Convection: through fluids. Radiation: no medium, Stefan's law. Newton's cooling: dT/dt ∝ (T − T₀).</p>
+        <span class="si-unit"><span>SI:</span> W/m²</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 5: Waves, Optics & Acoustics -->
+<div class="section" id="sec-5" data-section="5">
+  <div class="section-header">
+    <div class="section-icon" style="background:rgba(251,191,36,0.1);color:#fbbf24">🌊</div>
+    <div>
+      <h2 style="color:#fbbf24">Waves, Optics & Acoustics</h2>
+      <p>Wave motion, LASER, optical fiber, reverberation, refraction</p>
+    </div>
+  </div>
+
+  <div class="tip-box" style="border-color:rgba(251,191,36,0.2)">
+    <span class="tip-icon">💡</span>
+    <span>PYQ Alert: Wave formula (v = fλ), period of 20 Hz, speed of light, reverberation (Sabine's formula), audible frequency range, and numerical aperture of optical fiber — all appeared directly.</span>
+  </div>
+
+  <div class="sub-heading">Wave Fundamentals</div>
+  <div class="formula-grid">
+    <div class="formula-card" data-section="5" data-tags="wave speed frequency wavelength">
+      <div class="formula-card-header">
+        <span class="formula-card-title">Wave Speed</span>
+        <span class="tag" style="background:rgba(251,191,36,0.1);color:#fbbf24">★ PYQ</span>
+      </div>
+      <div class="formula-body">
+        <div class="formula-eq">v = f × λ = λ / T</div>
+        <p class="formula-desc">v = speed, f = frequency, λ = wavelength, T = time period. Fundamental wave equation.</p>
+        <span class="si-unit"><span>v:</span> m/s &nbsp;|&nbsp; <span>f:</span> Hz &nbsp;|&nbsp; <span>λ:</span> m</span>
+      </div>
+    </div>
+
+    <div class="formula-card" data-section="5" data-tags="time period frequency periodic">
+      <div class="formula-card-header">
+        <span class="formula-card-title">Time Period & Frequency</span>
+        <span class="tag" style="background:rgba(251,191,36,0.1);color:#fbbf24">★ PYQ</span>
+      </div>
+      <div class="formula-body">
+        <div class="formula-eq">T = 1 / f</div>
+        <p class="formula-desc">PYQ Q47: f = 20 Hz → T = 1/20 = 0.05 sec.</p>
+        <span class="si-unit"><span>T:</span> second (s) &nbsp;|&nbsp; <span>f:</span> Hz</span>
+      </div>
+    </div>
+
+    <div class="formula-card" data-section="5" data-tags="angular frequency amplitude wave equation">
+      <div class="formula-card-header">
+        <span class="formula-card-title">Wave Equation</span>
+        <span class="tag" style="background:rgba(251,191,36,0.1);color:#fbbf24">Waves</span>
+      </div>
+      <div class="formula-body">
+        <div class="formula-eq">y = A sin(ωt − kx)<br>ω = 2πf = 2π/T<br>k = 2π/λ</div>
+        <p class="formula-desc">A = amplitude, ω = angular frequency, k = wave number, x = position, t = time.</p>
+        <span class="si-unit"><span>ω:</span> rad/s &nbsp;|&nbsp; <span>k:</span> rad/m</span>
+      </div>
+    </div>
+
+    <div class="formula-card" data-section="5" data-tags="intensity amplitude power wave">
+      <div class="formula-card-header">
+        <span class="formula-card-title">Intensity of Wave</span>
+        <span class="tag" style="background:rgba(251,191,36,0.1);color:#fbbf24">Waves</span>
+      </div>
+      <div class="formula-body">
+        <div class="formula-eq">I ∝ A² ∝ f²A²</div>
+        <p class="formula-desc">Intensity proportional to square of amplitude. I = P/(4πr²) for point source.</p>
+        <span class="si-unit"><span>SI:</span> W/m²</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="sub-heading">Speed of Waves</div>
+  <table class="summary-table">
+    <tr><th>Wave Type</th><th>Speed</th><th>Notes</th></tr>
+    <tr><td>Light in vacuum</td><td>c = 3 × 10⁸ m/s</td><td>PYQ Q46 — electromagnetic wave</td></tr>
+    <tr><td>Sound in air (at 0°C)</td><td>v = 332 m/s</td><td>Increases with temperature</td></tr>
+    <tr><td>Sound in air (at 25°C)</td><td>v ≈ 346 m/s</td><td>v = v₀√(T/273)</td></tr>
+    <tr><td>Audible frequency range</td><td>20 Hz to 20 kHz</td><td>PYQ Q45 — human hearing range</td></tr>
+    <tr><td>Ultrasonic waves</td><td>> 20,000 Hz</td><td>Above audible range</td></tr>
+    <tr><td>Infrasonic waves</td><td>< 20 Hz</td><td>Below audible range</td></tr>
+  </table>
+
+  <div class="sub-heading">Optics — Refraction & Snell's Law</div>
+  <div class="formula-grid">
+    <div class="formula-card" data-section="5" data-tags="snell law refraction refractive index angle">
+      <div class="formula-card-header">
+        <span class="formula-card-title">Snell's Law</span>
+        <span class="tag" style="background:rgba(251,191,36,0.1);color:#fbbf24">★ Key</span>
+      </div>
+      <div class="formula-body">
+        <div class="formula-eq">n₁ sin θ₁ = n₂ sin θ₂<br>n = c / v</div>
+        <p class="formula-desc">n₁, n₂ = refractive indices. θ₁ = angle of incidence. Light bends toward normal when entering denser medium.</p>
+        <span class="si-unit"><span>n:</span> Dimensionless</span>
+      </div>
+    </div>
+
+    <div class="formula-card" data-section="5" data-tags="absolute refractive index relative medium">
+      <div class="formula-card-header">
+        <span class="formula-card-title">Refractive Index</span>
+        <span class="tag" style="background:rgba(251,191,36,0.1);color:#fbbf24">Optics</span>
+      </div>
+      <div class="formula-body">
+        <div class="formula-eq">n = c / v = sin i / sin r</div>
+        <p class="formula-desc">Absolute: ratio of speed of light in vacuum to speed in medium. Relative: n₂₁ = n₂/n₁.</p>
+        <span class="si-unit"><span>Unit:</span> Dimensionless</span>
+      </div>
+    </div>
+
+    <div class="formula-card" data-section="5" data-tags="total internal reflection critical angle">
+      <div class="formula-card-header">
+        <span class="formula-card-title">Critical Angle & TIR</span>
+        <span class="tag" style="background:rgba(251,191,36,0.1);color:#fbbf24">Optics</span>
+      </div>
+      <div class="formula-body">
+        <div class="formula-eq">sin θ꜀ = n₂ / n₁ = 1/n<br>TIR: θ > θ꜀ (from denser to rarer)</div>
+        <p class="formula-desc">When light hits denser→rarer boundary at angle > critical angle, it is totally reflected. Basis of optical fiber.</p>
+        <span class="si-unit"><span>θ꜀:</span> degrees or radians</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="sub-heading">Optical Fiber</div>
+  <div class="formula-grid">
+    <div class="formula-card" data-section="5" data-tags="optical fiber numerical aperture core cladding">
+      <div class="formula-card-header">
+        <span class="formula-card-title">Numerical Aperture (NA)</span>
+        <span class="tag" style="background:rgba(251,191,36,0.1);color:#fbbf24">★ PYQ</span>
+      </div>
+      <div class="formula-body">
+        <div class="formula-eq">NA = √(n₁² − n₂²)</div>
+        <p class="formula-desc">PYQ Q50: n₁ = refractive index of core, n₂ = refractive index of cladding. n₁ > n₂ for TIR to occur.</p>
+        <span class="si-unit"><span>Unit:</span> Dimensionless</span>
+      </div>
+    </div>
+
+    <div class="formula-card" data-section="5" data-tags="optical fiber acceptance angle">
+      <div class="formula-card-header">
+        <span class="formula-card-title">Acceptance Angle</span>
+        <span class="tag" style="background:rgba(251,191,36,0.1);color:#fbbf24">Fiber</span>
+      </div>
+      <div class="formula-body">
+        <div class="formula-eq">sin θₐ = NA = √(n₁² − n₂²)</div>
+        <p class="formula-desc">Maximum angle at which light enters the fiber and undergoes TIR. θₐ = acceptance half-angle.</p>
+        <span class="si-unit"><span>θₐ:</span> degrees</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="sub-heading">Acoustics — Reverberation & Echo</div>
+  <div class="formula-grid">
+    <div class="formula-card" data-section="5" data-tags="reverberation time sabine formula acoustics">
+      <div class="formula-card-header">
+        <span class="formula-card-title">Sabine's Reverberation Formula</span>
+        <span class="tag" style="background:rgba(251,191,36,0.1);color:#fbbf24">★ PYQ</span>
+      </div>
+      <div class="formula-body">
+        <div class="formula-eq">T = 0.161 × V / A</div>
+        <p class="formula-desc">T = reverberation time (s), V = volume of hall (m³), A = total absorption (OWU = m²). PYQ Q49: V=5000, A=900 → T = 0.161×5000/900 ≈ 0.894 s.</p>
+        <span class="si-unit"><span>T:</span> second (s)</span>
+      </div>
+    </div>
+
+    <div class="formula-card" data-section="5" data-tags="echo reflection time distance sound">
+      <div class="formula-card-header">
+        <span class="formula-card-title">Echo — Minimum Distance</span>
+        <span class="tag" style="background:rgba(251,191,36,0.1);color:#fbbf24">Acoustics</span>
+      </div>
+      <div class="formula-body">
+        <div class="formula-eq">d = v × t / 2<br>d_min = 17 m (at 25°C)</div>
+        <p class="formula-desc">Sound must travel to reflector and back. Minimum 17 m for echo to be perceived (persistence of hearing ≈ 0.1 s).</p>
+        <span class="si-unit"><span>SI:</span> metre (m)</span>
+      </div>
+    </div>
+
+    <div class="formula-card" data-section="5" data-tags="absorption coefficient sabine OWU">
+      <div class="formula-card-header">
+        <span class="formula-card-title">Absorption Coefficient</span>
+        <span class="tag" style="background:rgba(251,191,36,0.1);color:#fbbf24">Acoustics</span>
+      </div>
+      <div class="formula-body">
+        <div class="formula-eq">α = Sound absorbed / Sound incident<br>A = Σ aᵢ Sᵢ (OWU)</div>
+        <p class="formula-desc">Ranges 0 (perfect reflector) to 1 (perfect absorber). Total absorption A in Open Window Units (m²).</p>
+        <span class="si-unit"><span>Unit:</span> OWU (m²)</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="sub-heading">LASER Properties</div>
+  <div class="formula-grid">
+    <div class="formula-card" data-section="5" data-tags="laser properties coherent stimulated">
+      <div class="formula-card-header">
+        <span class="formula-card-title">LASER Characteristics</span>
+        <span class="tag" style="background:rgba(251,191,36,0.1);color:#fbbf24">★ PYQ</span>
+      </div>
+      <div class="formula-body">
+        <div class="formula-eq">LASER = Light Amplification by<br>Stimulated Emission of Radiation</div>
+        <p class="formula-desc">PYQ Q48: LASER is (D) All of above — unidirectional, focused, coherent and stimulated. Key: monochromatic, highly collimated, coherent.</p>
+        <span class="si-unit"><span>Type:</span> Electromagnetic wave</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="sub-heading">Electromagnetic Spectrum Reference</div>
+  <table class="summary-table">
+    <tr><th>Radiation</th><th>Frequency Range</th><th>Wavelength</th></tr>
+    <tr><td>Radio waves</td><td>< 3 × 10⁹ Hz</td><td>> 10 cm</td></tr>
+    <tr><td>Microwaves</td><td>3×10⁹ – 3×10¹¹ Hz</td><td>1 mm – 10 cm</td></tr>
+    <tr><td>Infrared</td><td>3×10¹¹ – 4×10¹⁴ Hz</td><td>700 nm – 1 mm</td></tr>
+    <tr><td>Visible light</td><td>4×10¹⁴ – 7×10¹⁴ Hz</td><td>400 – 700 nm</td></tr>
+    <tr><td>Ultraviolet</td><td>7×10¹⁴ – 3×10¹⁷ Hz</td><td>1 – 400 nm</td></tr>
+    <tr><td>X-rays</td><td>3×10¹⁷ – 3×10¹⁹ Hz</td><td>0.01 – 1 nm</td></tr>
+    <tr><td>Gamma rays</td><td>> 3×10¹⁹ Hz</td><td>< 0.01 nm</td></tr>
+  </table>
+</div>
+
+</main>
+
+<script>
+  // Tab switching
+  const tabs = document.querySelectorAll('.tab');
+  const sections = document.querySelectorAll('.section[id^="sec-"]');
+  const searchResults = document.getElementById('search-results');
+  const searchInput = document.getElementById('search-input');
+
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      tabs.forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      sections.forEach(s => s.classList.remove('active'));
+      const target = document.getElementById('sec-' + tab.dataset.tab);
+      if (target) target.classList.add('active');
+      searchResults.classList.remove('active');
+      searchInput.value = '';
+    });
+  });
+
+  // Search
+  searchInput.addEventListener('input', function() {
+    const query = this.value.trim().toLowerCase();
+    if (!query) {
+      searchResults.classList.remove('active');
+      sections.forEach(s => {
+        if (document.querySelector('.tab.active').dataset.tab == s.id.replace('sec-', '')) {
+          s.classList.add('active');
+        }
+      });
+      return;
+    }
+
+    sections.forEach(s => s.classList.remove('active'));
+    searchResults.classList.add('active');
+
+    const allCards = document.querySelectorAll('.formula-card[data-section]');
+    const grid = document.getElementById('search-grid');
+    grid.innerHTML = '';
+    let count = 0;
+
+    allCards.forEach(card => {
+      const title = card.querySelector('.formula-card-title')?.textContent.toLowerCase() || '';
+      const desc = card.querySelector('.formula-desc')?.textContent.toLowerCase() || '';
+      const eq = card.querySelector('.formula-eq')?.textContent.toLowerCase() || '';
+      const tags = (card.dataset.tags || '').toLowerCase();
+
+      if (title.includes(query) || desc.includes(query) || eq.includes(query) || tags.includes(query)) {
+        const clone = card.cloneNode(true);
+        grid.appendChild(clone);
+        count++;
+      }
+    });
+
+    document.getElementById('search-count').textContent = `${count} formula${count !== 1 ? 's' : ''} found for "${this.value}"`;
+
+    if (count === 0) {
+      grid.innerHTML = '<div class="no-results">No formulas found. Try different keywords.</div>';
+    }
+  });
+</script>
+</body>
+</html>

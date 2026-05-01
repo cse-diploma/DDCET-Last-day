@@ -1,0 +1,1109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>English — Last Day Revision</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #fdf6ee;
+  --surface: #fff;
+  --surface2: #f7f0e6;
+  --border: #e5d9c8;
+  --ink: #1a1208;
+  --muted: #8a7a65;
+  --accent1: #c8501a; /* burnt orange */
+  --accent2: #2e6b4f; /* forest green */
+  --accent3: #1d4f82; /* navy blue */
+  --accent4: #7a3b8c; /* purple */
+  --accent5: #b5890a; /* gold */
+  --tag-bg: rgba(200,80,26,0.09);
+}
+
+*{margin:0;padding:0;box-sizing:border-box;}
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  min-height: 100vh;
+}
+
+/* subtle paper texture */
+body::before {
+  content:'';
+  position:fixed;
+  inset:0;
+  background-image: url("data:image/svg+xml,%3Csvg width='200' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events:none;
+  z-index:0;
+}
+
+.wrap { max-width:960px; margin:0 auto; padding:0 20px; position:relative; z-index:1; }
+
+/* HEADER */
+header {
+  padding: 44px 0 28px;
+  border-bottom: 2px solid var(--ink);
+}
+.eyebrow {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--accent1);
+  margin-bottom: 10px;
+}
+h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2.2rem, 5.5vw, 3.8rem);
+  font-weight: 900;
+  line-height: 1.05;
+  letter-spacing: -1px;
+  color: var(--ink);
+}
+h1 em { color: var(--accent1); font-style: normal; }
+.subtitle {
+  margin-top: 8px;
+  font-family: 'DM Mono', monospace;
+  font-size: 12px;
+  color: var(--muted);
+  letter-spacing: 1px;
+}
+
+/* TABS */
+.tabs {
+  display: flex;
+  gap: 0;
+  padding-top: 22px;
+  border-bottom: 2px solid var(--ink);
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.tabs::-webkit-scrollbar { display: none; }
+.tab-btn {
+  flex-shrink: 0;
+  background: transparent;
+  border: none;
+  border-bottom: 3px solid transparent;
+  margin-bottom: -2px;
+  color: var(--muted);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.82rem;
+  font-weight: 600;
+  padding: 10px 18px;
+  cursor: pointer;
+  letter-spacing: 0.3px;
+  transition: all 0.18s;
+}
+.tab-btn:hover { color: var(--ink); }
+.tab-btn.active {
+  color: var(--accent1);
+  border-bottom-color: var(--accent1);
+}
+.tab-num {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  color: var(--accent1);
+  margin-right: 5px;
+  opacity: 0.7;
+}
+
+/* PANELS */
+.panel { display: none; padding: 30px 0 64px; animation: rise 0.28s ease; }
+.panel.active { display: block; }
+@keyframes rise { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
+
+/* SECTION HEADING */
+.sh {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.35rem;
+  font-weight: 700;
+  margin: 28px 0 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--ink);
+}
+.sh .dot {
+  display: inline-block;
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.sh:first-child { margin-top: 0; }
+
+/* CARD GRID */
+.grid { display: grid; gap: 14px; }
+.grid.c2 { grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); }
+.grid.c3 { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
+
+.card {
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: 10px;
+  padding: 18px 20px;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.card:hover { border-color: var(--accent1); box-shadow: 0 4px 16px rgba(200,80,26,0.07); }
+
+.ct {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.72rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--accent1);
+  margin-bottom: 10px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border);
+}
+
+/* BULLET LIST */
+ul.bl { list-style: none; padding: 0; }
+ul.bl li {
+  padding: 5px 0;
+  font-size: 0.87rem;
+  border-bottom: 1px dashed var(--border);
+  display: flex;
+  gap: 9px;
+  align-items: flex-start;
+  line-height: 1.5;
+}
+ul.bl li:last-child { border-bottom: none; }
+ul.bl li::before { content: '›'; color: var(--accent1); font-weight: 700; flex-shrink: 0; margin-top: 1px; }
+
+/* EXAMPLE BOX */
+.ex {
+  background: var(--surface2);
+  border-left: 3px solid var(--accent2);
+  border-radius: 0 8px 8px 0;
+  padding: 10px 13px;
+  margin: 8px 0;
+  font-size: 0.84rem;
+  line-height: 1.6;
+}
+.ex .exl {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.68rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--accent2);
+  margin-bottom: 3px;
+  font-weight: 500;
+}
+.ex .exv { color: var(--ink); }
+.ex .exn { color: var(--muted); font-size: 0.76rem; margin-top: 3px; font-style: italic; }
+
+/* TIP */
+.tip {
+  background: rgba(181,137,10,0.07);
+  border: 1px solid rgba(181,137,10,0.28);
+  border-radius: 9px;
+  padding: 12px 15px;
+  margin: 8px 0;
+  font-size: 0.86rem;
+  display: flex;
+  gap: 9px;
+  line-height: 1.5;
+}
+.tip .ic { flex-shrink: 0; }
+.tip strong { color: var(--accent5); }
+
+/* WARN */
+.warn {
+  background: rgba(200,80,26,0.06);
+  border: 1px solid rgba(200,80,26,0.25);
+  border-radius: 9px;
+  padding: 12px 15px;
+  margin: 8px 0;
+  font-size: 0.86rem;
+  display: flex;
+  gap: 9px;
+  line-height: 1.5;
+}
+.warn strong { color: var(--accent1); }
+
+/* GOOD */
+.good {
+  background: rgba(46,107,79,0.06);
+  border: 1px solid rgba(46,107,79,0.25);
+  border-radius: 9px;
+  padding: 12px 15px;
+  margin: 8px 0;
+  font-size: 0.86rem;
+  display: flex;
+  gap: 9px;
+  line-height: 1.5;
+}
+.good strong { color: var(--accent2); }
+
+/* TABLE */
+.tw { overflow-x: auto; border-radius: 9px; border: 1.5px solid var(--border); margin: 10px 0; }
+table { width: 100%; border-collapse: collapse; font-size: 0.84rem; }
+th {
+  background: var(--surface2);
+  font-family: 'DM Mono', monospace;
+  font-size: 0.7rem;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--accent1);
+  padding: 9px 13px;
+  text-align: left;
+  border-bottom: 1.5px solid var(--border);
+}
+td { padding: 9px 13px; border-bottom: 1px solid var(--border); vertical-align: top; line-height: 1.45; }
+tr:last-child td { border-bottom: none; }
+tr:hover td { background: rgba(200,80,26,0.025); }
+
+/* BADGE */
+.b {
+  display: inline-block;
+  padding: 2px 7px;
+  border-radius: 4px;
+  font-family: 'DM Mono', monospace;
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.3px;
+}
+.b-r { background: rgba(200,80,26,0.12); color: var(--accent1); }
+.b-g { background: rgba(46,107,79,0.12); color: var(--accent2); }
+.b-b { background: rgba(29,79,130,0.12); color: var(--accent3); }
+.b-p { background: rgba(122,59,140,0.12); color: var(--accent4); }
+.b-y { background: rgba(181,137,10,0.12); color: var(--accent5); }
+
+/* ACCORDION */
+.acc { margin: 8px 0; }
+.acc-h {
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  padding: 11px 15px;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: 600;
+  font-size: 0.87rem;
+  transition: all 0.18s;
+  margin-bottom: 2px;
+}
+.acc-h:hover, .acc-h.open { border-color: var(--accent1); color: var(--accent1); }
+.acc-h.open { border-bottom-left-radius: 0; border-bottom-right-radius: 0; }
+.acc-arr { transition: transform 0.2s; font-size: 0.8rem; }
+.acc-h.open .acc-arr { transform: rotate(180deg); }
+.acc-b {
+  display: none;
+  background: var(--surface);
+  border: 1.5px solid var(--accent1);
+  border-top: none;
+  border-radius: 0 0 8px 8px;
+  padding: 15px 18px;
+  margin-bottom: 8px;
+}
+.acc-b.open { display: block; animation: rise 0.2s; }
+
+/* DIVIDER */
+hr.div { border: none; border-top: 1.5px solid var(--border); margin: 22px 0; }
+
+/* FORMAT BOX */
+.fbox {
+  background: var(--surface2);
+  border: 1.5px solid var(--border);
+  border-radius: 10px;
+  padding: 16px 18px;
+  margin: 10px 0;
+  font-family: 'DM Mono', monospace;
+  font-size: 0.82rem;
+  line-height: 2;
+}
+.fbox .fl {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.7rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--accent3);
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+.fbox .field { color: var(--accent1); font-weight: 500; }
+.fbox .val { color: var(--ink); }
+
+/* TENSE TABLE colorful */
+.tense-row-past td { border-left: 3px solid var(--accent1); }
+.tense-row-present td { border-left: 3px solid var(--accent2); }
+.tense-row-future td { border-left: 3px solid var(--accent3); }
+
+/* SPELL CARD */
+.spell-pair {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  padding: 6px 0;
+  border-bottom: 1px dashed var(--border);
+  font-size: 0.86rem;
+}
+.spell-pair:last-child { border-bottom: none; }
+.wrong { color: #c0392b; text-decoration: line-through; font-family:'DM Mono',monospace; font-size:0.82rem; }
+.right { color: var(--accent2); font-weight: 700; font-family:'DM Mono',monospace; font-size:0.82rem; }
+.arrow { color: var(--muted); }
+
+@media(max-width:600px){
+  h1{font-size:2rem;}
+  .tab-btn{padding:9px 12px;font-size:0.75rem;}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div class="eyebrow">Last-Day Revision · English for Communication</div>
+  <h1>English <em>Quick Notes</em></h1>
+  <div class="subtitle">// Communication · Business Writing · Grammar · Corrections</div>
+</header>
+
+<div class="tabs">
+  <button class="tab-btn active" onclick="show('t1',this)"><span class="tab-num">01</span>Communication</button>
+  <button class="tab-btn" onclick="show('t2',this)"><span class="tab-num">02</span>Business Writing</button>
+  <button class="tab-btn" onclick="show('t3',this)"><span class="tab-num">03</span>Grammar</button>
+  <button class="tab-btn" onclick="show('t4',this)"><span class="tab-num">04</span>Corrections</button>
+  <button class="tab-btn" onclick="show('t5',this)"><span class="tab-num">★</span>Exam Tips</button>
+</div>
+
+<!-- ============================= PANEL 1: COMMUNICATION ============================= -->
+<div class="panel active" id="t1">
+
+  <div class="sh"><span class="dot" style="background:var(--accent1)"></span>Theory of Communication</div>
+
+  <div class="grid c2">
+    <div class="card">
+      <div class="ct">Definition</div>
+      <ul class="bl">
+        <li>Communication = process of exchanging information, ideas, feelings between sender and receiver</li>
+        <li>Latin root: <em>communis</em> = "to share" or "common"</li>
+        <li>Requires: Sender → Message → Channel → Receiver → Feedback</li>
+        <li>Effective only when message is understood as intended</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="ct">Elements of the Process</div>
+      <ul class="bl">
+        <li><strong>Sender</strong> — Encodes and initiates message</li>
+        <li><strong>Message</strong> — Information to be communicated</li>
+        <li><strong>Encoding</strong> — Converting idea into words/symbols</li>
+        <li><strong>Channel/Medium</strong> — Path (verbal, written, visual)</li>
+        <li><strong>Receiver</strong> — Decodes the message</li>
+        <li><strong>Decoding</strong> — Interpreting the message</li>
+        <li><strong>Feedback</strong> — Response from receiver to sender</li>
+        <li><strong>Noise</strong> — Any interference/barrier</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="tip"><span class="ic">💡</span><div><strong>Flow:</strong> Sender → Encoding → Message → Channel → Decoding → Receiver → Feedback → (back to Sender). This is a <strong>circular process</strong>, not one-way.</div></div>
+
+  <hr class="div">
+  <div class="sh"><span class="dot" style="background:var(--accent2)"></span>Verbal vs Non-Verbal Communication</div>
+
+  <div class="grid c2">
+    <div class="card">
+      <div class="ct" style="color:var(--accent2)">Verbal Communication</div>
+      <ul class="bl">
+        <li>Uses words — spoken or written</li>
+        <li><strong>Oral:</strong> face-to-face, phone, meetings, speeches</li>
+        <li><strong>Written:</strong> letters, emails, reports, memos</li>
+        <li>Can be formal or informal</li>
+        <li>Clear, precise, recorded (written form)</li>
+      </ul>
+      <div class="ex" style="border-color:var(--accent2)">
+        <div class="exl">Examples</div>
+        <div class="exv">Speech, interview, presentation, email, notice, report, letter</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="ct" style="color:var(--accent3)">Non-Verbal Communication</div>
+      <ul class="bl">
+        <li>Without words — uses body language, signs, symbols</li>
+        <li><strong>Kinesics:</strong> Body movements, gestures, posture</li>
+        <li><strong>Proxemics:</strong> Use of space/distance</li>
+        <li><strong>Paralanguage:</strong> Tone, pitch, speed of voice</li>
+        <li><strong>Chronemics:</strong> Use of time (punctuality)</li>
+        <li><strong>Haptics:</strong> Touch (handshake)</li>
+        <li><strong>Oculesics:</strong> Eye contact</div>
+        <li>Reinforces or contradicts verbal message</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="tip"><span class="ic">📊</span><div><strong>Mehrabian's Rule (55-38-7):</strong> 55% Body language, 38% Tone of voice, 7% Words. Non-verbal communication carries the most weight!</div></div>
+
+  <hr class="div">
+  <div class="sh"><span class="dot" style="background:var(--accent4)"></span>Barriers to Communication</div>
+
+  <div class="grid c2">
+    <div class="card">
+      <div class="ct">Types of Barriers</div>
+      <div class="tw">
+        <table>
+          <tr><th>Type</th><th>Examples</th></tr>
+          <tr><td><strong>Physical</strong></td><td>Noise, distance, poor lighting, technical faults</td></tr>
+          <tr><td><strong>Psychological</strong></td><td>Emotions, prejudice, stress, poor listening, distrust</td></tr>
+          <tr><td><strong>Language</strong></td><td>Jargon, accent, wrong words, ambiguity</td></tr>
+          <tr><td><strong>Cultural</strong></td><td>Different customs, values, beliefs</td></tr>
+          <tr><td><strong>Organisational</strong></td><td>Too many levels of hierarchy, information overload</td></tr>
+          <tr><td><strong>Semantic</strong></td><td>Words with multiple meanings, wrong interpretation</td></tr>
+        </table>
+      </div>
+    </div>
+    <div class="card">
+      <div class="ct">How to Overcome Barriers</div>
+      <ul class="bl">
+        <li>Use simple, clear language — avoid jargon</li>
+        <li>Choose the right channel for the message</li>
+        <li>Active listening — give full attention</li>
+        <li>Seek feedback to confirm understanding</li>
+        <li>Control emotions before communicating</li>
+        <li>Be aware of cultural differences</li>
+        <li>Reduce physical noise and distractions</li>
+        <li>Use proper body language</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="warn"><span>⚠️</span><div>Exam favourite: <strong>"What are barriers to communication? Give examples."</strong> Always mention at least 4 types with one example each for full marks.</div></div>
+
+</div>
+
+<!-- ============================= PANEL 2: BUSINESS WRITING ============================= -->
+<div class="panel" id="t2">
+
+  <div class="sh"><span class="dot" style="background:var(--accent3)"></span>Parts of a Business Letter</div>
+
+  <div class="fbox">
+    <div class="fl">Standard Layout (Top → Bottom)</div>
+    <span class="field">1. Sender's Address</span> <span class="val">— Your full address (top left)</span><br>
+    <span class="field">2. Date</span> <span class="val">— 1st May, 2026 / 01-05-2026</span><br>
+    <span class="field">3. Receiver's Address</span> <span class="val">— Name, designation, company, address</span><br>
+    <span class="field">4. Subject</span> <span class="val">— Brief one-line purpose (Sub: ...)</span><br>
+    <span class="field">5. Salutation</span> <span class="val">— Dear Sir/Madam, Dear Mr./Ms. [Surname]</span><br>
+    <span class="field">6. Body</span> <span class="val">— Para 1: Purpose | Para 2: Details | Para 3: Close</span><br>
+    <span class="field">7. Complimentary Close</span> <span class="val">— Yours faithfully / Yours sincerely</span><br>
+    <span class="field">8. Signature</span> <span class="val">— Name + Designation</span><br>
+    <span class="field">9. Enclosures (if any)</span> <span class="val">— Encl: Invoice / Catalogue</span>
+  </div>
+
+  <div class="tip"><span class="ic">💡</span><div><strong>"Yours faithfully"</strong> — when you don't know the person's name (used with "Dear Sir/Madam"). <strong>"Yours sincerely"</strong> — when you know the name (used with "Dear Mr./Ms. Sharma").</div></div>
+
+  <hr class="div">
+  <div class="sh"><span class="dot" style="background:var(--accent3)"></span>Parts of an Email</div>
+  <div class="fbox">
+    <div class="fl">Email Structure</div>
+    <span class="field">To:</span> <span class="val">receiver@email.com</span><br>
+    <span class="field">Cc:</span> <span class="val">copy to others (Carbon Copy)</span><br>
+    <span class="field">Bcc:</span> <span class="val">Blind Carbon Copy (hidden from others)</span><br>
+    <span class="field">Subject:</span> <span class="val">Clear and specific (Re: Order No. 501)</span><br>
+    <span class="field">Salutation:</span> <span class="val">Dear [Name],</span><br>
+    <span class="field">Body:</span> <span class="val">Short paragraphs — purpose, details, request</span><br>
+    <span class="field">Closing:</span> <span class="val">Regards / Best regards / Yours sincerely</span><br>
+    <span class="field">Signature:</span> <span class="val">Name, Designation, Contact</span>
+  </div>
+
+  <hr class="div">
+  <div class="sh"><span class="dot" style="background:var(--accent1)"></span>Types of Business Letters</div>
+
+  <div class="acc">
+    <div class="acc-h" onclick="tog(this)">
+      <span>1. Letter of Inquiry <span class="b b-b">Asking for info</span></span><span class="acc-arr">▼</span>
+    </div>
+    <div class="acc-b">
+      <ul class="bl">
+        <li>Written to <strong>ask for information</strong> about products, services, prices, terms</li>
+        <li>Must be polite, specific about what you want to know</li>
+        <li>Request catalogue, price list, samples, delivery terms</li>
+      </ul>
+      <div class="ex">
+        <div class="exl">Opening phrase</div>
+        <div class="exv">"We are interested in purchasing... and would like to know the prices and terms of delivery."</div>
+        <div class="exn">Close with: "We look forward to your early reply."</div>
+      </div>
+      <div class="ex">
+        <div class="exl">Key vocabulary</div>
+        <div class="exv">Kindly furnish / Please provide / We would be grateful / We request / enquire / quotation / catalogue / terms of payment</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="acc">
+    <div class="acc-h" onclick="tog(this)">
+      <span>2. Reply to Inquiry <span class="b b-g">Answering questions</span></span><span class="acc-arr">▼</span>
+    </div>
+    <div class="acc-b">
+      <ul class="bl">
+        <li>Written in response to an inquiry letter</li>
+        <li>Acknowledge the inquiry with date and reference</li>
+        <li>Provide all requested information clearly</li>
+        <li>Offer discounts, delivery terms, payment options</li>
+        <li>End with hope for future business</li>
+      </ul>
+      <div class="ex">
+        <div class="exl">Opening phrase</div>
+        <div class="exv">"Thank you for your inquiry dated 20th April. We are pleased to inform you that..."</div>
+        <div class="exn">Close with: "We hope this information is satisfactory and look forward to receiving your order."</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="acc">
+    <div class="acc-h" onclick="tog(this)">
+      <span>3. Order Letter <span class="b b-r">Placing an order</span></span><span class="acc-arr">▼</span>
+    </div>
+    <div class="acc-b">
+      <ul class="bl">
+        <li>Written to <strong>place an order</strong> for goods or services</li>
+        <li>Mention: item name, quantity, size/colour, price agreed, payment method, delivery date</li>
+        <li>Reference any previous inquiry or catalogue</li>
+      </ul>
+      <div class="ex">
+        <div class="exl">Opening phrase</div>
+        <div class="exv">"With reference to your quotation dated..., we are pleased to place the following order:"</div>
+      </div>
+      <div class="ex">
+        <div class="exl">Order format</div>
+        <div class="exv">Sr. No. | Item | Quantity | Rate | Total</div>
+        <div class="exn">Always give a table or clear list of items ordered</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="acc">
+    <div class="acc-h" onclick="tog(this)">
+      <span>4. Complaint Letter <span class="b b-r">Raising a problem</span></span><span class="acc-arr">▼</span>
+    </div>
+    <div class="acc-b">
+      <ul class="bl">
+        <li>Written when goods/services received are unsatisfactory</li>
+        <li>State the problem clearly: wrong items, damaged goods, delay, short supply</li>
+        <li>Give order number, date, invoice number</li>
+        <li>State what action you expect (replacement, refund, explanation)</li>
+        <li>Firm but polite — never rude</li>
+      </ul>
+      <div class="ex">
+        <div class="exl">Opening phrase</div>
+        <div class="exv">"We regret to inform you that the goods received against our Order No. ___ dated ___ were found to be damaged/incorrect."</div>
+        <div class="exn">Close with: "We request you to replace the goods at the earliest / issue a credit note."</div>
+      </div>
+      <div class="tip"><span class="ic">⚠️</span><div>A complaint letter must be <strong>specific</strong>: give exact order numbers, dates, quantities. Vague complaints get zero marks in exams!</div></div>
+    </div>
+  </div>
+
+  <div class="acc">
+    <div class="acc-h" onclick="tog(this)">
+      <span>5. Adjustment Letter <span class="b b-g">Resolving a complaint</span></span><span class="acc-arr">▼</span>
+    </div>
+    <div class="acc-b">
+      <ul class="bl">
+        <li>Reply to a complaint letter — written by the seller</li>
+        <li>Acknowledge the complaint and apologise sincerely</li>
+        <li>Explain the reason (if any) without making excuses</li>
+        <li>State the action taken: replacement, refund, credit note</li>
+        <li>Assure it won't happen again — goodwill message at end</li>
+      </ul>
+      <div class="ex">
+        <div class="exl">Opening phrase</div>
+        <div class="exv">"We have received your complaint dated ___ and sincerely regret the inconvenience caused. After investigating the matter, we are pleased to inform you that..."</div>
+        <div class="exn">Close with: "We assure you of our best services in future."</div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="div">
+  <div class="sh"><span class="dot" style="background:var(--accent5)"></span>Common Business Abbreviations</div>
+
+  <div class="grid c2">
+    <div class="card">
+      <div class="ct">Must-Know Abbreviations</div>
+      <div class="tw">
+        <table>
+          <tr><th>Abbr.</th><th>Full Form</th></tr>
+          <tr><td><strong>Ref.</strong></td><td>Reference</td></tr>
+          <tr><td><strong>Sub.</strong></td><td>Subject</td></tr>
+          <tr><td><strong>Encl.</strong></td><td>Enclosures</td></tr>
+          <tr><td><strong>c.c.</strong></td><td>Carbon Copy</td></tr>
+          <tr><td><strong>P.T.O.</strong></td><td>Please Turn Over</td></tr>
+          <tr><td><strong>E. & O.E.</strong></td><td>Errors and Omissions Excepted</td></tr>
+          <tr><td><strong>C.O.D.</strong></td><td>Cash On Delivery</td></tr>
+          <tr><td><strong>D.D.</strong></td><td>Demand Draft</td></tr>
+          <tr><td><strong>P.O.</strong></td><td>Purchase Order / Post Office</td></tr>
+          <tr><td><strong>R.S.V.P.</strong></td><td>Répondez s'il vous plaît (Please reply)</td></tr>
+        </table>
+      </div>
+    </div>
+    <div class="card">
+      <div class="ct">More Abbreviations</div>
+      <div class="tw">
+        <table>
+          <tr><th>Abbr.</th><th>Full Form</th></tr>
+          <tr><td><strong>i.e.</strong></td><td>That is (id est)</td></tr>
+          <tr><td><strong>e.g.</strong></td><td>For example (exempli gratia)</td></tr>
+          <tr><td><strong>etc.</strong></td><td>Et cetera (and so on)</td></tr>
+          <tr><td><strong>viz.</strong></td><td>Namely (videlicet)</td></tr>
+          <tr><td><strong>N.B.</strong></td><td>Note well (Nota Bene)</td></tr>
+          <tr><td><strong>A.S.A.P.</strong></td><td>As Soon As Possible</td></tr>
+          <tr><td><strong>F.O.R.</strong></td><td>Free On Rail</td></tr>
+          <tr><td><strong>F.O.B.</strong></td><td>Free On Board</td></tr>
+          <tr><td><strong>Ltd.</strong></td><td>Limited</td></tr>
+          <tr><td><strong>p.a.</strong></td><td>Per annum (per year)</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ============================= PANEL 3: GRAMMAR ============================= -->
+<div class="panel" id="t3">
+
+  <div class="sh"><span class="dot" style="background:var(--accent2)"></span>Parts of Speech — Quick Reference</div>
+
+  <div class="grid c2">
+    <div class="card">
+      <div class="ct" style="color:var(--accent1)">1. Noun — Name of a person/place/thing/idea</div>
+      <ul class="bl">
+        <li><strong>Common:</strong> boy, city, book</li>
+        <li><strong>Proper:</strong> Mumbai, Krish, India (capital letters)</li>
+        <li><strong>Collective:</strong> team, flock, bunch, committee</li>
+        <li><strong>Abstract:</strong> love, honesty, freedom, beauty</li>
+        <li><strong>Countable:</strong> can be counted (pen, apple)</li>
+        <li><strong>Uncountable:</strong> cannot be counted (milk, water, advice)</li>
+      </ul>
+      <div class="tip"><span class="ic">💡</span><div>Advice, information, furniture, luggage = uncountable. Never say "advices" or "informations"!</div></div>
+    </div>
+    <div class="card">
+      <div class="ct" style="color:var(--accent2)">2. Pronoun — Replaces a noun</div>
+      <ul class="bl">
+        <li><strong>Personal:</strong> I, we, you, he, she, it, they</li>
+        <li><strong>Reflexive:</strong> myself, yourself, themselves</li>
+        <li><strong>Demonstrative:</strong> this, that, these, those</li>
+        <li><strong>Interrogative:</strong> who, whom, which, what</li>
+        <li><strong>Relative:</strong> who, whom, which, that</li>
+        <li><strong>Indefinite:</strong> someone, anybody, none, all</li>
+      </ul>
+      <div class="warn"><span>⚠️</span><div>"Who" = subject. "Whom" = object. "Who called?" ✓ "Whom did you call?" ✓</div></div>
+    </div>
+    <div class="card">
+      <div class="ct" style="color:var(--accent3)">3. Adjective — Describes a noun</div>
+      <ul class="bl">
+        <li><strong>Qualitative:</strong> beautiful, large, cold</li>
+        <li><strong>Quantitative:</strong> some, much, little, enough</li>
+        <li><strong>Numeral:</strong> one, first, many, few</li>
+        <li><strong>Possessive:</strong> my, his, her, their</li>
+        <li><strong>Demonstrative:</strong> this, that, these, those</li>
+      </ul>
+      <div class="ex">
+        <div class="exl">Degrees of Comparison</div>
+        <div class="exv">Positive: tall | Comparative: taller | Superlative: tallest</div>
+        <div class="exn">Irregular: good → better → best | bad → worse → worst</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="ct" style="color:var(--accent4)">4. Adverb — Modifies verb/adjective/adverb</div>
+      <ul class="bl">
+        <li><strong>Manner:</strong> quickly, slowly, carefully</li>
+        <li><strong>Time:</strong> now, yesterday, soon, already</li>
+        <li><strong>Place:</strong> here, there, everywhere</li>
+        <li><strong>Frequency:</strong> always, never, often, rarely</li>
+        <li><strong>Degree:</strong> very, quite, too, enough, almost</li>
+      </ul>
+      <div class="tip"><span class="ic">💡</span><div>Most adverbs formed by adding <strong>-ly</strong> to adjective: quick→quickly. But "fast", "hard", "late", "early" are same as adjective and adverb!</div></div>
+    </div>
+    <div class="card">
+      <div class="ct" style="color:var(--accent1)">5. Verb — Action / State of being</div>
+      <ul class="bl">
+        <li><strong>Action:</strong> run, write, speak, eat</li>
+        <li><strong>Linking:</strong> is, am, are, was, were, seem, become</li>
+        <li><strong>Auxiliary (Helping):</strong> have, has, had, do, does, did, will, shall, can, may, must, should</li>
+        <li><strong>Transitive:</strong> needs an object (She reads a book)</li>
+        <li><strong>Intransitive:</strong> no object needed (She sleeps)</li>
+        <li><strong>Modal:</strong> can, could, may, might, shall, should, will, would, must</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="ct" style="color:var(--accent2)">6. Preposition — Shows relationship</div>
+      <ul class="bl">
+        <li><strong>Place:</strong> in, on, at, under, above, below, beside</li>
+        <li><strong>Time:</strong> at (3pm), on (Monday), in (March/2026)</li>
+        <li><strong>Direction:</strong> to, into, toward, from, through</li>
+        <li><strong>Cause:</strong> because of, due to, owing to</li>
+      </ul>
+      <div class="ex">
+        <div class="exl">at / on / in — Time Rule</div>
+        <div class="exv">AT: exact time (at 5pm, at noon) | ON: day/date (on Monday) | IN: month/year/season (in April, in 2026)</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="ct" style="color:var(--accent3)">7. Connectors / Conjunctions</div>
+      <ul class="bl">
+        <li><strong>Coordinating:</strong> for, and, nor, but, or, yet, so → <em>FANBOYS</em></li>
+        <li><strong>Subordinating:</strong> because, although, when, since, if, unless, until, after, before</li>
+        <li><strong>Correlative:</strong> either…or | neither…nor | both…and | not only…but also</li>
+        <li><strong>Transitional:</strong> however, therefore, moreover, furthermore, consequently</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="ct" style="color:var(--accent4)">8. Interjection — Sudden emotion</div>
+      <ul class="bl">
+        <li>Expresses sudden feeling — always followed by ! or ,</li>
+        <li><strong>Joy:</strong> Hurrah! Wow! Bravo!</li>
+        <li><strong>Sorrow:</strong> Alas! Oh!</li>
+        <li><strong>Surprise:</strong> What! Really! Indeed!</li>
+        <li><strong>Approval:</strong> Bravo! Well done!</li>
+        <li><strong>Disgust:</strong> Ugh! Yuck!</li>
+      </ul>
+    </div>
+  </div>
+
+  <hr class="div">
+  <div class="sh"><span class="dot" style="background:var(--accent1)"></span>Tenses — Complete Table</div>
+
+  <div class="tw">
+    <table>
+      <tr>
+        <th>Tense</th><th>Structure</th><th>Example</th><th>Signal Words</th>
+      </tr>
+      <!-- PRESENT -->
+      <tr class="tense-row-present">
+        <td><span class="b b-g">Simple Present</span></td>
+        <td>V1 / V1+s/es</td>
+        <td>She <u>writes</u> letters.</td>
+        <td>always, usually, often, every day</td>
+      </tr>
+      <tr class="tense-row-present">
+        <td><span class="b b-g">Present Continuous</span></td>
+        <td>is/am/are + V-ing</td>
+        <td>She <u>is writing</u> a letter.</td>
+        <td>now, at this moment, currently</td>
+      </tr>
+      <tr class="tense-row-present">
+        <td><span class="b b-g">Present Perfect</span></td>
+        <td>has/have + V3</td>
+        <td>She <u>has written</u> the letter.</td>
+        <td>just, already, yet, ever, never, since, for</td>
+      </tr>
+      <tr class="tense-row-present">
+        <td><span class="b b-g">Present Perfect Continuous</span></td>
+        <td>has/have been + V-ing</td>
+        <td>She <u>has been writing</u> since morning.</td>
+        <td>since, for + ongoing action</td>
+      </tr>
+      <!-- PAST -->
+      <tr class="tense-row-past">
+        <td><span class="b b-r">Simple Past</span></td>
+        <td>V2 (past form)</td>
+        <td>She <u>wrote</u> a letter.</td>
+        <td>yesterday, ago, last week, in 2010</td>
+      </tr>
+      <tr class="tense-row-past">
+        <td><span class="b b-r">Past Continuous</span></td>
+        <td>was/were + V-ing</td>
+        <td>She <u>was writing</u> when I called.</td>
+        <td>while, when, at that time</td>
+      </tr>
+      <tr class="tense-row-past">
+        <td><span class="b b-r">Past Perfect</span></td>
+        <td>had + V3</td>
+        <td>She <u>had written</u> before he arrived.</td>
+        <td>before, after, by the time, already</td>
+      </tr>
+      <tr class="tense-row-past">
+        <td><span class="b b-r">Past Perfect Continuous</span></td>
+        <td>had been + V-ing</td>
+        <td>She <u>had been writing</u> for an hour.</td>
+        <td>for, since + past reference point</td>
+      </tr>
+      <!-- FUTURE -->
+      <tr class="tense-row-future">
+        <td><span class="b b-b">Simple Future</span></td>
+        <td>will/shall + V1</td>
+        <td>She <u>will write</u> tomorrow.</td>
+        <td>tomorrow, next week, soon, in future</td>
+      </tr>
+      <tr class="tense-row-future">
+        <td><span class="b b-b">Future Continuous</span></td>
+        <td>will be + V-ing</td>
+        <td>She <u>will be writing</u> at 5pm.</td>
+        <td>at (time) tomorrow, this time next week</td>
+      </tr>
+      <tr class="tense-row-future">
+        <td><span class="b b-b">Future Perfect</span></td>
+        <td>will have + V3</td>
+        <td>She <u>will have written</u> by noon.</td>
+        <td>by (time), before (future point)</td>
+      </tr>
+      <tr class="tense-row-future">
+        <td><span class="b b-b">Future Perfect Continuous</span></td>
+        <td>will have been + V-ing</td>
+        <td>She will have been writing for 2 hours by then.</td>
+        <td>for + duration + by + future point</td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="tip" style="margin-top:12px"><span class="ic">💡</span><div><strong>V1</strong> = base form (write), <strong>V2</strong> = past simple (wrote), <strong>V3</strong> = past participle (written), <strong>V-ing</strong> = present participle (writing)</div></div>
+
+  <hr class="div">
+  <div class="sh"><span class="dot" style="background:var(--accent4)"></span>Subject-Verb Agreement — Rules</div>
+
+  <div class="grid c2">
+    <div class="card">
+      <div class="ct">Core Rules</div>
+      <ul class="bl">
+        <li>Singular subject → singular verb: <em>He <u>runs</u>.</em></li>
+        <li>Plural subject → plural verb: <em>They <u>run</u>.</em></li>
+        <li>Two subjects joined by <strong>and</strong> → plural verb: <em>Ram and Sita <u>are</u> here.</em></li>
+        <li>Subjects joined by <strong>or/nor</strong> → verb agrees with nearer subject: <em>Neither he nor they <u>are</u> wrong.</em></li>
+        <li>Collective nouns → usually singular: <em>The team <u>has</u> won.</em></li>
+        <li>Indefinite pronouns (<em>everyone, someone, nobody</em>) → singular verb</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="ct">Tricky Rules</div>
+      <ul class="bl">
+        <li><strong>Either/Neither</strong> (alone, without or/nor) → singular: <em>Neither <u>is</u> correct.</em></li>
+        <li><strong>Each/Every/One of</strong> → singular: <em>Each student <u>has</u> a book.</em></li>
+        <li><strong>News, Mathematics, Economics, Physics</strong> → singular verb: <em>The news <u>is</u> good.</em></li>
+        <li><strong>A lot of / Plenty of</strong> → depends on noun: <em>A lot of water <u>is</u>. / A lot of students <u>are</u>.</em></li>
+        <li><strong>The + adjective</strong> (The poor, the rich) → plural verb</li>
+        <li><strong>As well as / Along with / Together with</strong> → verb agrees with first subject: <em>The manager, along with the staff, <u>is</u> present.</em></li>
+      </ul>
+    </div>
+  </div>
+
+</div>
+
+<!-- ============================= PANEL 4: CORRECTIONS ============================= -->
+<div class="panel" id="t4">
+
+  <div class="sh"><span class="dot" style="background:var(--accent5)"></span>Word Correction — Common Spelling Mistakes</div>
+
+  <div class="grid c2">
+    <div class="card">
+      <div class="ct">Wrong → Right Spellings</div>
+      <div class="spell-pair"><span class="wrong">accomodate</span><span class="arrow">→</span><span class="right">accommodate</span></div>
+      <div class="spell-pair"><span class="wrong">recieve</span><span class="arrow">→</span><span class="right">receive</span></div>
+      <div class="spell-pair"><span class="wrong">occured</span><span class="arrow">→</span><span class="right">occurred</span></div>
+      <div class="spell-pair"><span class="wrong">begining</span><span class="arrow">→</span><span class="right">beginning</span></div>
+      <div class="spell-pair"><span class="wrong">definately</span><span class="arrow">→</span><span class="right">definitely</span></div>
+      <div class="spell-pair"><span class="wrong">seperate</span><span class="arrow">→</span><span class="right">separate</span></div>
+      <div class="spell-pair"><span class="wrong">goverment</span><span class="arrow">→</span><span class="right">government</span></div>
+      <div class="spell-pair"><span class="wrong">calender</span><span class="arrow">→</span><span class="right">calendar</span></div>
+      <div class="spell-pair"><span class="wrong">neccessary</span><span class="arrow">→</span><span class="right">necessary</span></div>
+      <div class="spell-pair"><span class="wrong">previlege</span><span class="arrow">→</span><span class="right">privilege</span></div>
+      <div class="spell-pair"><span class="wrong">enviroment</span><span class="arrow">→</span><span class="right">environment</span></div>
+      <div class="spell-pair"><span class="wrong">existance</span><span class="arrow">→</span><span class="right">existence</span></div>
+    </div>
+    <div class="card">
+      <div class="ct">More Spelling Traps</div>
+      <div class="spell-pair"><span class="wrong">fourty</span><span class="arrow">→</span><span class="right">forty</span></div>
+      <div class="spell-pair"><span class="wrong">lisence</span><span class="arrow">→</span><span class="right">licence / license</span></div>
+      <div class="spell-pair"><span class="wrong">occassion</span><span class="arrow">→</span><span class="right">occasion</span></div>
+      <div class="spell-pair"><span class="wrong">comittee</span><span class="arrow">→</span><span class="right">committee</span></div>
+      <div class="spell-pair"><span class="wrong">embarass</span><span class="arrow">→</span><span class="right">embarrass</span></div>
+      <div class="spell-pair"><span class="wrong">grammer</span><span class="arrow">→</span><span class="right">grammar</span></div>
+      <div class="spell-pair"><span class="wrong">writting</span><span class="arrow">→</span><span class="right">writing</span></div>
+      <div class="spell-pair"><span class="wrong">maintainance</span><span class="arrow">→</span><span class="right">maintenance</span></div>
+      <div class="spell-pair"><span class="wrong">assistent</span><span class="arrow">→</span><span class="right">assistant</span></div>
+      <div class="spell-pair"><span class="wrong">correspondance</span><span class="arrow">→</span><span class="right">correspondence</span></div>
+      <div class="spell-pair"><span class="wrong">reccomend</span><span class="arrow">→</span><span class="right">recommend</span></div>
+      <div class="spell-pair"><span class="wrong">succesful</span><span class="arrow">→</span><span class="right">successful</span></div>
+    </div>
+  </div>
+
+  <div class="tip"><span class="ic">💡</span><div><strong>i before e except after c:</strong> receive, perceive, conceive — but exceptions: weird, seize, their, height, neither, leisure.</div></div>
+
+  <hr class="div">
+  <div class="sh"><span class="dot" style="background:var(--accent4)"></span>Sentence Correction — Common Grammar Errors</div>
+
+  <div class="acc">
+    <div class="acc-h" onclick="tog(this)"><span>Subject-Verb Agreement Errors</span><span class="acc-arr">▼</span></div>
+    <div class="acc-b">
+      <div class="tw"><table>
+        <tr><th>Wrong ✗</th><th>Correct ✓</th><th>Rule</th></tr>
+        <tr><td>She <u>don't</u> know.</td><td>She <u>doesn't</u> know.</td><td>Singular subject → doesn't</td></tr>
+        <tr><td>The team <u>are</u> playing well.</td><td>The team <u>is</u> playing well.</td><td>Collective noun → singular</td></tr>
+        <tr><td>Everyone <u>have</u> a pen.</td><td>Everyone <u>has</u> a pen.</td><td>Everyone → singular</td></tr>
+        <tr><td>The news <u>are</u> shocking.</td><td>The news <u>is</u> shocking.</td><td>News → always singular</td></tr>
+        <tr><td>Neither he nor I <u>is</u> wrong.</td><td>Neither he nor I <u>am</u> wrong.</td><td>Verb agrees with "I" (nearer)</td></tr>
+      </table></div>
+    </div>
+  </div>
+
+  <div class="acc">
+    <div class="acc-h" onclick="tog(this)"><span>Tense &amp; Verb Form Errors</span><span class="acc-arr">▼</span></div>
+    <div class="acc-b">
+      <div class="tw"><table>
+        <tr><th>Wrong ✗</th><th>Correct ✓</th><th>Rule</th></tr>
+        <tr><td>She <u>is knowing</u> the answer.</td><td>She <u>knows</u> the answer.</td><td>Stative verbs don't use continuous</td></tr>
+        <tr><td>I <u>have went</u> there.</td><td>I <u>have gone</u> there.</td><td>has/have + V3, not V2</td></tr>
+        <tr><td>He <u>did not went</u>.</td><td>He <u>did not go</u>.</td><td>After did/didn't, use V1</td></tr>
+        <tr><td>She <u>use to</u> sing.</td><td>She <u>used to</u> sing.</td><td>Past habit → used to</td></tr>
+        <tr><td>When he <u>will come</u>, I will leave.</td><td>When he <u>comes</u>, I will leave.</td><td>Time clause (when/if) → present tense</td></tr>
+      </table></div>
+      <div class="tip"><span class="ic">💡</span><div>Stative verbs (no continuous form): <strong>know, understand, believe, love, hate, want, need, see, hear, smell, taste, own, have (possession)</strong></div></div>
+    </div>
+  </div>
+
+  <div class="acc">
+    <div class="acc-h" onclick="tog(this)"><span>Article Errors (a / an / the)</span><span class="acc-arr">▼</span></div>
+    <div class="acc-b">
+      <div class="tw"><table>
+        <tr><th>Wrong ✗</th><th>Correct ✓</th><th>Rule</th></tr>
+        <tr><td>She is <u>a</u> honest girl.</td><td>She is <u>an</u> honest girl.</td><td>"Honest" starts with vowel sound /ɒ/</td></tr>
+        <tr><td>He is <u>an</u> university student.</td><td>He is <u>a</u> university student.</td><td>"University" starts with consonant sound /j/</td></tr>
+        <tr><td>I saw <u>a</u> sun rise.</td><td>I saw <u>the</u> sun rise.</td><td>Unique things → the (sun, moon, sky)</td></tr>
+        <tr><td>She plays <u>the</u> tennis.</td><td>She plays tennis.</td><td>No article before sports/games</td></tr>
+        <tr><td>He is <u>an</u> M.A.</td><td>He is <u>an</u> M.A.</td><td>"M" starts with vowel sound /em/ ✓</td></tr>
+      </table></div>
+    </div>
+  </div>
+
+  <div class="acc">
+    <div class="acc-h" onclick="tog(this)"><span>Preposition Errors</span><span class="acc-arr">▼</span></div>
+    <div class="acc-b">
+      <div class="tw"><table>
+        <tr><th>Wrong ✗</th><th>Correct ✓</th></tr>
+        <tr><td>She is good <u>in</u> English.</td><td>She is good <u>at</u> English.</td></tr>
+        <tr><td>He is married <u>with</u> her.</td><td>He is married <u>to</u> her.</td></tr>
+        <tr><td>I am angry <u>on</u> him.</td><td>I am angry <u>with</u> him.</td></tr>
+        <tr><td>He died <u>from</u> cancer.</td><td>He died <u>of</u> cancer.</td></tr>
+        <tr><td>He is afraid <u>from</u> dogs.</td><td>He is afraid <u>of</u> dogs.</td></tr>
+        <tr><td>Discuss <u>about</u> it.</td><td>Discuss it. (no "about")</td></tr>
+      </table></div>
+    </div>
+  </div>
+
+  <div class="acc">
+    <div class="acc-h" onclick="tog(this)"><span>Pronoun, Adjective &amp; Other Errors</span><span class="acc-arr">▼</span></div>
+    <div class="acc-b">
+      <div class="tw"><table>
+        <tr><th>Wrong ✗</th><th>Correct ✓</th><th>Rule</th></tr>
+        <tr><td>Between you and <u>I</u>.</td><td>Between you and <u>me</u>.</td><td>After prepositions → object pronoun</td></tr>
+        <tr><td>He is more <u>cleverer</u>.</td><td>He is <u>cleverer</u> / more clever.</td><td>No double comparative</td></tr>
+        <tr><td>This is the <u>most best</u>.</td><td>This is the <u>best</u>.</td><td>No double superlative</td></tr>
+        <tr><td>He is <u>elder</u> than me.</td><td>He is <u>older</u> than me.</td><td>Elder = family only, older = age comparison</td></tr>
+        <tr><td>She <u>herself</u> done it.</td><td>She <u>herself</u> did it. / She did it herself.</td><td>Reflexive used for emphasis correctly</td></tr>
+        <tr><td>I need <u>less</u> books.</td><td>I need <u>fewer</u> books.</td><td>Fewer = countable; Less = uncountable</td></tr>
+      </table></div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ============================= PANEL 5: EXAM TIPS ============================= -->
+<div class="panel" id="t5">
+
+  <div class="sh"><span class="dot" style="background:var(--accent1)"></span>High-Yield Exam Points</div>
+
+  <div class="grid c2">
+    <div class="card">
+      <div class="ct">Most Asked 1-Mark Questions</div>
+      <ul class="bl">
+        <li>What is communication? → Exchange of info between sender and receiver</li>
+        <li>Full form of RSVP? → Répondez s'il vous plaît (Please reply)</li>
+        <li>What is Kinesics? → Body language / gestures</li>
+        <li>Full form of Cc in email? → Carbon Copy</li>
+        <li>What is salutation in a letter? → Greeting (Dear Sir/Madam)</li>
+        <li>What is an interjection? → Word expressing sudden emotion</li>
+        <li>What is feedback in communication? → Receiver's response to sender</li>
+        <li>"Yours faithfully" is used when? → When name of receiver is not known</li>
+        <li>What is noise in communication? → Any barrier/interference</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="ct">Most Asked 5-Mark Questions</div>
+      <ul class="bl">
+        <li>Explain the process of communication with diagram</li>
+        <li>Differentiate verbal and non-verbal communication</li>
+        <li>What are barriers to communication? How to overcome them?</li>
+        <li>Write a complaint letter about defective goods</li>
+        <li>Write a business inquiry letter</li>
+        <li>Explain Subject-Verb Agreement with 5 rules and examples</li>
+        <li>Write all 12 tenses with structure and example</li>
+        <li>Parts of a business letter — explain each part</li>
+      </ul>
+    </div>
+  </div>
+
+  <hr class="div">
+  <div class="sh" style="font-size:1.1rem"><span class="dot" style="background:var(--accent2)"></span>Letter Writing — Marks Breakdown Strategy</div>
+
+  <div class="card">
+    <div class="ct">How to Score Full Marks in Letter Writing</div>
+    <div class="tw"><table>
+      <tr><th>Part</th><th>Marks</th><th>Key Points</th></tr>
+      <tr><td>Format (layout)</td><td>2</td><td>All 8 parts correctly placed — don't skip any!</td></tr>
+      <tr><td>Content / Body</td><td>2</td><td>3 clear paragraphs: purpose, details, conclusion</td></tr>
+      <tr><td>Language</td><td>1</td><td>Formal language, no slang, no contractions (don't → do not)</td></tr>
+    </table></div>
+    <div class="tip" style="margin-top:10px"><span class="ic">✅</span><div>Always use <strong>passive, formal language</strong> in business letters. Avoid "I want" — use "I would like to request" or "Kindly..."</div></div>
+  </div>
+
+  <hr class="div">
+  <div class="sh" style="font-size:1.1rem"><span class="dot" style="background:var(--accent4)"></span>Grammar Quick Rules — Don't Forget!</div>
+
+  <div class="grid c2">
+    <div class="card">
+      <div class="ct">Articles — 3 Golden Rules</div>
+      <ul class="bl">
+        <li><strong>a</strong> = consonant sound (a cat, a university, a European)</li>
+        <li><strong>an</strong> = vowel sound (an egg, an hour, an honest man, an MBA)</li>
+        <li><strong>the</strong> = specific/unique things (the sun, the Taj Mahal, the first time)</li>
+        <li>No article before: languages, subjects, meals, sports, proper nouns</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="ct">Fewer vs Less / Many vs Much</div>
+      <ul class="bl">
+        <li><strong>Many / Fewer</strong> = with countable nouns (many books, fewer students)</li>
+        <li><strong>Much / Less</strong> = with uncountable nouns (much water, less time)</li>
+        <li><strong>A number of</strong> → plural verb | <strong>The number of</strong> → singular verb</li>
+        <li><strong>Elder/eldest</strong> = only for family members, <strong>older/oldest</strong> = general</li>
+      </ul>
+    </div>
+  </div>
+
+  <hr class="div">
+  <div class="sh" style="font-size:1.1rem"><span class="dot" style="background:var(--accent1)"></span>Common Mistakes to Avoid in Exam</div>
+
+  <div class="warn"><span>❌</span><div>Don't write <strong>"Dear Sir/Madam"</strong> when the name is given. Use <strong>"Dear Mr./Ms. [Surname]"</strong> and close with "Yours sincerely" not "Yours faithfully"</div></div>
+  <div class="warn"><span>❌</span><div>Never say <strong>"discuss about"</strong> — just "discuss". Similarly: "mention about" → "mention", "enter into" → "enter"</div></div>
+  <div class="warn"><span>❌</span><div>Don't use contractions in formal writing — no "can't", "won't", "don't". Write <strong>"cannot", "will not", "do not"</strong></div></div>
+  <div class="warn"><span>❌</span><div>Never write <strong>"more better"</strong> or <strong>"most tallest"</strong> — double comparatives/superlatives are always wrong</div></div>
+  <div class="warn"><span>❌</span><div>"The news <strong>are</strong>..." is wrong — <strong>news is always singular</strong>. Same for physics, mathematics, economics.</div></div>
+
+  <div class="good" style="margin-top:12px"><span>✅</span><div>In sentence correction MCQs: <strong>eliminate wrong options first</strong>. Check subject-verb agreement → tense → prepositions → articles in that order.</div></div>
+  <div class="good"><span>✅</span><div>In spelling MCQs: <strong>say the word aloud mentally</strong>, look for doubled letters (accommodate, committee, occurred) and -ence vs -ance endings.</div></div>
+  <div class="good"><span>✅</span><div>For Parts of Speech: <strong>test by substituting</strong> — if you can replace it with he/she/they, it's a noun. If it modifies a verb, it's an adverb.</div></div>
+  <div class="good"><span>✅</span><div>Every business letter body needs <strong>exactly 3 paragraphs</strong>: (1) Why you're writing, (2) Details/explanation, (3) What you expect/closing.</div></div>
+
+</div>
+
+</div><!-- end wrap -->
+
+<script>
+function show(id, btn) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+}
+function tog(h) {
+  const b = h.nextElementSibling;
+  const isOpen = h.classList.contains('open');
+  document.querySelectorAll('.acc-h').forEach(x => x.classList.remove('open'));
+  document.querySelectorAll('.acc-b').forEach(x => x.classList.remove('open'));
+  if (!isOpen) { h.classList.add('open'); b.classList.add('open'); }
+}
+</script>
+</body>
+</html>
