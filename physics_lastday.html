@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Physics Last-Day Revision</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@400;700&family=IBM+Plex+Sans:ital,wght@0,400;0,600;1,400&display=swap');
+
+  :root{
+    --bg:#0a0c10;
+    --card:#111318;
+    --border:#1e2230;
+    --accent:#f5c518;
+    --accent2:#3dd9eb;
+    --accent3:#ff5e5b;
+    --accent4:#7bff8b;
+    --text:#e8eaf0;
+    --muted:#6b7280;
+    --scalar:#3dd9eb;
+    --vector:#ff5e5b;
+  }
+
+  *{box-sizing:border-box;margin:0;padding:0;}
+
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:'IBM Plex Sans',sans-serif;
+    font-size:14px;
+    line-height:1.6;
+    min-height:100vh;
+  }
+
+  /* ─── HEADER ─── */
+  header{
+    background:linear-gradient(135deg,#0d1117 0%,#161b26 100%);
+    border-bottom:2px solid var(--accent);
+    padding:24px 20px 16px;
+    text-align:center;
+    position:sticky;top:0;z-index:100;
+  }
+  header h1{
+    font-family:'Bebas Neue',sans-serif;
+    font-size:clamp(28px,6vw,52px);
+    letter-spacing:3px;
+    color:var(--accent);
+    text-shadow:0 0 30px rgba(245,197,24,.4);
+  }
+  header p{font-size:12px;color:var(--muted);margin-top:4px;letter-spacing:1px;}
+
+  /* ─── LEGEND ─── */
+  .legend{
+    display:flex;gap:16px;justify-content:center;flex-wrap:wrap;
+    padding:10px 20px;
+    background:#0d1117;
+    border-bottom:1px solid var(--border);
+  }
+  .legend span{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:11px;
+    padding:3px 10px;
+    border-radius:4px;
+    font-weight:700;
+    letter-spacing:.5px;
+  }
+  .s-tag{background:rgba(61,217,235,.15);color:var(--scalar);border:1px solid var(--scalar);}
+  .v-tag{background:rgba(255,94,91,.15);color:var(--vector);border:1px solid var(--vector);}
+  .f-tag{background:rgba(245,197,24,.15);color:var(--accent);border:1px solid var(--accent);}
+
+  /* ─── TABS ─── */
+  .tabs{
+    display:flex;overflow-x:auto;gap:0;
+    border-bottom:2px solid var(--border);
+    background:#0d1117;
+    padding:0 12px;
+  }
+  .tabs::-webkit-scrollbar{height:3px;}
+  .tabs::-webkit-scrollbar-thumb{background:var(--accent);}
+  .tab{
+    font-family:'Bebas Neue',sans-serif;
+    font-size:13px;
+    letter-spacing:1.5px;
+    padding:12px 18px;
+    cursor:pointer;
+    color:var(--muted);
+    border-bottom:3px solid transparent;
+    white-space:nowrap;
+    transition:all .2s;
+    background:none;border-top:none;border-left:none;border-right:none;
+  }
+  .tab:hover{color:var(--text);}
+  .tab.active{color:var(--accent);border-bottom-color:var(--accent);}
+
+  /* ─── CONTENT ─── */
+  main{padding:16px;max-width:960px;margin:0 auto;}
+  .section{display:none;}
+  .section.active{display:block;}
+
+  /* ─── TOPIC CARD ─── */
+  .card{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:8px;
+    margin-bottom:14px;
+    overflow:hidden;
+    transition:border-color .2s;
+  }
+  .card:hover{border-color:#2e3450;}
+  .card-header{
+    padding:12px 16px;
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+  }
+  .card-header h3{
+    font-family:'Bebas Neue',sans-serif;
+    font-size:16px;
+    letter-spacing:1.5px;
+    color:var(--accent);
+  }
+  .card-header .arrow{
+    font-size:12px;color:var(--muted);
+    transition:transform .25s;
+    flex-shrink:0;
+  }
+  .card.open .card-header .arrow{transform:rotate(180deg);}
+  .card-body{
+    display:none;
+    padding:0 16px 14px;
+    border-top:1px solid var(--border);
+  }
+  .card.open .card-body{display:block;}
+
+  /* ─── POINT LIST ─── */
+  .points{list-style:none;padding:0;margin:10px 0 0;}
+  .points li{
+    padding:6px 0;
+    border-bottom:1px solid #1a1f2e;
+    display:flex;
+    align-items:baseline;
+    gap:8px;
+    font-size:13.5px;
+  }
+  .points li:last-child{border-bottom:none;}
+  .badge{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:9px;font-weight:700;
+    padding:2px 5px;border-radius:3px;
+    flex-shrink:0;letter-spacing:.5px;
+  }
+  .S{background:rgba(61,217,235,.18);color:var(--scalar);}
+  .V{background:rgba(255,94,91,.18);color:var(--vector);}
+
+  /* ─── FORMULA BOX ─── */
+  .formula{
+    background:#0d1117;
+    border-left:3px solid var(--accent2);
+    border-radius:0 6px 6px 0;
+    padding:8px 12px;
+    margin:8px 0;
+    font-family:'IBM Plex Mono',monospace;
+    font-size:12.5px;
+    color:var(--accent2);
+  }
+  .formula .label{
+    font-size:10px;color:var(--muted);
+    display:block;margin-bottom:2px;
+    font-family:'IBM Plex Sans',sans-serif;
+  }
+
+  /* ─── KEY FACT ─── */
+  .keyfact{
+    background:rgba(245,197,24,.07);
+    border:1px solid rgba(245,197,24,.25);
+    border-radius:6px;
+    padding:8px 12px;
+    margin:8px 0;
+    font-size:13px;
+    color:var(--accent);
+  }
+  .keyfact::before{content:"★ ";opacity:.7;}
+
+  /* ─── COMPARISON TABLE ─── */
+  table{width:100%;border-collapse:collapse;margin:10px 0;font-size:12.5px;}
+  th{
+    background:#161b26;
+    color:var(--accent);
+    font-family:'IBM Plex Mono',monospace;
+    font-size:11px;
+    letter-spacing:.8px;
+    padding:8px 10px;
+    text-align:left;
+    border:1px solid var(--border);
+  }
+  td{
+    padding:7px 10px;
+    border:1px solid var(--border);
+    color:var(--text);
+    vertical-align:top;
+  }
+  tr:nth-child(even) td{background:rgba(255,255,255,.02);}
+
+  /* ─── SUBHEADING ─── */
+  .sub{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:10px;
+    font-weight:700;
+    letter-spacing:1.5px;
+    color:var(--accent4);
+    margin:14px 0 4px;
+    text-transform:uppercase;
+  }
+
+  /* ─── SCROLL TO TOP ─── */
+  #top-btn{
+    position:fixed;bottom:20px;right:20px;
+    background:var(--accent);color:#000;
+    border:none;border-radius:50%;
+    width:40px;height:40px;
+    font-size:18px;cursor:pointer;
+    box-shadow:0 4px 20px rgba(245,197,24,.4);
+    display:none;z-index:200;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>⚡ Applied Physics — Last Day Revision</h1>
+  <p>ALL IMPORTANT POINTS · SCALAR vs VECTOR · FORMULAE</p>
+</header>
+
+<div class="legend">
+  <span class="s-tag">S = SCALAR</span>
+  <span class="v-tag">V = VECTOR</span>
+  <span class="f-tag">★ = KEY EXAM FACT</span>
+</div>
+
+<div class="tabs">
+  <button class="tab active" onclick="showTab('svtable')">⚡ SCALAR vs VECTOR</button>
+  <button class="tab" onclick="showTab('mech')">MECHANICS</button>
+  <button class="tab" onclick="showTab('circular')">CIRCULAR</button>
+  <button class="tab" onclick="showTab('energy')">WORK & ENERGY</button>
+  <button class="tab" onclick="showTab('electric')">ELECTRICITY</button>
+  <button class="tab" onclick="showTab('heat')">HEAT</button>
+  <button class="tab" onclick="showTab('waves')">WAVES & OPTICS</button>
+  <button class="tab" onclick="showTab('acoustics')">ACOUSTICS</button>
+</div>
+
+<main>
+
+<!-- ══════════════ SCALAR vs VECTOR MASTER TABLE ══════════════ -->
+<div class="section active" id="svtable">
+  <div class="card open">
+    <div class="card-header" onclick="toggle(this)">
+      <h3>Master Table — All Scalar &amp; Vector Quantities</h3><span class="arrow">▼</span>
+    </div>
+    <div class="card-body">
+      <div style="display:flex;gap:10px;flex-wrap:wrap;margin:10px 0 14px;">
+        <span style="background:rgba(61,217,235,.15);color:#3dd9eb;border:1px solid #3dd9eb;padding:4px 12px;border-radius:20px;font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:700;">SCALAR — magnitude only</span>
+        <span style="background:rgba(255,94,91,.15);color:#ff5e5b;border:1px solid #ff5e5b;padding:4px 12px;border-radius:20px;font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:700;">VECTOR — magnitude + direction</span>
+      </div>
+      <table id="sv-table">
+        <tr>
+          <th style="width:5%">#</th>
+          <th style="width:22%">Quantity</th>
+          <th style="width:10%">Type</th>
+          <th style="width:22%">Symbol &amp; Unit</th>
+          <th>Key Note</th>
+          <th style="width:14%">Topic</th>
+        </tr>
+        <!-- MECHANICS -->
+        <tr><td colspan="6" style="background:#0d1117;color:#7bff8b;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:1.5px;padding:6px 10px;">── MECHANICS ──────────────────────</td></tr>
+        <tr><td>1</td><td><b>Distance</b></td><td><span class="badge S">SCALAR</span></td><td>d, m</td><td>Total path length, no direction</td><td>Linear Motion</td></tr>
+        <tr><td>2</td><td><b>Displacement</b></td><td><span class="badge V">VECTOR</span></td><td>s, m</td><td>Shortest path from start to end, has direction</td><td>Linear Motion</td></tr>
+        <tr><td>3</td><td><b>Speed</b></td><td><span class="badge S">SCALAR</span></td><td>v, m/s</td><td>Distance/time, no direction</td><td>Linear Motion</td></tr>
+        <tr><td>4</td><td><b>Velocity</b></td><td><span class="badge V">VECTOR</span></td><td>v, m/s</td><td>Displacement/time, has direction</td><td>Linear Motion</td></tr>
+        <tr><td>5</td><td><b>Acceleration</b></td><td><span class="badge V">VECTOR</span></td><td>a, m/s²</td><td>Rate of change of velocity; can be +ve or −ve</td><td>Linear Motion</td></tr>
+        <tr><td>6</td><td><b>Mass</b></td><td><span class="badge S">SCALAR</span></td><td>m, kg</td><td>Amount of matter; always scalar</td><td>Mechanics</td></tr>
+        <tr><td>7</td><td><b>Force</b></td><td><span class="badge V">VECTOR</span></td><td>F, N (Newton)</td><td>F = ma; direction matters</td><td>Newton's Laws</td></tr>
+        <tr><td>8</td><td><b>Linear Momentum</b></td><td><span class="badge V">VECTOR</span></td><td>p, kg·m/s</td><td>p = mv; direction same as velocity</td><td>Newton's Laws</td></tr>
+        <tr><td>9</td><td><b>Impulse</b></td><td><span class="badge V">VECTOR</span></td><td>J, N·s</td><td>J = FΔt = Δp; direction same as force</td><td>Newton's Laws</td></tr>
+        <tr><td>10</td><td><b>Inertia</b></td><td><span class="badge S">SCALAR</span></td><td>—</td><td>Property of matter (not a force!); ∝ mass</td><td>Newton's 1st Law</td></tr>
+        <!-- CIRCULAR -->
+        <tr><td colspan="6" style="background:#0d1117;color:#7bff8b;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:1.5px;padding:6px 10px;">── CIRCULAR MOTION ────────────────</td></tr>
+        <tr><td>11</td><td><b>Angle</b></td><td><span class="badge S">SCALAR</span></td><td>θ, radian</td><td>Arc length / radius</td><td>Circular Motion</td></tr>
+        <tr><td>12</td><td><b>Angular Velocity</b></td><td><span class="badge V">VECTOR</span></td><td>ω, rad/s</td><td>ω = 2πn; direction by right-hand rule</td><td>Circular Motion</td></tr>
+        <tr><td>13</td><td><b>Angular Acceleration</b></td><td><span class="badge V">VECTOR</span></td><td>α, rad/s²</td><td>α = Δω/Δt</td><td>Circular Motion</td></tr>
+        <tr><td>14</td><td><b>Time Period</b></td><td><span class="badge S">SCALAR</span></td><td>T, s</td><td>T = 1/n = 2π/ω</td><td>Circular Motion</td></tr>
+        <tr><td>15</td><td><b>Centripetal Force</b></td><td><span class="badge V">VECTOR</span></td><td>F, N</td><td>Real force, directed towards centre</td><td>Circular Motion</td></tr>
+        <tr><td>16</td><td><b>Centrifugal Force</b></td><td><span class="badge V">VECTOR</span></td><td>F, N</td><td>Pseudo/fictitious force, away from centre</td><td>Circular Motion</td></tr>
+        <!-- WORK ENERGY -->
+        <tr><td colspan="6" style="background:#0d1117;color:#7bff8b;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:1.5px;padding:6px 10px;">── WORK, ENERGY &amp; POWER ────────────</td></tr>
+        <tr><td>17</td><td><b>Work</b></td><td><span class="badge S">SCALAR</span></td><td>W, J (Joule)</td><td>W = Fd cosθ; dot product → always scalar</td><td>Work &amp; Energy</td></tr>
+        <tr><td>18</td><td><b>Kinetic Energy</b></td><td><span class="badge S">SCALAR</span></td><td>KE, J</td><td>KE = ½mv²; always positive</td><td>Work &amp; Energy</td></tr>
+        <tr><td>19</td><td><b>Potential Energy</b></td><td><span class="badge S">SCALAR</span></td><td>PE, J</td><td>PE = mgh</td><td>Work &amp; Energy</td></tr>
+        <tr><td>20</td><td><b>Power</b></td><td><span class="badge S">SCALAR</span></td><td>P, W (Watt)</td><td>P = W/t = Fv</td><td>Work &amp; Energy</td></tr>
+        <tr><td>21</td><td><b>Energy</b></td><td><span class="badge S">SCALAR</span></td><td>E, J</td><td>All forms of energy are scalar</td><td>Work &amp; Energy</td></tr>
+        <!-- ELECTRICITY -->
+        <tr><td colspan="6" style="background:#0d1117;color:#7bff8b;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:1.5px;padding:6px 10px;">── ELECTRIC CURRENT ───────────────</td></tr>
+        <tr><td>22</td><td><b>Electric Charge</b></td><td><span class="badge S">SCALAR</span></td><td>Q, C (Coulomb)</td><td>e = 1.6×10⁻¹⁹ C; no direction</td><td>Electricity</td></tr>
+        <tr><td>23</td><td><b>Coulomb's Force</b></td><td><span class="badge V">VECTOR</span></td><td>F, N</td><td>Acts along line joining charges; like→repel, unlike→attract</td><td>Electricity</td></tr>
+        <tr><td>24</td><td><b>Electric Field</b></td><td><span class="badge V">VECTOR</span></td><td>E, N/C or V/m</td><td>Direction = force on +ve charge</td><td>Electricity</td></tr>
+        <tr><td>25</td><td><b>Electric Potential</b></td><td><span class="badge S">SCALAR</span></td><td>V, Volt</td><td>V = kQ/r; work done per unit charge</td><td>Electricity</td></tr>
+        <tr><td>26</td><td><b>Electric Flux</b></td><td><span class="badge S">SCALAR</span></td><td>φ, N·m²/C</td><td>φ = EA cosθ; dot product → scalar</td><td>Electricity</td></tr>
+        <tr><td>27</td><td><b>Electric Current</b></td><td><span class="badge S">SCALAR</span></td><td>I, A (Ampere)</td><td>I = Q/t; treated as scalar in circuits</td><td>Electricity</td></tr>
+        <tr><td>28</td><td><b>Resistance</b></td><td><span class="badge S">SCALAR</span></td><td>R, Ω (Ohm)</td><td>R = V/I</td><td>Electricity</td></tr>
+        <tr><td>29</td><td><b>Conductance</b></td><td><span class="badge S">SCALAR</span></td><td>G, S (Siemens)</td><td>G = 1/R</td><td>Electricity</td></tr>
+        <tr><td>30</td><td><b>Resistivity</b></td><td><span class="badge S">SCALAR</span></td><td>ρ, Ω·m</td><td>Property of material; ρ = RA/L</td><td>Electricity</td></tr>
+        <tr><td>31</td><td><b>Conductivity</b></td><td><span class="badge S">SCALAR</span></td><td>σ, S/m</td><td>σ = 1/ρ</td><td>Electricity</td></tr>
+        <tr><td>32</td><td><b>Capacitance</b></td><td><span class="badge S">SCALAR</span></td><td>C, F (Farad)</td><td>C = Q/V = ε₀A/d</td><td>Electricity</td></tr>
+        <!-- HEAT -->
+        <tr><td colspan="6" style="background:#0d1117;color:#7bff8b;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:1.5px;padding:6px 10px;">── HEAT &amp; THERMOMETRY ──────────────</td></tr>
+        <tr><td>33</td><td><b>Temperature</b></td><td><span class="badge S">SCALAR</span></td><td>T, K / °C / °F</td><td>Degree of hotness; no direction</td><td>Heat</td></tr>
+        <tr><td>34</td><td><b>Heat (Thermal Energy)</b></td><td><span class="badge S">SCALAR</span></td><td>Q, J</td><td>Q = mcΔT; energy in transit</td><td>Heat</td></tr>
+        <tr><td>35</td><td><b>Heat Capacity</b></td><td><span class="badge S">SCALAR</span></td><td>C, J/K</td><td>Heat needed to raise body by 1 K</td><td>Heat</td></tr>
+        <tr><td>36</td><td><b>Specific Heat Capacity</b></td><td><span class="badge S">SCALAR</span></td><td>c, J/(kg·K)</td><td>Water = 4200 J/(kg·K) — highest</td><td>Heat</td></tr>
+        <tr><td>37</td><td><b>Thermal Conductivity</b></td><td><span class="badge S">SCALAR</span></td><td>k, W/(m·K)</td><td>Higher k → better conductor</td><td>Heat</td></tr>
+        <tr><td>38</td><td><b>Coeff. of Linear Expansion</b></td><td><span class="badge S">SCALAR</span></td><td>α, /K or /°C</td><td>ΔL = L₀αΔT</td><td>Heat</td></tr>
+        <!-- WAVES -->
+        <tr><td colspan="6" style="background:#0d1117;color:#7bff8b;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:1.5px;padding:6px 10px;">── WAVE MOTION &amp; OPTICS ──────────────</td></tr>
+        <tr><td>39</td><td><b>Frequency</b></td><td><span class="badge S">SCALAR</span></td><td>f, Hz</td><td>Cycles per second</td><td>Waves</td></tr>
+        <tr><td>40</td><td><b>Wavelength</b></td><td><span class="badge S">SCALAR</span></td><td>λ, m</td><td>Distance between consecutive crests</td><td>Waves</td></tr>
+        <tr><td>41</td><td><b>Time Period</b></td><td><span class="badge S">SCALAR</span></td><td>T, s</td><td>T = 1/f</td><td>Waves</td></tr>
+        <tr><td>42</td><td><b>Amplitude</b></td><td><span class="badge S">SCALAR</span></td><td>A, m</td><td>Max displacement from equilibrium</td><td>Waves</td></tr>
+        <tr><td>43</td><td><b>Intensity</b></td><td><span class="badge S">SCALAR</span></td><td>I, W/m²</td><td>I ∝ A²; power per unit area</td><td>Waves</td></tr>
+        <tr><td>44</td><td><b>Phase</b></td><td><span class="badge S">SCALAR</span></td><td>φ, rad</td><td>Stage of oscillation at a point</td><td>Waves</td></tr>
+        <tr><td>45</td><td><b>Wave Velocity</b></td><td><span class="badge V">VECTOR</span></td><td>v, m/s</td><td>v = fλ; has direction of wave propagation</td><td>Waves</td></tr>
+        <tr><td>46</td><td><b>Refractive Index</b></td><td><span class="badge S">SCALAR</span></td><td>n, dimensionless</td><td>n = c/v = sin i / sin r</td><td>Optics</td></tr>
+        <tr><td>47</td><td><b>Critical Angle</b></td><td><span class="badge S">SCALAR</span></td><td>C, degree</td><td>sin C = 1/n</td><td>Optics</td></tr>
+        <!-- ACOUSTICS -->
+        <tr><td colspan="6" style="background:#0d1117;color:#7bff8b;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:1.5px;padding:6px 10px;">── ACOUSTICS ───────────────────────</td></tr>
+        <tr><td>48</td><td><b>Reverberation Time</b></td><td><span class="badge S">SCALAR</span></td><td>T, s</td><td>T = 0.161V/ΣaS (Sabine's formula)</td><td>Acoustics</td></tr>
+        <tr><td>49</td><td><b>Absorption Coefficient</b></td><td><span class="badge S">SCALAR</span></td><td>a, dimensionless</td><td>Ratio absorbed/incident; a=1 for open window</td><td>Acoustics</td></tr>
+        <tr><td>50</td><td><b>Speed of Sound</b></td><td><span class="badge V">VECTOR</span></td><td>v, m/s</td><td>≈340 m/s in air; fastest in solids</td><td>Acoustics</td></tr>
+      </table>
+
+      <div style="margin-top:16px;display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+        <div style="background:rgba(61,217,235,.07);border:1px solid rgba(61,217,235,.3);border-radius:8px;padding:12px;">
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:15px;color:#3dd9eb;letter-spacing:1.5px;margin-bottom:8px;">📊 SCALAR QUANTITIES (31)</div>
+          <div style="font-size:12px;color:#b0bec5;line-height:1.9;">
+            Distance · Speed · Mass · Time Period · Angle · Work · KE · PE · Power · Energy ·
+            Charge · Electric Potential · Electric Flux · Current · Resistance · Conductance ·
+            Resistivity · Conductivity · Capacitance · Temperature · Heat · Heat Capacity ·
+            Specific Heat · Thermal Conductivity · Linear Expansion Coeff ·
+            Frequency · Wavelength · Amplitude · Intensity · Phase · Refractive Index ·
+            Critical Angle · Reverberation Time · Absorption Coefficient · Inertia
+          </div>
+        </div>
+        <div style="background:rgba(255,94,91,.07);border:1px solid rgba(255,94,91,.3);border-radius:8px;padding:12px;">
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:15px;color:#ff5e5b;letter-spacing:1.5px;margin-bottom:8px;">🏹 VECTOR QUANTITIES (11)</div>
+          <div style="font-size:12px;color:#b0bec5;line-height:1.9;">
+            Displacement · Velocity · Acceleration · Force · Linear Momentum · Impulse ·
+            Angular Velocity · Angular Acceleration · Centripetal Force · Centrifugal Force ·
+            Electric Field · Coulomb's Force · Wave Velocity · Speed of Sound
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════ MECHANICS ══════════════ -->
+<div class="section" id="mech">
+
+  <div class="card open">
+    <div class="card-header" onclick="toggle(this)">
+      <h3>Linear Motion — Definitions</h3><span class="arrow">▼</span>
+    </div>
+    <div class="card-body">
+      <ul class="points">
+        <li><span class="badge S">S</span><b>Distance</b> — total path length (no direction)</li>
+        <li><span class="badge V">V</span><b>Displacement</b> — shortest path from start to end, has direction</li>
+        <li><span class="badge S">S</span><b>Speed</b> = Distance / Time</li>
+        <li><span class="badge V">V</span><b>Velocity</b> = Displacement / Time</li>
+        <li><span class="badge V">V</span><b>Acceleration</b> = Change in velocity / Time; can be +ve or −ve</li>
+        <li><span class="badge S">S</span><b>Mass</b> — amount of matter, always scalar</li>
+        <li><span class="badge V">V</span><b>Force</b> = mass × acceleration (F = ma)</li>
+      </ul>
+      <div class="formula">
+        <span class="label">EQUATIONS OF MOTION (uniform acceleration)</span>
+        v = u + at &nbsp;|&nbsp; s = ut + ½at² &nbsp;|&nbsp; v² = u² + 2as
+      </div>
+      <div class="keyfact">Uniform velocity → acceleration = 0. Uniform acceleration → velocity changes linearly.</div>
+    </div>
+  </div>
+
+  <div class="card open">
+    <div class="card-header" onclick="toggle(this)">
+      <h3>Newton's Laws of Motion</h3><span class="arrow">▼</span>
+    </div>
+    <div class="card-body">
+      <ul class="points">
+        <li><span class="badge V">V</span><b>1st Law (Inertia)</b> — Body remains at rest or in uniform motion unless acted upon by external force. Inertia ∝ mass.</li>
+        <li><span class="badge V">V</span><b>2nd Law</b> — F = ma (or F = dp/dt, rate of change of momentum)</li>
+        <li><span class="badge V">V</span><b>3rd Law</b> — Every action has equal and opposite reaction. Forces act on DIFFERENT bodies.</li>
+      </ul>
+      <div class="keyfact">Inertia is NOT a force — it is a property of matter.</div>
+    </div>
+  </div>
+
+  <div class="card open">
+    <div class="card-header" onclick="toggle(this)">
+      <h3>Linear Momentum & Impulse</h3><span class="arrow">▼</span>
+    </div>
+    <div class="card-body">
+      <ul class="points">
+        <li><span class="badge V">V</span><b>Linear Momentum (p)</b> = mass × velocity &nbsp;→&nbsp; p = mv</li>
+        <li><span class="badge V">V</span><b>Impulse (J)</b> = Force × time = Change in momentum &nbsp;→&nbsp; J = FΔt = Δp</li>
+        <li><span class="badge V">V</span>Law of Conservation of Momentum — Total momentum of an isolated system remains constant.</li>
+      </ul>
+      <div class="formula">
+        p = mv &nbsp;&nbsp;|&nbsp;&nbsp; J = FΔt = mv − mu
+      </div>
+      <div class="keyfact">Unit of momentum: kg·m/s. Unit of impulse: N·s = kg·m/s.</div>
+      <div class="keyfact">Impulse = area under Force–Time graph.</div>
+    </div>
+  </div>
+
+</div><!-- end mech -->
+
+<!-- ══════════════ CIRCULAR MOTION ══════════════ -->
+<div class="section" id="circular">
+
+  <div class="card open">
+    <div class="card-header" onclick="toggle(this)">
+      <h3>Angular Quantities</h3><span class="arrow">▼</span>
+    </div>
+    <div class="card-body">
+      <ul class="points">
+        <li><span class="badge S">S</span><b>Angle (θ)</b> — measured in radians; θ = arc length / radius</li>
+        <li><span class="badge V">V</span><b>Angular Velocity (ω)</b> = θ/t = 2πn; direction: right-hand rule</li>
+        <li><span class="badge V">V</span><b>Angular Acceleration (α)</b> = Δω/Δt</li>
+        <li><span class="badge V">V</span><b>Linear velocity</b> v = rω (relation between linear and angular)</li>
+        <li><span class="badge S">S</span><b>Time Period (T)</b> = 1/n = 2π/ω</li>
+      </ul>
+      <div class="formula">
+        ω = 2πn = 2π/T &nbsp;|&nbsp; v = rω &nbsp;|&nbsp; a<sub>c</sub> = v²/r = rω²
+      </div>
+    </div>
+  </div>
+
+  <div class="card open">
+    <div class="card-header" onclick="toggle(this)">
+      <h3>Centripetal vs Centrifugal Force</h3><span class="arrow">▼</span>
+    </div>
+    <div class="card-body">
+      <table>
+        <tr><th>Property</th><th>Centripetal</th><th>Centrifugal</th></tr>
+        <tr><td>Nature</td><td>Real force</td><td>Pseudo (fictitious) force</td></tr>
+        <tr><td>Direction</td><td>Towards centre</td><td>Away from centre</td></tr>
+        <tr><td>Formula</td><td>F = mv²/r = mrω²</td><td>Same magnitude, opposite direction</td></tr>
+        <tr><td>Scalar/Vector</td><td>Vector ↗</td><td>Vector ↗</td></tr>
+        <tr><td>Frame</td><td>Inertial frame</td><td>Non-inertial (rotating) frame</td></tr>
+      </table>
+      <div class="keyfact">In uniform circular motion, speed is constant but velocity changes (direction changes) — so acceleration exists!</div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ══════════════ WORK & ENERGY ══════════════ -->
+<div class="section" id="energy">
+
+  <div class="card open">
+    <div class="card-header" onclick="toggle(this)">
+      <h3>Work, Energy, Power — Scalar or Vector?</h3><span class="arrow">▼</span>
+    </div>
+    <div class="card-body">
+      <ul class="points">
+        <li><span class="badge S">S</span><b>Work (W)</b> = F·d·cosθ — dot product, always scalar. Unit: Joule (J)</li>
+        <li><span class="badge S">S</span><b>Kinetic Energy (KE)</b> = ½mv² — always positive scalar</li>
+        <li><span class="badge S">S</span><b>Potential Energy (PE)</b> = mgh — scalar (can be negative in some contexts)</li>
+        <li><span class="badge S">S</span><b>Power (P)</b> = Work/Time = F·v; Unit: Watt (W)</li>
+        <li><span class="badge S">S</span><b>Energy</b> — all forms of energy are scalar</li>
+      </ul>
+      <div class="formula">
+        W = Fd cosθ &nbsp;|&nbsp; KE = ½mv² &nbsp;|&nbsp; PE = mgh &nbsp;|&nbsp; P = W/t = Fv
+      </div>
+      <div class="keyfact">Work–Energy Theorem: Net work done = Change in KE → W<sub>net</sub> = ΔKE</div>
+      <div class="keyfact">Law of Conservation of Energy: Total energy (KE + PE) of an isolated system is constant.</div>
+    </div>
+  </div>
+
+  <div class="card open">
+    <div class="card-header" onclick="toggle(this)">
+      <h3>Important Special Cases</h3><span class="arrow">▼</span>
+    </div>
+    <div class="card-body">
+      <ul class="points">
+        <li><span class="badge S">S</span>If θ = 0°: W = Fd (maximum work)</li>
+        <li><span class="badge S">S</span>If θ = 90°: W = 0 (force ⊥ displacement — no work done, e.g., circular motion)</li>
+        <li><span class="badge S">S</span>If θ = 180°: W = −Fd (negative work, e.g., friction)</li>
+        <li><span class="badge S">S</span>1 HP (Horse Power) = 746 W</li>
+        <li><span class="badge S">S</span>1 kWh = 3.6 × 10⁶ J</li>
+      </ul>
+    </div>
+  </div>
+
+</div>
+
+<!-- ══════════════ ELECTRICITY ══════════════ -->
+<div class="section" id="electric">
+
+  <div class="card open">
+    <div class="card-header" onclick="toggle(this)">
+      <h3>Charge & Coulomb's Law</h3><span class="arrow">▼</span>
+    </div>
+    <div class="card-body">
+      <ul class="points">
+        <li><span class="badge S">S</span><b>Charge (Q)</b> — scalar, Unit: Coulomb (C); e = 1.6×10⁻¹⁹ C</li>
+        <li><span class="badge V">V</span><b>Coulomb's Force (F)</b> = k·q₁q₂/r² — vector, acts along line joining charges</li>
+        <li><span class="badge V">V</span><b>Electric Field (E)</b> = F/q = kQ/r² — vector (direction of force on +ve charge)</li>
+        <li><span class="badge S">S</span><b>Electric Potential (V)</b> = W/q = kQ/r — scalar, Unit: Volt</li>
+        <li><span class="badge S">S</span><b>Electric Flux (φ)</b> = E·A·cosθ — scalar, Unit: N·m²/C</li>
+        <li><span class="badge S">S</span><b>Electric Current (I)</b> = Q/t — scalar (conventionally treated scalar in circuits)</li>
+      </ul>
+      <div class="formula">
+        F = kq₁q₂/r² &nbsp;|&nbsp; k = 9×10⁹ N·m²/C² &nbsp;|&nbsp; E = F/q &nbsp;|&nbsp; V = kQ/r
+      </div>
+      <div class="keyfact">Like charges repel, unlike charges attract. Coulomb's law is analogous to Newton's Law of Gravitation.</div>
+    </div>
+  </div>
+
+  <div class="card open">
+    <div class="card-header" onclick="toggle(this)">
+      <h3>Ohm's Law & Resistance</h3><span class="arrow">▼</span>
+    </div>
+    <div class="card-body">
+      <ul class="points">
+        <li><span class="badge S">S</span><b>Resistance (R)</b> = V/I; Unit: Ohm (Ω)</li>
+        <li><span class="badge S">S</span><b>Conductance (G)</b> = 1/R; Unit: Siemens (S) or mho</li>
+        <li><span class="badge S">S</span><b>Resistivity (ρ)</b> = R·A/L; Unit: Ω·m (property of material)</li>
+        <li><span class="badge S">S</span><b>Conductivity (σ)</b> = 1/ρ; Unit: S/m or (Ω·m)⁻¹</li>
+      </ul>
+      <div class="formula">
+        R = ρL/A &nbsp;|&nbsp; V = IR &nbsp;|&nbsp; G = 1/R &nbsp;|&nbsp; σ = 1/ρ
+      </div>
+      <div class="sub">Series & Parallel — Resistors</div>
+      <table>
+        <tr><th></th><th>Series</th><th>Parallel</th></tr>
+        <tr><td>Total R</td><td>R = R₁+R₂+R₃</td><td>1/R = 1/R₁+1/R₂+1/R₃</td></tr>
+        <tr><td>Current</td><td>Same through all</td><td>Divides</td></tr>
+        <tr><td>Voltage</td><td>Divides</td><td>Same across all</td></tr>
+        <tr><td>R<sub>eff</sub></td><td>Larger than max</td><td>Smaller than min</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="card open">
+    <div class="card-header" onclick="toggle(this)">
+      <h3>Capacitance</h3><span class="arrow">▼</span>
+    </div>
+    <div class="card-body">
+      <ul class="points">
+        <li><span class="badge S">S</span><b>Capacitance (C)</b> = Q/V; Unit: Farad (F)</li>
+        <li><span class="badge S">S</span><b>Parallel plate capacitor</b>: C = ε₀A/d (in vacuum), C = Kε₀A/d (with dielectric)</li>
+        <li><span class="badge S">S</span>Energy stored in capacitor: U = ½CV² = Q²/2C</li>
+      </ul>
+      <div class="formula">
+        C = Q/V = ε₀A/d &nbsp;|&nbsp; ε₀ = 8.85×10⁻¹² F/m
+      </div>
+      <div class="sub">Series & Parallel — Capacitors</div>
+      <table>
+        <tr><th></th><th>Series</th><th>Parallel</th></tr>
+        <tr><td>Total C</td><td>1/C = 1/C₁+1/C₂</td><td>C = C₁+C₂+C₃</td></tr>
+        <tr><td>Voltage</td><td>Divides</td><td>Same</td></tr>
+        <tr><td>Charge</td><td>Same on each</td><td>Divides</td></tr>
+        <tr><td>C<sub>eff</sub></td><td>Smaller than min</td><td>Larger than max</td></tr>
+      </table>
+      <div class="keyfact">Capacitors in series/parallel behave OPPOSITE to resistors.</div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ══════════════ HEAT ══════════════ -->
+<div class="section" id="heat">
+
+  <div class="card open">
+    <div class="card-header" onclick="toggle(this)">
+      <h3>Modes of Heat Transfer</h3><span class="arrow">▼</span>
+    </div>
+    <div class="card-body">
+      <table>
+        <tr><th>Mode</th><th>Medium needed?</th><th>Mechanism</th><th>Example</th></tr>
+        <tr><td>Conduction</td><td>Yes</td><td>Molecular vibration, no flow of matter</td><td>Metal rod heating</td></tr>
+        <tr><td>Convection</td><td>Yes (fluids)</td><td>Actual flow of fluid particles</td><td>Boiling water, sea breeze</td></tr>
+        <tr><td>Radiation</td><td>NO</td><td>EM waves (infrared)</td><td>Sun's heat reaching Earth</td></tr>
+      </table>
+      <div class="keyfact">Radiation is the only mode that works in vacuum.</div>
+    </div>
+  </div>
+
+  <div class="card open">
+    <div class="card-header" onclick="toggle(this)">
+      <h3>Temperature Scale Conversions</h3><span class="arrow">▼</span>
+    </div>
+    <div class="card-body">
+      <div class="formula">
+        <span class="label">KEY CONVERSION FORMULAE</span>
+        K = °C + 273 &nbsp;&nbsp;&nbsp; °C = K − 273
+        <br>°F = (9/5)°C + 32 &nbsp;&nbsp;&nbsp; °C = (5/9)(°F − 32)
+        <br>K = (5/9)(°F − 32) + 273
+      </div>
+      <ul class="points">
+        <li><span class="badge S">S</span>Absolute zero = 0 K = −273°C = −459.67°F</li>
+        <li><span class="badge S">S</span>Water freezes: 0°C = 273 K = 32°F</li>
+        <li><span class="badge S">S</span>Water boils: 100°C = 373 K = 212°F</li>
+        <li><span class="badge S">S</span>Triple point of water: 273.16 K</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card open">
+    <div class="card-header" onclick="toggle(this)">
+      <h3>Heat Capacity & Thermal Conductivity</h3><span class="arrow">▼</span>
+    </div>
+    <div class="card-body">
+      <ul class="points">
+        <li><span class="badge S">S</span><b>Heat Capacity (C)</b> = Q/ΔT; Unit: J/K or J/°C</li>
+        <li><span class="badge S">S</span><b>Specific Heat Capacity (c)</b> = Q/(mΔT); Unit: J/(kg·K)</li>
+        <li><span class="badge S">S</span>Specific heat of water = 4200 J/(kg·K) — highest of common substances</li>
+        <li><span class="badge S">S</span><b>Thermal Conductivity (k)</b> — ability of material to conduct heat; Unit: W/(m·K)</li>
+        <li><span class="badge S">S</span><b>Coefficient of Linear Expansion (α)</b>: ΔL = L₀αΔT</li>
+      </ul>
+      <div class="formula">
+        Q = mcΔT &nbsp;|&nbsp; Q/t = kA(ΔT)/d &nbsp;|&nbsp; ΔL = L₀αΔT
+      </div>
+      <div class="keyfact">Metals have HIGH thermal conductivity. Non-metals (wood, glass) have LOW conductivity — good insulators.</div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ══════════════ WAVES & OPTICS ══════════════ -->
+<div class="section" id="waves">
+
+  <div class="card open">
+    <div class="card-header" onclick="toggle(this)">
+      <h3>Types of Waves</h3><span class="arrow">▼</span>
+    </div>
+    <div class="card-body">
+      <table>
+        <tr><th>Type</th><th>Medium needed?</th><th>Examples</th></tr>
+        <tr><td>Mechanical</td><td>Yes</td><td>Sound, water waves, seismic</td></tr>
+        <tr><td>Non-mechanical (EM)</td><td>No</td><td>Light, X-rays, radio, LASER</td></tr>
+        <tr><td>Transverse</td><td>—</td><td>Light, water surface. Particle ⊥ wave direction</td></tr>
+        <tr><td>Longitudinal</td><td>—</td><td>Sound. Particle ∥ wave direction (compressions & rarefactions)</td></tr>
+        <tr><td>Progressive</td><td>—</td><td>Energy transferred, wave moves forward</td></tr>
+        <tr><td>Stationary</td><td>—</td><td>Energy NOT transferred, nodes & antinodes formed</td></tr>
+      </table>
+      <div class="formula">
+        v = fλ &nbsp;|&nbsp; f = 1/T &nbsp;|&nbsp; v = λ/T
+      </div>
+      <ul class="points">
+        <li><span class="badge S">S</span><b>Frequency (f)</b> — cycles per second; Unit: Hz</li>
+        <li><span class="badge S">S</span><b>Wavelength (λ)</b> — distance between two crests; Unit: m</li>
+        <li><span class="badge S">S</span><b>Time Period (T)</b> = 1/f; Unit: s</li>
+        <li><span class="badge S">S</span><b>Amplitude (A)</b> — max displacement from equilibrium</li>
+        <li><span class="badge S">S</span><b>Intensity (I)</b> ∝ A² — power per unit area; Unit: W/m²</li>
+        <li><span class="badge S">S</span><b>Phase</b> — stage of oscillation at a given point; angle in radians</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card open">
+    <div class="card-header" onclick="toggle(this)">
+      <h3>Refraction, Snell's Law & TIR</h3><span class="arrow">▼</span>
+    </div>
+    <div class="card-body">
+      <ul class="points">
+        <li><span class="badge S">S</span><b>Refractive Index (n)</b> = c/v = sin i / sin r — scalar, dimensionless</li>
+        <li><span class="badge S">S</span><b>Absolute RI</b> — measured with respect to vacuum/air</li>
+        <li><span class="badge S">S</span><b>Relative RI</b> — ratio of RI of two media: ₁n₂ = n₂/n₁</li>
+        <li><span class="badge S">S</span><b>Critical Angle (C)</b>: sin C = 1/n (light going from denser to rarer)</li>
+        <li><span class="badge V">V</span><b>TIR</b> occurs when: (1) light travels from denser to rarer, (2) angle of incidence > critical angle</li>
+      </ul>
+      <div class="formula">
+        Snell's Law: n₁ sin θ₁ = n₂ sin θ₂ &nbsp;|&nbsp; sin C = n₂/n₁ = 1/n (for air)
+      </div>
+      <div class="keyfact">TIR is the principle behind optical fibres, diamond brilliance, and mirages.</div>
+    </div>
+  </div>
+
+  <div class="card open">
+    <div class="card-header" onclick="toggle(this)">
+      <h3>Optical Fibre</h3><span class="arrow">▼</span>
+    </div>
+    <div class="card-body">
+      <ul class="points">
+        <li><span class="badge S">S</span><b>Construction</b>: Core (high RI) + Cladding (low RI) + Protective jacket</li>
+        <li><span class="badge V">V</span><b>Principle</b>: Total Internal Reflection — light bounces along fibre without escaping</li>
+        <li><span class="badge S">S</span><b>Types</b>: Single-mode (thin core, less loss) and Multi-mode (thicker core)</li>
+      </ul>
+      <div class="sub">Applications</div>
+      <ul class="points">
+        <li><span class="badge S">S</span>High-speed internet & telecommunications (data as light pulses)</li>
+        <li><span class="badge S">S</span>Medical endoscopy (viewing inside body)</li>
+        <li><span class="badge S">S</span>Sensors, military communication, decorative lighting</li>
+      </ul>
+      <div class="keyfact">Optical fibre has zero electromagnetic interference, low signal loss, and very high bandwidth.</div>
+    </div>
+  </div>
+
+  <div class="card open">
+    <div class="card-header" onclick="toggle(this)">
+      <h3>LASER</h3><span class="arrow">▼</span>
+    </div>
+    <div class="card-body">
+      <ul class="points">
+        <li><span class="badge S">S</span><b>LASER</b> = Light Amplification by Stimulated Emission of Radiation</li>
+        <li><span class="badge S">S</span><b>Properties</b>: Monochromatic (single wavelength), Coherent (same phase), Directional (parallel beam), High intensity</li>
+        <li><span class="badge S">S</span><b>Principle</b>: Population inversion → Stimulated emission → Amplification</li>
+      </ul>
+      <div class="sub">Applications</div>
+      <ul class="points">
+        <li><span class="badge S">S</span>Surgery (laser eye surgery, cutting), Barcode scanning, CD/DVD, Welding</li>
+        <li><span class="badge S">S</span>Rangefinding, holography, fibre-optic communication</li>
+      </ul>
+      <div class="keyfact">Ordinary light is incoherent & spreads out. LASER is coherent & stays as a narrow beam.</div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ══════════════ ACOUSTICS ══════════════ -->
+<div class="section" id="acoustics">
+
+  <div class="card open">
+    <div class="card-header" onclick="toggle(this)">
+      <h3>Sound Waves — Basics</h3><span class="arrow">▼</span>
+    </div>
+    <div class="card-body">
+      <ul class="points">
+        <li><span class="badge S">S</span><b>Audible range</b>: 20 Hz – 20,000 Hz (human ear)</li>
+        <li><span class="badge S">S</span><b>Infrasonic</b>: below 20 Hz (earthquakes, elephants)</li>
+        <li><span class="badge S">S</span><b>Ultrasonic</b>: above 20,000 Hz (bats, dolphins)</li>
+        <li><span class="badge S">S</span>Speed of sound in air ≈ 340 m/s at room temperature</li>
+        <li><span class="badge S">S</span>Sound travels fastest in solids, slowest in gases</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card open">
+    <div class="card-header" onclick="toggle(this)">
+      <h3>Ultrasonic Waves</h3><span class="arrow">▼</span>
+    </div>
+    <div class="card-body">
+      <ul class="points">
+        <li><span class="badge S">S</span><b>Production</b>: Piezoelectric effect (quartz crystal) or Magnetostriction</li>
+        <li><span class="badge S">S</span><b>Properties</b>: High frequency, high energy, travel in straight lines, reflected well</li>
+      </ul>
+      <div class="sub">Applications</div>
+      <ul class="points">
+        <li><span class="badge S">S</span>Medical: Ultrasonography (SONAR imaging of organs), fetal scanning</li>
+        <li><span class="badge S">S</span>Industry: SONAR (detect submarines, fish, depth), Non-destructive testing (NDT) of metals</li>
+        <li><span class="badge S">S</span>Cleaning (ultrasonic cleaners), Drilling, Welding of plastics</li>
+        <li><span class="badge S">S</span>Communication under water</li>
+      </ul>
+      <div class="keyfact">Bats use echolocation (ultrasonic) to navigate in the dark.</div>
+    </div>
+  </div>
+
+  <div class="card open">
+    <div class="card-header" onclick="toggle(this)">
+      <h3>Reverberation & Sabine's Formula</h3><span class="arrow">▼</span>
+    </div>
+    <div class="card-body">
+      <ul class="points">
+        <li><span class="badge S">S</span><b>Echo</b>: Reflected sound heard separately; minimum distance for echo = 17 m (at 340 m/s)</li>
+        <li><span class="badge S">S</span><b>Reverberation</b>: Persistence of sound due to multiple reflections after source stops</li>
+        <li><span class="badge S">S</span><b>Reverberation Time (T)</b>: Time for sound intensity to fall to one-millionth of original value (60 dB drop)</li>
+        <li><span class="badge S">S</span><b>Absorption Coefficient (a)</b>: Ratio of sound absorbed to sound incident; a = 1 for open window (perfect absorber)</li>
+      </ul>
+      <div class="formula">
+        <span class="label">SABINE'S FORMULA</span>
+        T = 0.161 × V / (ΣaS)
+        <br>T = Reverberation time (s), V = Volume of hall (m³), a = absorption coeff, S = surface area (m²)
+      </div>
+      <div class="keyfact">Ideal reverberation time for speech: ~0.5 s. For music: 1–2 s. Carpets, curtains, audience reduce reverberation.</div>
+      <div class="keyfact">Open window is the unit of absorption — 1 m² open window = absorption coefficient of 1.</div>
+    </div>
+  </div>
+
+  <div class="card open">
+    <div class="card-header" onclick="toggle(this)">
+      <h3>EM Spectrum Quick Reference</h3><span class="arrow">▼</span>
+    </div>
+    <div class="card-body">
+      <table>
+        <tr><th>Wave</th><th>Frequency Range</th><th>Key Applications</th></tr>
+        <tr><td>Radio</td><td>10³–10⁹ Hz</td><td>Broadcasting, communication</td></tr>
+        <tr><td>Microwave</td><td>10⁹–10¹² Hz</td><td>RADAR, cooking, satellite</td></tr>
+        <tr><td>Infrared</td><td>10¹²–10¹⁴ Hz</td><td>Heat radiation, night vision, remote controls</td></tr>
+        <tr><td>Visible light</td><td>4×10¹⁴–7×10¹⁴ Hz</td><td>Vision, optics, photography</td></tr>
+        <tr><td>UV</td><td>10¹⁵–10¹⁷ Hz</td><td>Sterilization, fluorescence</td></tr>
+        <tr><td>X-rays</td><td>10¹⁷–10¹⁹ Hz</td><td>Medical imaging, security</td></tr>
+        <tr><td>Gamma</td><td>>10¹⁹ Hz</td><td>Nuclear medicine, cancer treatment</td></tr>
+      </table>
+      <div class="keyfact">All EM waves travel at speed of light c = 3×10⁸ m/s in vacuum. They do NOT need a medium.</div>
+    </div>
+  </div>
+
+</div>
+
+</main>
+
+<button id="top-btn" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<script>
+  function showTab(id){
+    document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+    document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    event.target.classList.add('active');
+    window.scrollTo({top:0,behavior:'smooth'});
+  }
+  function toggle(header){
+    header.parentElement.classList.toggle('open');
+  }
+  window.addEventListener('scroll',()=>{
+    document.getElementById('top-btn').style.display = window.scrollY>200?'block':'none';
+  });
+</script>
+</body>
+</html>
