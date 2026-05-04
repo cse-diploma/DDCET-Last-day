@@ -1,0 +1,1241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DDCET Physics — Complete Formula & Quiz Guide</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0a0b0f;
+  --surface: #12141a;
+  --card: #1a1d26;
+  --border: #2a2d3a;
+  --accent: #f0c040;
+  --accent2: #40c0f0;
+  --accent3: #f06080;
+  --accent4: #60f0a0;
+  --text: #e8eaf0;
+  --muted: #7a7d90;
+  --correct: #40c08a;
+  --wrong: #f05060;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Syne', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+/* GRID BACKGROUND */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(240,192,64,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(240,192,64,0.03) 1px, transparent 1px);
+  background-size: 40px 40px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* NAV */
+nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(10,11,15,0.95);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  padding: 0 24px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  min-height: 56px;
+}
+nav .logo {
+  font-family: 'Space Mono', monospace;
+  font-size: 13px;
+  color: var(--accent);
+  font-weight: 700;
+  margin-right: 16px;
+  white-space: nowrap;
+}
+nav button {
+  font-family: 'Syne', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  background: none;
+  border: 1px solid var(--border);
+  color: var(--muted);
+  padding: 6px 14px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+nav button:hover, nav button.active {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: rgba(240,192,64,0.08);
+}
+
+/* HERO */
+.hero {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  padding: 60px 24px 40px;
+}
+.hero .tag {
+  display: inline-block;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--accent);
+  border: 1px solid rgba(240,192,64,0.3);
+  padding: 4px 12px;
+  border-radius: 4px;
+  margin-bottom: 16px;
+  letter-spacing: 2px;
+}
+.hero h1 {
+  font-size: clamp(28px, 6vw, 56px);
+  font-weight: 800;
+  line-height: 1.05;
+  margin-bottom: 12px;
+}
+.hero h1 span { color: var(--accent); }
+.hero p {
+  color: var(--muted);
+  font-size: 15px;
+  max-width: 500px;
+  margin: 0 auto;
+  font-family: 'Space Mono', monospace;
+}
+
+/* SECTIONS */
+.section {
+  display: none;
+  position: relative;
+  z-index: 1;
+  padding: 0 20px 60px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+.section.active { display: block; }
+
+.unit-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 28px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border);
+}
+.unit-num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  background: var(--accent);
+  color: #000;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 4px;
+}
+.unit-header h2 { font-size: 22px; font-weight: 800; }
+
+/* FORMULA CARDS */
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 16px; margin-bottom: 28px; }
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px;
+  transition: border-color 0.2s, transform 0.2s;
+}
+.card:hover { border-color: var(--accent2); transform: translateY(-2px); }
+.card-tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  color: var(--accent2);
+  letter-spacing: 1px;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+}
+.card h3 { font-size: 15px; font-weight: 700; margin-bottom: 10px; color: var(--text); }
+.formula-box {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--accent);
+  border-radius: 6px;
+  padding: 10px 14px;
+  margin: 10px 0;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  color: var(--accent);
+  overflow-x: auto;
+}
+.unit-row { display: flex; gap: 8px; align-items: center; margin: 6px 0; flex-wrap: wrap; }
+.unit-badge {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-weight: 600;
+}
+.unit-si { background: rgba(64,192,240,0.15); color: var(--accent2); border: 1px solid rgba(64,192,240,0.3); }
+.unit-cgs { background: rgba(96,240,160,0.12); color: var(--accent4); border: 1px solid rgba(96,240,160,0.25); }
+.unit-label { font-size: 11px; color: var(--muted); font-family: 'JetBrains Mono', monospace; }
+.desc { font-size: 13px; color: var(--muted); margin-top: 8px; line-height: 1.6; }
+
+/* TIPS BOX */
+.tips-box {
+  background: rgba(240,192,64,0.06);
+  border: 1px solid rgba(240,192,64,0.2);
+  border-radius: 10px;
+  padding: 18px 22px;
+  margin-bottom: 20px;
+}
+.tips-box .tips-title {
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--accent);
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.tips-box ul { list-style: none; padding: 0; }
+.tips-box ul li {
+  font-size: 13px;
+  color: var(--text);
+  padding: 5px 0;
+  padding-left: 18px;
+  position: relative;
+  line-height: 1.5;
+}
+.tips-box ul li::before { content: '▸'; position: absolute; left: 0; color: var(--accent); }
+
+/* MCQ POINTS */
+.mcq-box {
+  background: rgba(64,192,240,0.05);
+  border: 1px solid rgba(64,192,240,0.2);
+  border-radius: 10px;
+  padding: 18px 22px;
+  margin-bottom: 20px;
+}
+.mcq-box .mcq-title {
+  font-size: 13px; font-weight: 800; color: var(--accent2); margin-bottom: 12px;
+  display: flex; align-items: center; gap: 8px;
+}
+.mcq-box ul { list-style: none; padding: 0; }
+.mcq-box ul li {
+  font-size: 13px; color: var(--text); padding: 5px 0 5px 18px;
+  position: relative; line-height: 1.5;
+  border-bottom: 1px solid rgba(64,192,240,0.08);
+}
+.mcq-box ul li:last-child { border-bottom: none; }
+.mcq-box ul li::before { content: 'Q'; position: absolute; left: 0; color: var(--accent2); font-size: 10px; font-family: 'JetBrains Mono', monospace; top: 7px; }
+
+/* TRICK BOX */
+.trick-box {
+  background: rgba(240,96,128,0.05);
+  border: 1px solid rgba(240,96,128,0.2);
+  border-radius: 10px;
+  padding: 16px 20px;
+  margin-bottom: 20px;
+}
+.trick-box .trick-title { font-size: 13px; font-weight: 800; color: var(--accent3); margin-bottom: 10px; }
+.trick-box p { font-size: 13px; color: var(--text); line-height: 1.6; }
+.trick-box .trick-formula {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  background: rgba(240,96,128,0.1);
+  padding: 6px 12px;
+  border-radius: 6px;
+  margin: 8px 0;
+  color: var(--accent3);
+  display: inline-block;
+}
+
+/* SECTION TABS */
+.tab-row {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 24px;
+}
+.tab-btn {
+  font-family: 'Syne', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  background: none;
+  border: 1px solid var(--border);
+  color: var(--muted);
+  padding: 7px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.tab-btn.active, .tab-btn:hover {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #000;
+}
+
+/* QUIZ */
+#quiz-section { padding-bottom: 80px; }
+.quiz-header {
+  text-align: center;
+  padding: 30px 0 24px;
+}
+.quiz-header h2 { font-size: 28px; font-weight: 800; }
+.quiz-header h2 span { color: var(--accent); }
+.score-bar {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  margin: 16px 0;
+}
+.score-chip {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  padding: 8px 20px;
+  border-radius: 8px;
+  font-weight: 600;
+}
+.score-chip.marks { background: rgba(240,192,64,0.15); color: var(--accent); border: 1px solid rgba(240,192,64,0.3); }
+.score-chip.correct { background: rgba(64,192,138,0.15); color: var(--correct); border: 1px solid rgba(64,192,138,0.3); }
+.score-chip.wrong { background: rgba(240,80,96,0.15); color: var(--wrong); border: 1px solid rgba(240,80,96,0.3); }
+
+.q-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 24px;
+  margin-bottom: 18px;
+  transition: border-color 0.3s;
+  max-width: 760px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.q-card.answered-correct { border-color: var(--correct); }
+.q-card.answered-wrong { border-color: var(--wrong); }
+
+.q-num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  color: var(--muted);
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+}
+.q-topic-tag {
+  font-size: 10px;
+  font-family: 'JetBrains Mono', monospace;
+  background: rgba(64,192,240,0.12);
+  color: var(--accent2);
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+.q-text { font-size: 15px; font-weight: 700; line-height: 1.5; margin-bottom: 16px; }
+.q-options { display: flex; flex-direction: column; gap: 10px; }
+.q-opt {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  padding: 12px 16px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  cursor: pointer;
+  text-align: left;
+  color: var(--text);
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.q-opt:hover:not(:disabled) { border-color: var(--accent2); background: rgba(64,192,240,0.07); }
+.q-opt.correct-ans { border-color: var(--correct); background: rgba(64,192,138,0.12); color: var(--correct); }
+.q-opt.wrong-ans { border-color: var(--wrong); background: rgba(240,80,96,0.1); color: var(--wrong); }
+.q-opt:disabled { cursor: default; }
+.opt-label {
+  width: 24px; height: 24px;
+  border-radius: 50%;
+  border: 1px solid currentColor;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; flex-shrink: 0;
+}
+
+.explanation {
+  margin-top: 16px;
+  padding: 14px 18px;
+  background: var(--surface);
+  border-radius: 8px;
+  border-left: 3px solid var(--accent);
+  font-size: 13px;
+  line-height: 1.7;
+  color: var(--text);
+  display: none;
+}
+.explanation.show { display: block; }
+.explanation strong { color: var(--accent); }
+.explanation .formula-inline {
+  font-family: 'JetBrains Mono', monospace;
+  background: rgba(240,192,64,0.1);
+  padding: 1px 6px;
+  border-radius: 4px;
+  color: var(--accent);
+  font-size: 12px;
+}
+
+.marks-chip {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  padding: 3px 10px;
+  border-radius: 20px;
+  margin-left: 8px;
+}
+.marks-chip.pos { background: rgba(64,192,138,0.2); color: var(--correct); }
+.marks-chip.neg { background: rgba(240,80,96,0.2); color: var(--wrong); }
+
+.quiz-controls {
+  text-align: center;
+  margin: 28px 0;
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.btn-primary {
+  font-family: 'Syne', sans-serif;
+  font-size: 14px;
+  font-weight: 800;
+  background: var(--accent);
+  color: #000;
+  border: none;
+  padding: 12px 28px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: opacity 0.2s, transform 0.15s;
+}
+.btn-primary:hover { opacity: 0.88; transform: scale(1.02); }
+.btn-secondary {
+  font-family: 'Syne', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  background: none;
+  color: var(--text);
+  border: 1px solid var(--border);
+  padding: 12px 28px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.btn-secondary:hover { border-color: var(--accent2); color: var(--accent2); }
+
+.progress-bar-wrap {
+  background: var(--surface);
+  border-radius: 4px;
+  height: 4px;
+  max-width: 760px;
+  margin: 0 auto 24px;
+  overflow: hidden;
+}
+.progress-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent), var(--accent2));
+  border-radius: 4px;
+  transition: width 0.4s;
+}
+
+.result-panel {
+  max-width: 500px;
+  margin: 40px auto;
+  text-align: center;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 40px;
+  display: none;
+}
+.result-panel.show { display: block; }
+.result-panel .result-score {
+  font-size: 60px;
+  font-weight: 800;
+  color: var(--accent);
+  font-family: 'Space Mono', monospace;
+  line-height: 1;
+  margin-bottom: 8px;
+}
+.result-panel .result-label { font-size: 22px; font-weight: 700; margin-bottom: 16px; }
+.result-panel .result-breakdown {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 12px;
+  margin: 24px 0;
+}
+.result-panel .rb-item {
+  background: var(--surface);
+  border-radius: 8px;
+  padding: 16px 8px;
+}
+.result-panel .rb-item .rb-val {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 22px;
+  font-weight: 700;
+}
+.result-panel .rb-item .rb-key {
+  font-size: 11px;
+  color: var(--muted);
+  margin-top: 4px;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.filter-row {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  max-width: 760px;
+  margin: 0 auto 20px;
+}
+.filter-btn {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  padding: 5px 12px;
+  border-radius: 20px;
+  border: 1px solid var(--border);
+  background: none;
+  color: var(--muted);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.filter-btn.active { border-color: var(--accent); color: var(--accent); background: rgba(240,192,64,0.08); }
+
+/* TABLE */
+.formula-table { width: 100%; border-collapse: collapse; margin: 16px 0; }
+.formula-table th {
+  background: var(--surface);
+  color: var(--accent);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  padding: 10px 14px;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+}
+.formula-table td {
+  padding: 10px 14px;
+  font-size: 13px;
+  border-bottom: 1px solid rgba(42,45,58,0.5);
+  font-family: 'JetBrains Mono', monospace;
+}
+.formula-table tr:hover td { background: rgba(255,255,255,0.02); }
+.formula-table .f-name { color: var(--text); font-weight: 600; }
+.formula-table .f-formula { color: var(--accent); }
+.formula-table .f-unit { color: var(--accent2); }
+.formula-table .f-si { color: var(--accent4); font-size: 11px; }
+</style>
+</head>
+<body>
+
+<nav>
+  <span class="logo">⚛ DDCET Physics</span>
+  <button class="active" onclick="showSection('home')">🏠 Home</button>
+  <button onclick="showSection('unit1')">1· Units</button>
+  <button onclick="showSection('unit2')">2· Mechanics</button>
+  <button onclick="showSection('unit3')">3· Electricity</button>
+  <button onclick="showSection('unit4')">4· Heat</button>
+  <button onclick="showSection('unit5')">5· Waves</button>
+  <button onclick="showSection('quiz')">🎯 Quiz</button>
+</nav>
+
+<!-- HOME -->
+<div id="home" class="section active">
+  <div class="hero">
+    <div class="tag">GTU · DDCET · ENGINEERING · 2024</div>
+    <h1>Complete Physics<br><span>Formula Master</span></h1>
+    <p>Every formula. Every unit. Full MCQ prep. Final quiz with scoring.</p>
+  </div>
+  <div class="grid" style="max-width:900px;margin:0 auto;">
+    <div class="card" style="cursor:pointer" onclick="showSection('unit1')">
+      <div class="card-tag">Unit 01</div>
+      <h3>📏 Units & Measurement</h3>
+      <p class="desc">Vernier, Screw gauge, Errors, SI↔CGS conversions</p>
+    </div>
+    <div class="card" style="cursor:pointer" onclick="showSection('unit2')">
+      <div class="card-tag">Unit 02</div>
+      <h3>⚙️ Classical Mechanics</h3>
+      <p class="desc">Newton's laws, Kinematics, Energy, Circular motion</p>
+    </div>
+    <div class="card" style="cursor:pointer" onclick="showSection('unit3')">
+      <div class="card-tag">Unit 03</div>
+      <h3>⚡ Electric Current</h3>
+      <p class="desc">Ohm's law, Coulomb, Capacitors, Resistors</p>
+    </div>
+    <div class="card" style="cursor:pointer" onclick="showSection('unit4')">
+      <div class="card-tag">Unit 04</div>
+      <h3>🌡️ Heat & Thermometry</h3>
+      <p class="desc">Temperature scales, Thermal conductivity, Expansion</p>
+    </div>
+    <div class="card" style="cursor:pointer" onclick="showSection('unit5')">
+      <div class="card-tag">Unit 05</div>
+      <h3>🌊 Waves & Optics</h3>
+      <p class="desc">Snell's law, Reverberation, Optical fibre, Sound</p>
+    </div>
+    <div class="card" style="cursor:pointer; border-color: var(--accent);" onclick="showSection('quiz')">
+      <div class="card-tag" style="color:var(--accent)">Final Quiz</div>
+      <h3>🎯 Master Quiz</h3>
+      <p class="desc">50 MCQs · +2 correct · -0.5 wrong · Full explanations</p>
+    </div>
+  </div>
+  <div style="text-align:center;margin-top:30px;">
+    <div style="font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--muted);">
+      Marking: <span style="color:var(--correct)">+2 Correct</span> &nbsp;|&nbsp; <span style="color:var(--wrong)">-0.5 Wrong</span> &nbsp;|&nbsp; <span style="color:var(--muted)">0 Skip</span>
+    </div>
+  </div>
+</div>
+
+<!-- UNIT 1: UNITS & MEASUREMENT -->
+<div id="unit1" class="section">
+  <div class="unit-header">
+    <span class="unit-num">UNIT 01</span>
+    <h2>📏 Units & Measurement</h2>
+  </div>
+
+  <div class="tips-box">
+    <div class="tips-title">⚡ Quick Tips & Tricks</div>
+    <ul>
+      <li>SI → CGS: Length ×100 (m→cm), Mass ×1000 (kg→g), Force ×10⁵ (N→dyne), Pressure ×10 (Pa→dyne/cm²)</li>
+      <li>Least Count (LC) of Vernier = 1 MSD − 1 VSD = S/n (S = main scale division, n = Vernier divisions)</li>
+      <li>Micrometer screw gauge LC = Pitch / No. of divisions on circular scale (usually 0.01 mm)</li>
+      <li>% Error = (Δx/x) × 100; for product/quotient: add relative errors</li>
+      <li>For power: multiply relative error by the power (e.g., A³ → 3×Δa/a)</li>
+    </ul>
+  </div>
+
+  <table class="formula-table">
+    <tr><th>Quantity</th><th>Formula</th><th>SI Unit</th><th>CGS Unit</th></tr>
+    <tr><td class="f-name">Least Count (Vernier)</td><td class="f-formula">LC = 1 MSD − 1 VSD = S/n</td><td class="f-unit">mm or cm</td><td class="f-si">cm</td></tr>
+    <tr><td class="f-name">Vernier Reading</td><td class="f-formula">R = MSR + (VSR × LC)</td><td class="f-unit">mm</td><td class="f-si">cm</td></tr>
+    <tr><td class="f-name">LC (Screw Gauge)</td><td class="f-formula">LC = Pitch / N</td><td class="f-unit">mm (0.01mm)</td><td class="f-si">cm</td></tr>
+    <tr><td class="f-name">Absolute Error</td><td class="f-formula">Δx = |x_measured − x_true|</td><td class="f-unit">same as x</td><td class="f-si">—</td></tr>
+    <tr><td class="f-name">Relative Error</td><td class="f-formula">Δx/x</td><td class="f-unit">dimensionless</td><td class="f-si">—</td></tr>
+    <tr><td class="f-name">Percentage Error</td><td class="f-formula">(Δx/x) × 100%</td><td class="f-unit">%</td><td class="f-si">%</td></tr>
+    <tr><td class="f-name">Error in sum (z=a+b)</td><td class="f-formula">Δz = Δa + Δb</td><td class="f-unit">—</td><td class="f-si">—</td></tr>
+    <tr><td class="f-name">Error in product (z=ab)</td><td class="f-formula">Δz/z = Δa/a + Δb/b</td><td class="f-unit">—</td><td class="f-si">—</td></tr>
+    <tr><td class="f-name">Error in power (z=aⁿ)</td><td class="f-formula">Δz/z = n·Δa/a</td><td class="f-unit">—</td><td class="f-si">—</td></tr>
+  </table>
+
+  <div class="grid">
+    <div class="card">
+      <div class="card-tag">SI ↔ CGS Conversions</div>
+      <h3>Key Unit Conversions</h3>
+      <div class="formula-box">1 m = 100 cm</div>
+      <div class="formula-box">1 kg = 1000 g</div>
+      <div class="formula-box">1 N = 10⁵ dyne</div>
+      <div class="formula-box">1 J = 10⁷ erg</div>
+      <div class="formula-box">1 Pa = 10 dyne/cm²</div>
+      <div class="formula-box">1 W = 10⁷ erg/s</div>
+    </div>
+    <div class="card">
+      <div class="card-tag">Screw Gauge</div>
+      <h3>Micrometer Screw Gauge</h3>
+      <div class="formula-box">Pitch = Distance / No. of rotations</div>
+      <div class="formula-box">LC = Pitch / Circular scale divisions</div>
+      <div class="formula-box">Reading = MSR + (CSR × LC) ± Zero error</div>
+      <p class="desc">Standard: Pitch = 0.5mm, 50 div → LC = 0.01mm = 0.001cm</p>
+    </div>
+  </div>
+
+  <div class="mcq-box">
+    <div class="mcq-title">📋 MCQ High-Yield Points</div>
+    <ul>
+      <li>Vernier caliper LC = 0.1 mm (standard), Screw gauge LC = 0.01 mm</li>
+      <li>Systematic error → always same direction; Random error → varies in direction</li>
+      <li>For z = a²b/√c → Δz/z = 2Δa/a + Δb/b + ½Δc/c</li>
+      <li>Fundamental units: m, kg, s, A, K, mol, cd (7 SI base units)</li>
+      <li>1 N = 10⁵ dyne is the most-asked conversion</li>
+      <li>Zero error: Positive zero error → subtract from reading; Negative → add</li>
+      <li>Backlash error occurs in screw gauge when rotation direction reverses</li>
+    </ul>
+  </div>
+</div>
+
+<!-- UNIT 2: MECHANICS -->
+<div id="unit2" class="section">
+  <div class="unit-header">
+    <span class="unit-num">UNIT 02</span>
+    <h2>⚙️ Classical Mechanics</h2>
+  </div>
+
+  <div class="tips-box">
+    <div class="tips-title">⚡ Quick Tips & Tricks</div>
+    <ul>
+      <li>Remember SUVAT: s=ut+½at², v=u+at, v²=u²+2as, s=(u+v)/2·t</li>
+      <li>At max height of projectile: vertical velocity = 0; horizontal velocity unchanged</li>
+      <li>Centripetal force always points INWARD (toward center); Centrifugal is pseudo (outward)</li>
+      <li>KE = p²/2m (great shortcut when momentum is given)</li>
+      <li>Power = Force × velocity (P = Fv) when force and velocity are parallel</li>
+      <li>Work-energy theorem: Net Work = ΔKE</li>
+      <li>Impulse = Change in momentum = FΔt = Δp</li>
+    </ul>
+  </div>
+
+  <table class="formula-table">
+    <tr><th>Quantity</th><th>Formula</th><th>SI Unit</th><th>CGS Unit</th></tr>
+    <tr><td class="f-name">Velocity</td><td class="f-formula">v = s/t = u + at</td><td class="f-unit">m/s</td><td class="f-si">cm/s</td></tr>
+    <tr><td class="f-name">Acceleration</td><td class="f-formula">a = Δv/Δt = (v−u)/t</td><td class="f-unit">m/s²</td><td class="f-si">cm/s²</td></tr>
+    <tr><td class="f-name">Displacement (SUVAT)</td><td class="f-formula">s = ut + ½at²</td><td class="f-unit">m</td><td class="f-si">cm</td></tr>
+    <tr><td class="f-name">v²=u²+2as</td><td class="f-formula">v² = u² + 2as</td><td class="f-unit">m/s (v)</td><td class="f-si">—</td></tr>
+    <tr><td class="f-name">Newton's 2nd Law</td><td class="f-formula">F = ma</td><td class="f-unit">Newton (N) = kg·m/s²</td><td class="f-si">dyne = g·cm/s²</td></tr>
+    <tr><td class="f-name">Linear Momentum</td><td class="f-formula">p = mv</td><td class="f-unit">kg·m/s</td><td class="f-si">g·cm/s</td></tr>
+    <tr><td class="f-name">Impulse</td><td class="f-formula">J = FΔt = Δp = mv − mu</td><td class="f-unit">N·s = kg·m/s</td><td class="f-si">dyne·s</td></tr>
+    <tr><td class="f-name">Angular Velocity</td><td class="f-formula">ω = θ/t = 2πf = 2π/T</td><td class="f-unit">rad/s</td><td class="f-si">rad/s</td></tr>
+    <tr><td class="f-name">Angular Acceleration</td><td class="f-formula">α = Δω/Δt</td><td class="f-unit">rad/s²</td><td class="f-si">rad/s²</td></tr>
+    <tr><td class="f-name">Centripetal Acc.</td><td class="f-formula">a_c = v²/r = ω²r = 4π²f²r</td><td class="f-unit">m/s²</td><td class="f-si">cm/s²</td></tr>
+    <tr><td class="f-name">Centripetal Force</td><td class="f-formula">F_c = mv²/r = mω²r</td><td class="f-unit">N</td><td class="f-si">dyne</td></tr>
+    <tr><td class="f-name">Work Done</td><td class="f-formula">W = F·d·cosθ</td><td class="f-unit">Joule (J)</td><td class="f-si">erg</td></tr>
+    <tr><td class="f-name">Kinetic Energy</td><td class="f-formula">KE = ½mv² = p²/2m</td><td class="f-unit">J</td><td class="f-si">erg</td></tr>
+    <tr><td class="f-name">Potential Energy</td><td class="f-formula">PE = mgh</td><td class="f-unit">J</td><td class="f-si">erg</td></tr>
+    <tr><td class="f-name">Power</td><td class="f-formula">P = W/t = Fv</td><td class="f-unit">Watt (W) = J/s</td><td class="f-si">erg/s</td></tr>
+    <tr><td class="f-name">Relation v & ω</td><td class="f-formula">v = ωr</td><td class="f-unit">m/s</td><td class="f-si">—</td></tr>
+  </table>
+
+  <div class="trick-box">
+    <div class="trick-title">🚀 Fast Calculation Tricks</div>
+    <p>When momentum p is given and you need KE:</p>
+    <span class="trick-formula">KE = p²/2m</span>
+    <p>When angular data is given, relate to linear:</p>
+    <span class="trick-formula">v = ωr, a = αr, s = θr</span>
+    <p>Energy conservation shortcut (no friction): mgh = ½mv² → v = √(2gh)</p>
+    <span class="trick-formula">v = √(2gh) ≈ √(20h) for g=10</span>
+  </div>
+
+  <div class="mcq-box">
+    <div class="mcq-title">📋 MCQ High-Yield Points</div>
+    <ul>
+      <li>Newton's 1st law = Law of Inertia; 3rd law = Action-Reaction (equal & opposite)</li>
+      <li>Centripetal force is NOT a new force — it is provided by tension, gravity, normal force etc.</li>
+      <li>Centrifugal force is a pseudo/fictitious force felt in rotating (non-inertial) frame</li>
+      <li>Conservation of momentum: total p is constant when no external force acts</li>
+      <li>For elastic collision: both KE and momentum conserved</li>
+      <li>Unit of power = Watt = J/s = kg·m²/s³</li>
+      <li>1 HP (horsepower) = 746 W</li>
+      <li>1 kWh = 3.6 × 10⁶ J (unit of energy on electricity bill)</li>
+      <li>Work done by centripetal force = 0 (force ⊥ displacement)</li>
+    </ul>
+  </div>
+</div>
+
+<!-- UNIT 3: ELECTRICITY -->
+<div id="unit3" class="section">
+  <div class="unit-header">
+    <span class="unit-num">UNIT 03</span>
+    <h2>⚡ Electric Current</h2>
+  </div>
+
+  <div class="tips-box">
+    <div class="tips-title">⚡ Quick Tips & Tricks</div>
+    <ul>
+      <li>Ohm's Law: V = IR → V/I=R; I=V/R; R=V/I. Always consistent unit: V, A, Ω</li>
+      <li>Series: R_total = R1+R2+... (same current); Parallel: 1/R = 1/R1+1/R2+... (same voltage)</li>
+      <li>For 2 parallel resistors: R_eq = R1×R2/(R1+R2) — "product over sum"</li>
+      <li>Capacitors: OPPOSITE rules to resistors! Series: 1/C = 1/C1+1/C2; Parallel: C = C1+C2</li>
+      <li>Electric field E = F/q = V/d (between parallel plates)</li>
+      <li>Coulomb constant k = 9×10⁹ N·m²/C²; ε₀ = 8.85×10⁻¹² F/m</li>
+    </ul>
+  </div>
+
+  <table class="formula-table">
+    <tr><th>Quantity</th><th>Formula</th><th>SI Unit</th><th>CGS Unit</th></tr>
+    <tr><td class="f-name">Ohm's Law</td><td class="f-formula">V = IR</td><td class="f-unit">Volt (V)</td><td class="f-si">—</td></tr>
+    <tr><td class="f-name">Electric Current</td><td class="f-formula">I = Q/t</td><td class="f-unit">Ampere (A) = C/s</td><td class="f-si">statampere</td></tr>
+    <tr><td class="f-name">Resistance</td><td class="f-formula">R = V/I = ρL/A</td><td class="f-unit">Ohm (Ω)</td><td class="f-si">s/cm</td></tr>
+    <tr><td class="f-name">Resistivity</td><td class="f-formula">ρ = RA/L</td><td class="f-unit">Ω·m</td><td class="f-si">Ω·cm</td></tr>
+    <tr><td class="f-name">Conductance</td><td class="f-formula">G = 1/R</td><td class="f-unit">Siemens (S) = Ω⁻¹ = mho</td><td class="f-si">—</td></tr>
+    <tr><td class="f-name">Conductivity</td><td class="f-formula">σ = 1/ρ</td><td class="f-unit">S/m = (Ω·m)⁻¹</td><td class="f-si">—</td></tr>
+    <tr><td class="f-name">Coulomb's Force</td><td class="f-formula">F = kq₁q₂/r² = q₁q₂/4πε₀r²</td><td class="f-unit">N</td><td class="f-si">dyne</td></tr>
+    <tr><td class="f-name">Electric Field</td><td class="f-formula">E = F/q = kQ/r² = V/d</td><td class="f-unit">N/C = V/m</td><td class="f-si">dyne/statC</td></tr>
+    <tr><td class="f-name">Electric Potential</td><td class="f-formula">V = kQ/r = W/q</td><td class="f-unit">Volt (V) = J/C</td><td class="f-si">statV</td></tr>
+    <tr><td class="f-name">Electric Flux</td><td class="f-formula">Φ = E·A·cosθ</td><td class="f-unit">N·m²/C = V·m</td><td class="f-si">—</td></tr>
+    <tr><td class="f-name">Gauss's Law</td><td class="f-formula">Φ = Q_enc/ε₀</td><td class="f-unit">N·m²/C</td><td class="f-si">—</td></tr>
+    <tr><td class="f-name">Capacitance</td><td class="f-formula">C = Q/V</td><td class="f-unit">Farad (F) = C/V</td><td class="f-si">statF</td></tr>
+    <tr><td class="f-name">Parallel Plate Cap.</td><td class="f-formula">C = ε₀A/d (with κ: C = κε₀A/d)</td><td class="f-unit">F</td><td class="f-si">—</td></tr>
+    <tr><td class="f-name">Energy in Capacitor</td><td class="f-formula">U = ½CV² = Q²/2C = QV/2</td><td class="f-unit">J</td><td class="f-si">erg</td></tr>
+    <tr><td class="f-name">Power Dissipated</td><td class="f-formula">P = VI = I²R = V²/R</td><td class="f-unit">W</td><td class="f-si">erg/s</td></tr>
+    <tr><td class="f-name">Series Resistors</td><td class="f-formula">R_eq = R1+R2+R3+...</td><td class="f-unit">Ω</td><td class="f-si">—</td></tr>
+    <tr><td class="f-name">Parallel Resistors</td><td class="f-formula">1/R_eq = 1/R1+1/R2+...</td><td class="f-unit">Ω</td><td class="f-si">—</td></tr>
+    <tr><td class="f-name">Series Capacitors</td><td class="f-formula">1/C_eq = 1/C1+1/C2+...</td><td class="f-unit">F</td><td class="f-si">—</td></tr>
+    <tr><td class="f-name">Parallel Capacitors</td><td class="f-formula">C_eq = C1+C2+C3+...</td><td class="f-unit">F</td><td class="f-si">—</td></tr>
+  </table>
+
+  <div class="trick-box">
+    <div class="trick-title">🔌 Resistor/Capacitor Memory Trick</div>
+    <p><strong>R & C are OPPOSITE:</strong></p>
+    <span class="trick-formula">Series: R adds up | C splits (1/C)</span>
+    <span class="trick-formula">Parallel: R splits (1/R) | C adds up</span>
+    <p>Think of it: capacitors prefer to be in parallel, resistors prefer series for combination.</p>
+  </div>
+
+  <div class="mcq-box">
+    <div class="mcq-title">📋 MCQ High-Yield Points</div>
+    <ul>
+      <li>Coulomb's constant k = 9×10⁹ N·m²/C² = 1/4πε₀</li>
+      <li>ε₀ = 8.85×10⁻¹² F/m (permittivity of free space)</li>
+      <li>Like charges repel; unlike charges attract (Coulomb's law)</li>
+      <li>Electric potential is scalar; Electric field is vector</li>
+      <li>Inside a conductor: E = 0, potential is constant throughout</li>
+      <li>Unit of charge: Coulomb (C); smallest charge = 1.6×10⁻¹⁹ C (electron)</li>
+      <li>Current flows from high to low potential (conventional); electrons move opposite</li>
+      <li>Ohmic conductors: V vs I is a straight line through origin</li>
+    </ul>
+  </div>
+</div>
+
+<!-- UNIT 4: HEAT -->
+<div id="unit4" class="section">
+  <div class="unit-header">
+    <span class="unit-num">UNIT 04</span>
+    <h2>🌡️ Heat & Thermometry</h2>
+  </div>
+
+  <div class="tips-box">
+    <div class="tips-title">⚡ Quick Tips & Tricks — Temperature Conversions</div>
+    <ul>
+      <li>K = °C + 273 (or 273.15) — Most common conversion</li>
+      <li>°F = (9/5)°C + 32 → TRICK: multiply °C by 1.8 then add 32</li>
+      <li>°C = (°F − 32) × 5/9 → TRICK: subtract 32 then multiply by 5/9</li>
+      <li>At −40°: Celsius = Fahrenheit (they are equal at −40)</li>
+      <li>At 0 K = −273.15°C = Absolute Zero (lowest possible temperature)</li>
+      <li>Human body: 37°C = 98.6°F = 310 K</li>
+    </ul>
+  </div>
+
+  <table class="formula-table">
+    <tr><th>Quantity</th><th>Formula</th><th>SI Unit</th><th>CGS Unit</th></tr>
+    <tr><td class="f-name">K to °C</td><td class="f-formula">T(K) = T(°C) + 273</td><td class="f-unit">K</td><td class="f-si">—</td></tr>
+    <tr><td class="f-name">°C to °F</td><td class="f-formula">F = (9/5)C + 32</td><td class="f-unit">°F</td><td class="f-si">—</td></tr>
+    <tr><td class="f-name">°F to °C</td><td class="f-formula">C = (F − 32) × 5/9</td><td class="f-unit">°C</td><td class="f-si">—</td></tr>
+    <tr><td class="f-name">°C to K to °F</td><td class="f-formula">(C−0)/100 = (F−32)/180 = (K−273)/100</td><td class="f-unit">—</td><td class="f-si">—</td></tr>
+    <tr><td class="f-name">Heat (Q)</td><td class="f-formula">Q = mcΔT</td><td class="f-unit">J (Joule)</td><td class="f-si">calorie (cal)</td></tr>
+    <tr><td class="f-name">Specific Heat Capacity</td><td class="f-formula">c = Q/(mΔT)</td><td class="f-unit">J/(kg·K)</td><td class="f-si">cal/(g·°C)</td></tr>
+    <tr><td class="f-name">Heat Capacity</td><td class="f-formula">C = Q/ΔT = mc</td><td class="f-unit">J/K</td><td class="f-si">cal/°C</td></tr>
+    <tr><td class="f-name">Latent Heat</td><td class="f-formula">Q = mL</td><td class="f-unit">J/kg</td><td class="f-si">cal/g</td></tr>
+    <tr><td class="f-name">Fourier's Law (Conduction)</td><td class="f-formula">Q/t = KA(T₁−T₂)/d</td><td class="f-unit">W (Watt)</td><td class="f-si">cal/s</td></tr>
+    <tr><td class="f-name">Thermal Conductivity (K)</td><td class="f-formula">K = Q·d / (A·t·ΔT)</td><td class="f-unit">W/(m·K)</td><td class="f-si">cal/(cm·s·°C)</td></tr>
+    <tr><td class="f-name">Linear Expansion</td><td class="f-formula">ΔL = L₀αΔT; L = L₀(1+αΔT)</td><td class="f-unit">m</td><td class="f-si">cm</td></tr>
+    <tr><td class="f-name">Coeff. Linear Expansion (α)</td><td class="f-formula">α = ΔL/(L₀·ΔT)</td><td class="f-unit">K⁻¹ or /°C</td><td class="f-si">/°C</td></tr>
+    <tr><td class="f-name">Area Expansion</td><td class="f-formula">ΔA = A₀·β·ΔT; β = 2α</td><td class="f-unit">m²</td><td class="f-si">cm²</td></tr>
+    <tr><td class="f-name">Volume Expansion</td><td class="f-formula">ΔV = V₀·γ·ΔT; γ = 3α</td><td class="f-unit">m³</td><td class="f-si">cm³</td></tr>
+    <tr><td class="f-name">Newton's Law of Cooling</td><td class="f-formula">dT/dt = −k(T−T_s)</td><td class="f-unit">K/s</td><td class="f-si">—</td></tr>
+    <tr><td class="f-name">Stefan-Boltzmann Law</td><td class="f-formula">P = εσAT⁴</td><td class="f-unit">W</td><td class="f-si">—</td></tr>
+  </table>
+
+  <div class="trick-box">
+    <div class="trick-title">🌡️ Temperature Conversion Memory Trick</div>
+    <p>Scale comparison formula (universal):</p>
+    <span class="trick-formula">(C − 0)/100 = (F − 32)/180 = (K − 273)/100 = (R − 0)/80</span>
+    <p>Remember: α, β, γ relationship:</p>
+    <span class="trick-formula">α : β : γ = 1 : 2 : 3</span>
+    <p>Thermal conductivity unit trick: K is in <strong>W/mK</strong> — "W for Watt, m for meter, K for Kelvin"</p>
+  </div>
+
+  <div class="mcq-box">
+    <div class="mcq-title">📋 MCQ High-Yield Points</div>
+    <ul>
+      <li>Specific heat of water = 4200 J/(kg·K) = 1 cal/(g·°C) — highest among common substances</li>
+      <li>Modes of heat transfer: Conduction (solid), Convection (fluid), Radiation (no medium needed)</li>
+      <li>Radiation is the fastest mode; it travels at speed of light</li>
+      <li>Good conductor of heat = bad conductor of electricity is FALSE (metals are good for both)</li>
+      <li>1 cal = 4.2 J (Joule's mechanical equivalent of heat)</li>
+      <li>Absolute zero = 0 K = −273.15°C; matter has minimum energy at 0 K</li>
+      <li>Latent heat of fusion (ice→water) = 80 cal/g = 336 kJ/kg</li>
+      <li>Latent heat of vaporization (water→steam) = 540 cal/g = 2260 kJ/kg</li>
+    </ul>
+  </div>
+</div>
+
+<!-- UNIT 5: WAVES -->
+<div id="unit5" class="section">
+  <div class="unit-header">
+    <span class="unit-num">UNIT 05</span>
+    <h2>🌊 Waves, Optics & Acoustics</h2>
+  </div>
+
+  <div class="tips-box">
+    <div class="tips-title">⚡ Quick Tips & Tricks</div>
+    <ul>
+      <li>Wave speed: v = fλ = λ/T (frequency × wavelength)</li>
+      <li>Snell's law: n₁sin θ₁ = n₂sin θ₂ → for TIR: angle > critical angle C, where sin C = n₂/n₁ (n₂ < n₁)</li>
+      <li>Optical fiber works on Total Internal Reflection (TIR); light must hit at angle > critical angle</li>
+      <li>Reverberation time: Sabine's formula RT₆₀ = 0.161·V/A</li>
+      <li>Sound speed in air ≈ 340 m/s at 20°C; light speed = 3×10⁸ m/s</li>
+      <li>LASER = Light Amplification by Stimulated Emission of Radiation</li>
+    </ul>
+  </div>
+
+  <table class="formula-table">
+    <tr><th>Quantity</th><th>Formula</th><th>SI Unit</th><th>CGS Unit</th></tr>
+    <tr><td class="f-name">Wave Speed</td><td class="f-formula">v = fλ = λ/T</td><td class="f-unit">m/s</td><td class="f-si">cm/s</td></tr>
+    <tr><td class="f-name">Frequency</td><td class="f-formula">f = 1/T = v/λ</td><td class="f-unit">Hertz (Hz) = 1/s</td><td class="f-si">Hz</td></tr>
+    <tr><td class="f-name">Time Period</td><td class="f-formula">T = 1/f = λ/v</td><td class="f-unit">second (s)</td><td class="f-si">s</td></tr>
+    <tr><td class="f-name">Angular Frequency</td><td class="f-formula">ω = 2πf = 2π/T</td><td class="f-unit">rad/s</td><td class="f-si">rad/s</td></tr>
+    <tr><td class="f-name">Wave Equation</td><td class="f-formula">y = A sin(ωt − kx)</td><td class="f-unit">—</td><td class="f-si">—</td></tr>
+    <tr><td class="f-name">Wave number (k)</td><td class="f-formula">k = 2π/λ</td><td class="f-unit">rad/m = m⁻¹</td><td class="f-si">cm⁻¹</td></tr>
+    <tr><td class="f-name">Intensity</td><td class="f-formula">I = P/A ∝ A²</td><td class="f-unit">W/m²</td><td class="f-si">erg/(s·cm²)</td></tr>
+    <tr><td class="f-name">Snell's Law</td><td class="f-formula">n₁sinθ₁ = n₂sinθ₂</td><td class="f-unit">dimensionless</td><td class="f-si">—</td></tr>
+    <tr><td class="f-name">Absolute Refractive Index</td><td class="f-formula">n = c/v (c=3×10⁸ m/s)</td><td class="f-unit">dimensionless</td><td class="f-si">—</td></tr>
+    <tr><td class="f-name">Relative Refractive Index</td><td class="f-formula">₁n₂ = n₂/n₁ = sinθ₁/sinθ₂ = v₁/v₂</td><td class="f-unit">dimensionless</td><td class="f-si">—</td></tr>
+    <tr><td class="f-name">Critical Angle</td><td class="f-formula">sin C = n₂/n₁ = 1/n (when n₂=1, air)</td><td class="f-unit">degrees or radians</td><td class="f-si">—</td></tr>
+    <tr><td class="f-name">Mirror Formula</td><td class="f-formula">1/f = 1/v + 1/u</td><td class="f-unit">m⁻¹ (1/m)</td><td class="f-si">cm⁻¹</td></tr>
+    <tr><td class="f-name">Lens Formula</td><td class="f-formula">1/f = 1/v − 1/u</td><td class="f-unit">m⁻¹</td><td class="f-si">cm⁻¹</td></tr>
+    <tr><td class="f-name">Magnification (Mirror)</td><td class="f-formula">m = −v/u = h'/h</td><td class="f-unit">dimensionless</td><td class="f-si">—</td></tr>
+    <tr><td class="f-name">Reverberation Time (Sabine)</td><td class="f-formula">RT = 0.161·V/A (SI)</td><td class="f-unit">s</td><td class="f-si">—</td></tr>
+    <tr><td class="f-name">Total Absorption (A)</td><td class="f-formula">A = Σ(aᵢ·Sᵢ)</td><td class="f-unit">m² (Sabin)</td><td class="f-si">cm²</td></tr>
+    <tr><td class="f-name">Absorption Coefficient (a)</td><td class="f-formula">a = A_absorbed/A_incident (0 to 1)</td><td class="f-unit">dimensionless (open window unit = 1)</td><td class="f-si">—</td></tr>
+    <tr><td class="f-name">Speed of light</td><td class="f-formula">c = 3×10⁸ m/s (in vacuum)</td><td class="f-unit">m/s</td><td class="f-si">cm/s</td></tr>
+    <tr><td class="f-name">Echo condition</td><td class="f-formula">Min distance = v×0.1/2 = 17 m (for sound)</td><td class="f-unit">m</td><td class="f-si">—</td></tr>
+  </table>
+
+  <div class="grid">
+    <div class="card">
+      <div class="card-tag">Wave Types</div>
+      <h3>Types of Waves — Key Distinctions</h3>
+      <div class="formula-box">Transverse: vibration ⊥ propagation (light, water)</div>
+      <div class="formula-box">Longitudinal: vibration ∥ propagation (sound, P-waves)</div>
+      <div class="formula-box">Mechanical: needs medium (sound)</div>
+      <div class="formula-box">Non-mechanical: no medium (light, EM waves)</div>
+      <div class="formula-box">Progressive: energy transfer; Stationary: no net energy</div>
+    </div>
+    <div class="card">
+      <div class="card-tag">EM Spectrum</div>
+      <h3>EM Waves (Increasing Wavelength)</h3>
+      <div class="formula-box">γ-rays → X-rays → UV → Visible → IR → Microwave → Radio</div>
+      <p class="desc">All EM waves travel at c = 3×10⁸ m/s in vacuum</p>
+      <div class="formula-box">Ultrasonic: f > 20,000 Hz; Audible: 20–20,000 Hz; Infrasonic: f < 20 Hz</div>
+    </div>
+    <div class="card">
+      <div class="card-tag">Optical Fibre</div>
+      <h3>Optical Fibre — TIR Principle</h3>
+      <p class="desc"><strong>Construction:</strong> Core (high n) + Cladding (low n) + Buffer coating</p>
+      <div class="formula-box">TIR condition: angle of incidence > Critical angle C</div>
+      <div class="formula-box">sin C = n_cladding / n_core</div>
+      <p class="desc"><strong>Applications:</strong> Internet cables, medical endoscopes, sensors</p>
+    </div>
+    <div class="card">
+      <div class="card-tag">Acoustics</div>
+      <h3>Reverberation & Sabine's Formula</h3>
+      <div class="formula-box">RT₆₀ = 0.161 × V / ΣaS</div>
+      <p class="desc">V = volume (m³), a = absorption coeff, S = surface area (m²)</p>
+      <p class="desc">Good speech: RT ≈ 0.5–1.0 s; Good music: RT ≈ 1.5–2.5 s</p>
+      <div class="formula-box">Echo: sound reflects with ≥ 0.1 s delay → min 17m distance</div>
+    </div>
+  </div>
+
+  <div class="mcq-box">
+    <div class="mcq-title">📋 MCQ High-Yield Points</div>
+    <ul>
+      <li>Sound is a LONGITUDINAL wave; Light is a TRANSVERSE wave</li>
+      <li>Sound CANNOT travel in vacuum; Light CAN (EM wave, no medium needed)</li>
+      <li>TIR only occurs when: (1) light goes from denser to rarer medium AND (2) angle > critical angle</li>
+      <li>Refractive index of glass ≈ 1.5; water ≈ 1.33; diamond ≈ 2.42 (highest → smallest critical angle)</li>
+      <li>LASER properties: Monochromatic, Coherent, Highly directional, High intensity</li>
+      <li>Ultrasonic waves: used in SONAR, medical imaging, cleaning, welding</li>
+      <li>Reverberation time too long → sound becomes muddy; too short → sound is too dead</li>
+      <li>Open window has absorption coefficient = 1 (perfect absorber) — defines the Sabin unit</li>
+      <li>In optical fibre: information travels as pulses of light (digital signal)</li>
+    </ul>
+  </div>
+</div>
+
+<!-- QUIZ SECTION -->
+<div id="quiz-section" class="section">
+  <div class="quiz-header">
+    <h2>🎯 Master <span>Quiz</span></h2>
+    <p style="color:var(--muted);font-family:'Space Mono',monospace;font-size:13px;margin-top:8px;">50 Questions · All 5 Units · Full explanations · Scoring: +2 / −0.5</p>
+    <div class="score-bar" id="score-bar" style="display:none">
+      <div class="score-chip marks" id="chip-marks">Score: 0</div>
+      <div class="score-chip correct" id="chip-correct">✓ 0</div>
+      <div class="score-chip wrong" id="chip-wrong">✗ 0</div>
+    </div>
+  </div>
+
+  <div class="filter-row" id="filter-row" style="display:none">
+    <button class="filter-btn active" onclick="filterQuiz('all')">All (50)</button>
+    <button class="filter-btn" onclick="filterQuiz('wrong')">Wrong Only</button>
+    <button class="filter-btn" onclick="filterQuiz('unanswered')">Unanswered</button>
+  </div>
+
+  <div class="progress-bar-wrap" id="progress-wrap">
+    <div class="progress-bar-fill" id="progress-fill" style="width:0%"></div>
+  </div>
+
+  <div id="quiz-start" style="text-align:center;padding:40px 0;">
+    <div style="font-size:60px;margin-bottom:16px;">📚</div>
+    <h3 style="font-size:20px;margin-bottom:12px;">Ready for the Final Quiz?</h3>
+    <p style="color:var(--muted);font-family:'JetBrains Mono',monospace;font-size:13px;margin-bottom:24px;">50 MCQs from all 5 units. Each answer shows full explanation.</p>
+    <button class="btn-primary" onclick="startQuiz()">Start Quiz</button>
+  </div>
+
+  <div id="quiz-container"></div>
+  <div class="result-panel" id="result-panel">
+    <div class="result-score" id="result-score">0</div>
+    <div class="result-label" id="result-label">—</div>
+    <div class="result-breakdown">
+      <div class="rb-item"><div class="rb-val" id="rb-correct" style="color:var(--correct)">0</div><div class="rb-key">Correct</div></div>
+      <div class="rb-item"><div class="rb-val" id="rb-wrong" style="color:var(--wrong)">0</div><div class="rb-key">Wrong</div></div>
+      <div class="rb-item"><div class="rb-val" id="rb-skip" style="color:var(--muted)">0</div><div class="rb-key">Skipped</div></div>
+    </div>
+    <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
+      <button class="btn-primary" onclick="restartQuiz()">Try Again</button>
+      <button class="btn-secondary" onclick="filterQuiz('wrong');scrollToQuiz()">Review Wrong</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ============ NAVIGATION ============
+function showSection(id) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  const target = id === 'quiz' ? 'quiz-section' : id;
+  document.getElementById(target).classList.add('active');
+  document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+  const navMap = {home:'home',unit1:'unit1',unit2:'unit2',unit3:'unit3',unit4:'unit4',unit5:'unit5',quiz:'quiz-section'};
+  const btns = document.querySelectorAll('nav button');
+  btns.forEach(b => {
+    const txt = b.textContent;
+    if ((id==='home' && txt.includes('Home')) ||
+        (id==='unit1' && txt.includes('Units')) ||
+        (id==='unit2' && txt.includes('Mechanics')) ||
+        (id==='unit3' && txt.includes('Electricity')) ||
+        (id==='unit4' && txt.includes('Heat')) ||
+        (id==='unit5' && txt.includes('Waves')) ||
+        (id==='quiz' && txt.includes('Quiz'))) b.classList.add('active');
+  });
+  window.scrollTo(0,0);
+}
+
+// ============ QUIZ DATA ============
+const questions = [
+  // UNIT 1: Units & Measurement
+  {id:1,unit:'Unit 1 · Units',q:'What is the Least Count of a standard Vernier caliper?',opts:['0.1 mm','0.01 mm','1 mm','0.001 mm'],ans:0,exp:'<strong>Least Count of Vernier caliper = 0.1 mm.</strong> It is calculated as 1 MSD − 1 VSD. For a standard Vernier with 10 divisions on Vernier = 9 mm on main scale: LC = <span class="formula-inline">1 MSD − 1 VSD = 1 − 0.9 = 0.1 mm</span>. Screw gauge has LC = 0.01 mm (smaller).'},
+  {id:2,unit:'Unit 1 · Units',q:'1 Newton is equal to how many dynes?',opts:['10³','10⁴','10⁵','10⁶'],ans:2,exp:'<strong>1 N = 10⁵ dyne.</strong> Because: <span class="formula-inline">F = ma</span>, 1 N = 1 kg × 1 m/s² = 1000 g × 100 cm/s² = 10⁵ g·cm/s² = 10⁵ dyne. This is the most important SI→CGS force conversion.'},
+  {id:3,unit:'Unit 1 · Units',q:'If z = a²b, and the relative error in a is 2% and in b is 3%, what is the percentage error in z?',opts:['5%','7%','9%','4%'],ans:1,exp:'<strong>7%.</strong> For <span class="formula-inline">z = a²b</span>, error formula is: <span class="formula-inline">Δz/z = 2·(Δa/a) + (Δb/b)</span> = 2×2% + 3% = 4% + 3% = <strong>7%</strong>. The power multiplies the relative error.'},
+  {id:4,unit:'Unit 1 · Units',q:'Which type of error is always of the same sign and magnitude?',opts:['Random error','Systematic error','Gross error','Personal error'],ans:1,exp:'<strong>Systematic error</strong> always occurs in the same direction (either always positive or always negative). It is due to faulty instruments, improper calibration, or constant environmental conditions. Random error varies unpredictably in sign and magnitude.'},
+  {id:5,unit:'Unit 1 · Units',q:'The Least Count of a micrometer screw gauge with pitch = 0.5 mm and 50 circular scale divisions is:',opts:['0.1 mm','0.05 mm','0.01 mm','0.001 mm'],ans:2,exp:'<strong>LC = Pitch / No. of circular divisions = 0.5 mm / 50 = 0.01 mm.</strong> This is why a screw gauge can measure to 0.01 mm, giving it 10× better precision than a Vernier caliper. Formula: <span class="formula-inline">LC = Pitch/N</span>.'},
+  {id:6,unit:'Unit 1 · Units',q:'How many fundamental (base) SI units are there?',opts:['5','6','7','8'],ans:2,exp:'There are <strong>7 fundamental (base) SI units:</strong> metre (m), kilogram (kg), second (s), ampere (A), kelvin (K), mole (mol), candela (cd). All other units are derived from these 7.'},
+  {id:7,unit:'Unit 1 · Units',q:'1 Joule = ? erg',opts:['10⁵','10⁶','10⁷','10⁸'],ans:2,exp:'<strong>1 J = 10⁷ erg.</strong> Because 1 J = 1 N·m = 10⁵ dyne × 100 cm = 10⁷ dyne·cm = 10⁷ erg. Remember: N→dyne is ×10⁵ and m→cm is ×100.'},
+  {id:8,unit:'Unit 1 · Units',q:'The reading of a Vernier caliper: MSR = 2.3 cm, VSR = 4 divisions, LC = 0.01 cm. The reading is:',opts:['2.30 cm','2.34 cm','2.304 cm','2.34 mm'],ans:1,exp:'<strong>Reading = MSR + (VSR × LC) = 2.3 + (4 × 0.01) = 2.3 + 0.04 = 2.34 cm.</strong> Always: Main Scale Reading + (Vernier Scale Reading × Least Count). Units stay as cm here.'},
+
+  // UNIT 2: Mechanics
+  {id:9,unit:'Unit 2 · Mechanics',q:'A body starts from rest and accelerates at 5 m/s² for 4 seconds. Its final velocity is:',opts:['10 m/s','20 m/s','25 m/s','5 m/s'],ans:1,exp:'<strong>v = u + at = 0 + 5 × 4 = 20 m/s.</strong> Using SUVAT: u = 0 (starts from rest), a = 5 m/s², t = 4 s. Apply <span class="formula-inline">v = u + at</span>.'},
+  {id:10,unit:'Unit 2 · Mechanics',q:'The work done by centripetal force on a body moving in a circular path is:',opts:['Maximum','½mv²','mω²r²','Zero'],ans:3,exp:'<strong>Zero.</strong> Centripetal force always acts toward the center (inward), while velocity/displacement is tangential (perpendicular to the force). Since W = F·d·cosθ and θ = 90°, <span class="formula-inline">W = F·d·cos90° = 0</span>.'},
+  {id:11,unit:'Unit 2 · Mechanics',q:'Which of the following is the correct relation between linear velocity (v) and angular velocity (ω)?',opts:['v = ω/r','v = ωr','ω = vr','v = ω²r'],ans:1,exp:'<strong>v = ωr</strong> where r is the radius of circular path. Similarly: linear acc a = αr, and arc length s = θr. This is the fundamental link between rotational and translational kinematics.'},
+  {id:12,unit:'Unit 2 · Mechanics',q:'A body of mass 2 kg has momentum 10 kg·m/s. Its kinetic energy is:',opts:['25 J','50 J','100 J','5 J'],ans:0,exp:'<strong>KE = p²/2m = (10)²/(2×2) = 100/4 = 25 J.</strong> Shortcut formula <span class="formula-inline">KE = p²/2m</span> is very useful when momentum is given instead of velocity.'},
+  {id:13,unit:'Unit 2 · Mechanics',q:'Newton\'s Third Law states:',opts:['F = ma','Action and reaction are equal and opposite','A body at rest stays at rest','Force = rate of change of momentum'],ans:1,exp:'<strong>Newton\'s 3rd Law: "Every action has an equal and opposite reaction."</strong> 1st Law = Inertia, 2nd Law = F = ma = dp/dt, 3rd Law = action-reaction. Note: action-reaction pairs act on DIFFERENT bodies.'},
+  {id:14,unit:'Unit 2 · Mechanics',q:'The SI unit of Power is:',opts:['Joule','Newton·metre','Watt','erg/s'],ans:2,exp:'<strong>Watt (W) = Joule/second (J/s).</strong> Power = Work/Time. In CGS: erg/s. Note: 1 HP (horsepower) = 746 W. Also P = F·v (force × velocity) when force and velocity are parallel.'},
+  {id:15,unit:'Unit 2 · Mechanics',q:'Centrifugal force is:',opts:['A real force acting outward','A pseudo force in a rotating frame','The reaction to centripetal force','A gravitational force'],ans:1,exp:'<strong>Centrifugal force is a pseudo (fictitious) force</strong> experienced in a rotating (non-inertial) reference frame. It acts outward (away from center). It is NOT a real force — it appears because the observer is in an accelerating frame.'},
+  {id:16,unit:'Unit 2 · Mechanics',q:'Impulse equals:',opts:['F × a','F/t','F × t = Δp','m × a²'],ans:2,exp:'<strong>Impulse J = F × Δt = Δp = mv − mu.</strong> Impulse equals change in momentum. SI unit: N·s = kg·m/s. This is the impulse-momentum theorem, derived from Newton\'s 2nd law.'},
+  {id:17,unit:'Unit 2 · Mechanics',q:'For an elastic collision, which quantities are conserved?',opts:['Only momentum','Only kinetic energy','Both momentum and kinetic energy','Neither'],ans:2,exp:'<strong>In elastic collision: both linear momentum AND kinetic energy are conserved.</strong> In inelastic collision: only momentum is conserved. In perfectly inelastic: objects stick together, maximum KE is lost.'},
+  {id:18,unit:'Unit 2 · Mechanics',q:'A body is moving in a circle of radius r with speed v. The centripetal acceleration is:',opts:['v²r','v/r','v²/r','r/v²'],ans:2,exp:'<strong>Centripetal acceleration = v²/r = ω²r.</strong> This acceleration is directed toward the center. Centripetal force = mv²/r = mω²r. The word "centripetal" means "center-seeking".'},
+  
+  // UNIT 3: Electricity
+  {id:19,unit:'Unit 3 · Electricity',q:'According to Ohm\'s Law, if voltage is doubled and resistance is kept constant, current will:',opts:['Halve','Stay the same','Double','Quadruple'],ans:2,exp:'<strong>Current doubles.</strong> From <span class="formula-inline">I = V/R</span>: if V → 2V and R is constant, then I → 2V/R = 2I. Ohm\'s law says V and I are directly proportional when R is constant.'},
+  {id:20,unit:'Unit 3 · Electricity',q:'Three resistors of 6Ω, 3Ω and 2Ω are connected in parallel. Their equivalent resistance is:',opts:['11Ω','1Ω','2Ω','6Ω'],ans:1,exp:'<strong>1/R = 1/6 + 1/3 + 1/2 = 1/6 + 2/6 + 3/6 = 6/6 = 1. So R = 1Ω.</strong> For parallel: <span class="formula-inline">1/R_eq = 1/R1 + 1/R2 + 1/R3</span>. Note: equivalent parallel resistance is always LESS than the smallest individual resistor.'},
+  {id:21,unit:'Unit 3 · Electricity',q:'The unit of electrical resistivity is:',opts:['Ω','Ω/m','Ω·m','S/m'],ans:2,exp:'<strong>Resistivity ρ has unit Ω·m (ohm-metre).</strong> From formula: <span class="formula-inline">R = ρL/A</span> → ρ = RA/L = Ω × m²/m = Ω·m. Conductivity σ = 1/ρ has unit S/m (Siemens/metre).'},
+  {id:22,unit:'Unit 3 · Electricity',q:'Coulomb\'s constant k = 1/4πε₀ is approximately:',opts:['9×10⁶ N·m²/C²','9×10⁹ N·m²/C²','9×10¹² N·m²/C²','8.85×10⁻¹² N·m²/C²'],ans:1,exp:'<strong>k = 9×10⁹ N·m²/C².</strong> Coulomb\'s law: <span class="formula-inline">F = kq₁q₂/r²</span>. Note: ε₀ = 8.85×10⁻¹² F/m is the permittivity of free space, and k = 1/4πε₀ = 9×10⁹ N·m²/C².'},
+  {id:23,unit:'Unit 3 · Electricity',q:'For capacitors in series, which quantity remains the same?',opts:['Voltage','Capacitance','Charge','Energy'],ans:2,exp:'<strong>Charge (Q) is the same across all capacitors in series.</strong> In series, the same charge Q appears on each capacitor (because they form a single chain). Voltage divides: V_total = V1 + V2 + ... For parallel: voltage is the same, charges add up.'},
+  {id:24,unit:'Unit 3 · Electricity',q:'The electric field inside a conductor in electrostatic equilibrium is:',opts:['Maximum','Minimum','Zero','Equal to surface field'],ans:2,exp:'<strong>Electric field inside a conductor = 0.</strong> In electrostatic equilibrium, all free charges move to the surface. Inside, no net charge exists, so E = 0 by Gauss\'s law. The potential, however, is uniform (not zero) throughout the conductor.'},
+  {id:25,unit:'Unit 3 · Electricity',q:'Power dissipated in a resistor R carrying current I is:',opts:['IR²','I²R','IR','I/R²'],ans:1,exp:'<strong>P = I²R.</strong> This comes from P = VI and V = IR, so P = I × IR = I²R. Also: P = V²/R = VI. All three forms are equivalent and useful in different situations.'},
+  {id:26,unit:'Unit 3 · Electricity',q:'The capacitance of a parallel plate capacitor with area A, separation d and dielectric constant κ is:',opts:['C = ε₀A/κd','C = κε₀d/A','C = κε₀A/d','C = ε₀d/κA'],ans:2,exp:'<strong>C = κε₀A/d.</strong> Without dielectric (κ=1): C = ε₀A/d. With dielectric constant κ: capacitance increases by factor κ. So insert a dielectric → capacitance increases → more charge can be stored at same voltage.'},
+  {id:27,unit:'Unit 3 · Electricity',q:'Electric potential V is related to work W done in bringing charge q from infinity as:',opts:['V = qW','V = W/q','V = q/W','V = W×q'],ans:1,exp:'<strong>V = W/q.</strong> Electric potential = work done per unit charge. Unit: Volt (V) = Joule/Coulomb (J/C). It is a scalar quantity. Electric field E is the negative gradient of potential: E = −dV/dr.'},
+  
+  // UNIT 4: Heat
+  {id:28,unit:'Unit 4 · Heat',q:'Convert 100°C to Kelvin:',opts:['273 K','373 K','100 K','473 K'],ans:1,exp:'<strong>K = °C + 273 = 100 + 273 = 373 K.</strong> This is the boiling point of water: 100°C = 373 K. Freezing point: 0°C = 273 K. Absolute zero: 0 K = −273°C. Always add 273 to convert Celsius to Kelvin.'},
+  {id:29,unit:'Unit 4 · Heat',q:'Convert 98.6°F (normal body temperature) to Celsius:',opts:['36°C','37°C','38°C','40°C'],ans:1,exp:'<strong>°C = (°F − 32) × 5/9 = (98.6 − 32) × 5/9 = 66.6 × 5/9 = 37°C.</strong> Body temp = 37°C = 98.6°F = 310 K. These are important reference values for MCQs.'},
+  {id:30,unit:'Unit 4 · Heat',q:'The SI unit of thermal conductivity K is:',opts:['W/m·K','cal/s·°C','J/kg·K','W·m/K²'],ans:0,exp:'<strong>Thermal conductivity K has SI unit W/(m·K) — Watt per metre per Kelvin.</strong> From Fourier\'s law: <span class="formula-inline">Q/t = KA(T₁−T₂)/d</span> → K = (Q/t)×d / (A×ΔT) = W×m/(m²×K) = W/(m·K).'},
+  {id:31,unit:'Unit 4 · Heat',q:'If linear expansion coefficient is α, area expansion coefficient β equals:',opts:['α/2','α','2α','3α'],ans:2,exp:'<strong>β = 2α.</strong> This comes from 2D expansion. For volume: γ = 3α. Memory trick: <span class="formula-inline">α : β : γ = 1 : 2 : 3</span> (linear : area : volume). So if α = 1.2×10⁻⁵/°C, then β = 2.4×10⁻⁵/°C.'},
+  {id:32,unit:'Unit 4 · Heat',q:'The specific heat of water is:',opts:['1000 J/kg·K','2100 J/kg·K','4200 J/kg·K','8400 J/kg·K'],ans:2,exp:'<strong>Specific heat of water = 4200 J/(kg·K) = 4.2 J/(g·°C) = 1 cal/(g·°C).</strong> Water has the HIGHEST specific heat of common substances. This is why it\'s used as coolant and why coastal areas have moderate climate.'},
+  {id:33,unit:'Unit 4 · Heat',q:'Which mode of heat transfer does NOT require a medium?',opts:['Conduction','Convection','Radiation','Both conduction and convection'],ans:2,exp:'<strong>Radiation does NOT require a medium.</strong> It travels through vacuum (like sunlight reaching Earth). Conduction needs a solid medium, Convection needs a fluid (liquid or gas). Radiation is electromagnetic in nature and travels at the speed of light.'},
+  {id:34,unit:'Unit 4 · Heat',q:'1 calorie equals:',opts:['2.1 J','4.2 J','42 J','0.42 J'],ans:1,exp:'<strong>1 cal = 4.2 J (Joule\'s mechanical equivalent of heat, J = 4.18 J/cal).</strong> This was determined by Joule\'s paddle-wheel experiment. So 1 kcal = 4200 J. For Q = mcΔT: if c is in cal/(g·°C), multiply by 4200 to get SI.'},
+  {id:35,unit:'Unit 4 · Heat',q:'At what temperature are Celsius and Fahrenheit scales equal?',opts:['0°','100°','−40°','32°'],ans:2,exp:'<strong>At −40°, Celsius = Fahrenheit.</strong> Set C = F in formula: C = (C−32)×5/9 → 9C = 5C−160 → 4C = −160 → C = −40. So −40°C = −40°F. This is the only temperature where both scales read the same!'},
+  
+  // UNIT 5: Waves
+  {id:36,unit:'Unit 5 · Waves',q:'The velocity of electromagnetic waves in vacuum is:',opts:['3×10⁶ m/s','3×10⁸ m/s','3×10¹⁰ m/s','3×10⁵ m/s'],ans:1,exp:'<strong>c = 3×10⁸ m/s</strong> in vacuum (free space). All EM waves (light, radio, X-ray, γ-ray, microwave, IR, UV) travel at this speed in vacuum. In other media, speed = c/n where n is refractive index.'},
+  {id:37,unit:'Unit 5 · Waves',q:'Sound waves are:',opts:['Transverse and mechanical','Longitudinal and mechanical','Transverse and non-mechanical','Longitudinal and non-mechanical'],ans:1,exp:'<strong>Sound waves are LONGITUDINAL and MECHANICAL.</strong> Longitudinal = particles vibrate parallel to wave direction (compressions and rarefactions). Mechanical = requires a medium to travel (cannot travel in vacuum). Light is transverse and non-mechanical.'},
+  {id:38,unit:'Unit 5 · Waves',q:'Snell\'s law of refraction states:',opts:['n₁cosθ₁ = n₂cosθ₂','n₁sinθ₁ = n₂sinθ₂','n₁tanθ₁ = n₂tanθ₂','sinθ₁/sinθ₂ = n₁/n₂'],ans:1,exp:'<strong>Snell\'s Law: n₁sinθ₁ = n₂sinθ₂.</strong> Here θ is measured from the NORMAL (not the surface). Also: <span class="formula-inline">sinθ₁/sinθ₂ = n₂/n₁ = v₁/v₂</span>. Option D is wrong because the ratio is n₂/n₁, not n₁/n₂.'},
+  {id:39,unit:'Unit 5 · Waves',q:'Total Internal Reflection (TIR) occurs when:',opts:['Light goes from rarer to denser medium','Angle equals Brewster angle','Light goes from denser to rarer medium at angle > critical angle','Refractive index equals 1'],ans:2,exp:'<strong>TIR requires TWO conditions:</strong> (1) Light travels from DENSER to RARER medium (e.g., glass to air), and (2) Angle of incidence > Critical angle C. At C: sinC = n_rarer/n_denser. Optical fibres, diamonds, mirages all use TIR.'},
+  {id:40,unit:'Unit 5 · Waves',q:'The critical angle for a glass-air interface where n_glass = 1.5 is approximately:',opts:['30°','42°','45°','60°'],ans:1,exp:'<strong>sin C = 1/n = 1/1.5 = 0.667 → C ≈ 41.8° ≈ 42°.</strong> Formula: <span class="formula-inline">sin C = n₂/n₁ = n_air/n_glass = 1/1.5</span>. Diamond has n≈2.42, so C ≈ 24.4° (very small → lots of TIR → sparkle!).'},
+  {id:41,unit:'Unit 5 · Waves',q:'Sabine\'s formula for reverberation time is:',opts:['RT = V/0.161A','RT = 0.161A/V','RT = 0.161V/A','RT = A/0.161V'],ans:2,exp:'<strong>RT = 0.161V/A</strong> (in SI units), where V = volume in m³, A = total absorption = Σ(aᵢSᵢ) in m² (Sabin). Derived by W.C. Sabine. The constant 0.161 comes from the speed of sound in air and room geometry.'},
+  {id:42,unit:'Unit 5 · Waves',q:'The frequency range of ultrasonic waves is:',opts:['Below 20 Hz','20 Hz to 20,000 Hz','Above 20,000 Hz','Above 10⁹ Hz'],ans:2,exp:'<strong>Ultrasonic: frequency > 20,000 Hz (20 kHz).</strong> Ranges: Infrasonic < 20 Hz (earthquakes, elephants), Audible: 20 Hz – 20 kHz (human hearing), Ultrasonic > 20 kHz (bats, SONAR, medical imaging, cleaning). Hypersonic > 10⁹ Hz.'},
+  {id:43,unit:'Unit 5 · Waves',q:'LASER stands for:',opts:['Light Amplification by Stimulated Emission of Radiation','Light Absorption by Spontaneous Emission of Rays','Linear Amplification by Stimulated Energy Release','Light Amplification by Spontaneous Emission of Radiation'],ans:0,exp:'<strong>LASER = Light Amplification by Stimulated Emission of Radiation.</strong> Key properties of laser light: (1) Monochromatic (single wavelength/color), (2) Coherent (same phase), (3) Highly directional (low divergence), (4) Very high intensity. Used in surgery, cutting, barcode scanners, fiber optics communication.'},
+  {id:44,unit:'Unit 5 · Waves',q:'A wave has frequency 500 Hz and wavelength 0.68 m. Its speed is:',opts:['0.00136 m/s','340 m/s','1000 m/s','736 m/s'],ans:1,exp:'<strong>v = fλ = 500 × 0.68 = 340 m/s.</strong> This is approximately the speed of sound in air at 20°C! Formula: <span class="formula-inline">v = f × λ</span>. Given f = 500 Hz, λ = 0.68 m → v = 340 m/s.'},
+  {id:45,unit:'Unit 5 · Waves',q:'The absorption coefficient of an open window is:',opts:['0','0.5','0.75','1'],ans:3,exp:'<strong>Absorption coefficient of open window = 1 (perfect absorber).</strong> This is by definition — the open window absorbs (lets through) all incident sound without any reflection. It defines the unit of absorption: 1 m² open window = 1 Sabin. Most materials have a < 1.'},
+  {id:46,unit:'Unit 5 · Waves',q:'The wave equation y = A sin(ωt − kx) represents a wave travelling in which direction?',opts:['−y direction','−x direction','+ x direction','+y direction'],ans:2,exp:'<strong>+x direction.</strong> For a wave y = A sin(ωt − kx): since the argument is (ωt − kx), the wave moves in the <strong>+x direction</strong>. For −x direction, the equation would be y = A sin(ωt + kx). Here A = amplitude, ω = angular frequency, k = wave number = 2π/λ.'},
+  {id:47,unit:'Unit 5 · Waves',q:'Optical fibre works on the principle of:',opts:['Regular reflection','Refraction','Total internal reflection','Diffraction'],ans:2,exp:'<strong>Optical fibre works on Total Internal Reflection (TIR).</strong> Light enters the core (denser medium, high n) and hits the core-cladding boundary at an angle > critical angle, causing TIR. Light bounces along the fibre without leaking out. Applications: internet, endoscopy, sensors.'},
+  {id:48,unit:'Unit 5 · Waves',q:'The relation between frequency (f), wavelength (λ) and time period (T) is:',opts:['f = λT','λ = fT','f = 1/T and v = fλ','T = f/λ'],ans:2,exp:'<strong>f = 1/T (frequency = reciprocal of time period) AND v = fλ (wave speed = frequency × wavelength).</strong> Also: v = λ/T. These three relations are the foundation of all wave problems. Unit of f = Hz = s⁻¹.'},
+  {id:49,unit:'Unit 5 · Waves',q:'For an echo to be heard distinctly, the minimum distance of the reflecting surface should be:',opts:['10 m','17 m','20 m','34 m'],ans:1,exp:'<strong>Minimum distance = 17 m.</strong> The human ear can distinguish two sounds if they are separated by at least 0.1 s. For echo: d = v×t/2 = 340 × 0.1/2 = 17 m (v ≈ 340 m/s for sound in air). The sound must travel to the wall AND back, so total distance = 34 m, but d (to wall) = 17 m.'},
+  {id:50,unit:'Unit 5 · Waves',q:'Which of the following is NOT a property of a LASER?',opts:['Monochromatic','Coherent','Highly directional','Incoherent and multichromatic'],ans:3,exp:'<strong>"Incoherent and multichromatic" is NOT a laser property — it is the opposite.</strong> LASER properties: (1) Monochromatic = single pure wavelength, (2) Coherent = all photons in same phase, (3) Highly directional = very narrow beam with little divergence, (4) High intensity = high energy density. Ordinary light is incoherent and polychromatic.'},
+];
+
+let quizStarted = false;
+let answered = {};
+let scoreTotal = 0;
+let numCorrect = 0;
+let numWrong = 0;
+let currentFilter = 'all';
+
+function startQuiz() {
+  quizStarted = true;
+  document.getElementById('quiz-start').style.display = 'none';
+  document.getElementById('score-bar').style.display = 'flex';
+  document.getElementById('filter-row').style.display = 'flex';
+  document.getElementById('progress-wrap').style.display = 'block';
+  renderQuiz();
+}
+
+function renderQuiz(filter = 'all') {
+  const container = document.getElementById('quiz-container');
+  container.innerHTML = '';
+  let toShow = questions;
+  if (filter === 'wrong') toShow = questions.filter(q => answered[q.id] && answered[q.id].correct === false);
+  if (filter === 'unanswered') toShow = questions.filter(q => !answered[q.id]);
+
+  toShow.forEach(q => {
+    const div = document.createElement('div');
+    div.className = 'q-card';
+    div.id = 'q-' + q.id;
+    const state = answered[q.id];
+    if (state) {
+      div.classList.add(state.correct ? 'answered-correct' : 'answered-wrong');
+    }
+
+    const optHtml = q.opts.map((o, i) => {
+      let cls = '';
+      if (state) {
+        if (i === q.ans) cls = 'correct-ans';
+        else if (i === state.chosen) cls = 'wrong-ans';
+      }
+      return `<button class="q-opt ${cls}" ${state ? 'disabled' : ''} onclick="answer(${q.id}, ${i})">
+        <span class="opt-label">${String.fromCharCode(65+i)}</span>${o}
+      </button>`;
+    }).join('');
+
+    const markChip = state ? `<span class="marks-chip ${state.correct ? 'pos' : 'neg'}">${state.correct ? '+2' : '−0.5'}</span>` : '';
+
+    div.innerHTML = `
+      <div class="q-num">
+        <span>Q${q.id} / 50 ${markChip}</span>
+        <span class="q-topic-tag">${q.unit}</span>
+      </div>
+      <div class="q-text">${q.q}</div>
+      <div class="q-options">${optHtml}</div>
+      <div class="explanation ${state ? 'show' : ''}" id="exp-${q.id}">${q.exp}</div>
+    `;
+    container.appendChild(div);
+  });
+
+  if (filter === 'wrong' && toShow.length === 0) {
+    container.innerHTML = '<div style="text-align:center;padding:40px;color:var(--correct);font-size:18px;font-weight:700;">🎉 No wrong answers! Perfect score!</div>';
+  }
+  if (filter === 'unanswered' && toShow.length === 0) {
+    container.innerHTML = '<div style="text-align:center;padding:40px;color:var(--accent);font-size:18px;font-weight:700;">✅ All questions answered!</div>';
+    showResult();
+  }
+}
+
+function answer(qid, chosen) {
+  if (answered[qid]) return;
+  const q = questions.find(x => x.id === qid);
+  const correct = chosen === q.ans;
+  answered[qid] = { chosen, correct };
+
+  if (correct) { scoreTotal += 2; numCorrect++; }
+  else { scoreTotal -= 0.5; numWrong++; }
+
+  updateScoreBar();
+  updateProgress();
+
+  const card = document.getElementById('q-' + qid);
+  card.classList.add(correct ? 'answered-correct' : 'answered-wrong');
+  card.querySelectorAll('.q-opt').forEach((btn, i) => {
+    btn.disabled = true;
+    if (i === q.ans) btn.classList.add('correct-ans');
+    else if (i === chosen) btn.classList.add('wrong-ans');
+  });
+  const exp = document.getElementById('exp-' + qid);
+  exp.classList.add('show');
+
+  // Add mark chip
+  const qnum = card.querySelector('.q-num span:first-child');
+  const chip = document.createElement('span');
+  chip.className = `marks-chip ${correct ? 'pos' : 'neg'}`;
+  chip.textContent = correct ? '+2' : '−0.5';
+  qnum.appendChild(chip);
+
+  if (Object.keys(answered).length === questions.length) {
+    setTimeout(showResult, 600);
+  }
+}
+
+function updateScoreBar() {
+  document.getElementById('chip-marks').textContent = 'Score: ' + scoreTotal.toFixed(1);
+  document.getElementById('chip-correct').textContent = '✓ ' + numCorrect;
+  document.getElementById('chip-wrong').textContent = '✗ ' + numWrong;
+}
+
+function updateProgress() {
+  const pct = (Object.keys(answered).length / questions.length) * 100;
+  document.getElementById('progress-fill').style.width = pct + '%';
+}
+
+function showResult() {
+  const panel = document.getElementById('result-panel');
+  panel.classList.add('show');
+  document.getElementById('result-score').textContent = scoreTotal.toFixed(1);
+
+  const skipped = questions.length - numCorrect - numWrong;
+  document.getElementById('rb-correct').textContent = numCorrect;
+  document.getElementById('rb-wrong').textContent = numWrong;
+  document.getElementById('rb-skip').textContent = skipped;
+
+  const maxScore = questions.length * 2;
+  const pct = (scoreTotal / maxScore) * 100;
+  let label = '';
+  if (pct >= 85) label = '🏆 Excellent! You\'re exam-ready!';
+  else if (pct >= 70) label = '✅ Good! Review the wrong ones.';
+  else if (pct >= 50) label = '📚 Keep studying! You can do it!';
+  else label = '💪 More practice needed. Don\'t give up!';
+  document.getElementById('result-label').textContent = label;
+  panel.scrollIntoView({behavior:'smooth'});
+}
+
+function restartQuiz() {
+  answered = {};
+  scoreTotal = 0;
+  numCorrect = 0;
+  numWrong = 0;
+  currentFilter = 'all';
+  updateScoreBar();
+  document.getElementById('progress-fill').style.width = '0%';
+  document.getElementById('result-panel').classList.remove('show');
+  document.querySelectorAll('.filter-btn').forEach((b,i) => b.classList.toggle('active', i===0));
+  renderQuiz('all');
+  window.scrollTo(0,0);
+}
+
+function filterQuiz(type) {
+  currentFilter = type;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  event.target.classList.add('active');
+  renderQuiz(type);
+}
+
+function scrollToQuiz() {
+  document.querySelector('#quiz-container').scrollIntoView({behavior:'smooth'});
+}
+</script>
+</body>
+</html>
